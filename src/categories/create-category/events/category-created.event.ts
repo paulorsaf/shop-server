@@ -1,9 +1,10 @@
+import { Category, CategoryUser } from "src/categories/entities/category";
+
 export class CategoryCreatedEvent {
-  private eventType = "CATEGORY_CREATED_EVENT";
+  private readonly eventType = "CATEGORY_CREATED_EVENT";
   constructor(
-    public readonly id: string,
-    public readonly name: string,
+    public readonly category: Category,
     public readonly createdAt: string,
-    public readonly createdBy: string
+    public readonly createdBy: CategoryUser
   ) {}
 }

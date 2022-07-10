@@ -5,11 +5,17 @@ import { CategoriesController } from './categories.controller';
 import { CreateCategoryCommand } from './create-category/commands/create-category.command';
 import { CreateCategoryCommandHandler } from './create-category/commands/create-category-command.handler';
 import { CategoryRepository } from './repositories/category.repository';
+import { CategoryUser } from './entities/category';
 
 describe('CategoriesController', () => {
 
   let controller: CategoriesController;
   let commandBus: CommandBusMock;
+
+  const createCategoryCommand = new CreateCategoryCommand(
+    "any category name",
+    new CategoryUser('1', 'any name', 'any@email.com')
+  );
 
   beforeEach(async () => {
     commandBus = new CommandBusMock();
@@ -33,9 +39,9 @@ describe('CategoriesController', () => {
   });
 
   it('given post, then execute create category command', () => {
-    controller.create("name");
+    controller.create("any category name");
 
-    expect(commandBus.executed).toEqual(new CreateCategoryCommand("name"));
+    expect(commandBus.executed).toEqual(createCategoryCommand);
   });
 
 });

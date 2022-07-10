@@ -5,7 +5,7 @@ import { CategoryRepositoryMock } from '../../../mocks/category-repository.mock'
 import { CategoryRepository } from '../../repositories/category.repository';
 import { CategoryCreatedEvent } from './category-created.event';
 import { CategoryCreatedEventHandler } from './category-created-event.handler';
-import { CategoryEvents } from './category.events';
+import { Category, CategoryUser } from '../../entities/category';
 
 describe('CategoryCreatedEventHandler', () => {
 
@@ -36,7 +36,11 @@ describe('CategoryCreatedEventHandler', () => {
   });
 
   it('given execute handler, then add category-created event', async () => {
-    const event = new CategoryCreatedEvent('1', 'name', 'createdAt', 'createdBy');
+    const event = new CategoryCreatedEvent(
+      new Category('1', 'name'),
+      'createdAt',
+      new CategoryUser('1', 'name', 'any@email.com')
+    );
 
     await handler.handle(event);
 

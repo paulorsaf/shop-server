@@ -1,7 +1,7 @@
 import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBusMock } from '../../../mocks/event-bus.mock';
-import { Category } from '../../entities/category';
+import { Category, CategoryUser } from '../../entities/category';
 import { CategoryRepositoryMock } from '../../../mocks/category-repository.mock';
 import { CategoryRepository } from '../../repositories/category.repository';
 import { CategoryCreatedEvent } from '../events/category-created.event';
@@ -13,6 +13,11 @@ describe('CreateCategoryHandler', () => {
   let handler: CreateCategoryCommandHandler;
   let categoryRepository: CategoryRepositoryMock;
   let eventBus: EventBusMock;
+
+  const command = new CreateCategoryCommand(
+    "anyName",
+    new CategoryUser('1', 'name', 'any@email.com')
+  );
 
   beforeEach(async () => {
     eventBus = new EventBusMock();
@@ -37,8 +42,6 @@ describe('CreateCategoryHandler', () => {
   });
 
   it('given execute handler, then save category', async () => {
-    const command = new CreateCategoryCommand("anyName");
-
     await handler.execute(command);
 
     expect(categoryRepository.savedWith).toEqual(
@@ -47,13 +50,13 @@ describe('CreateCategoryHandler', () => {
   });
 
   it('given execute handler, then publish category created event', async () => {
-    const command = new CreateCategoryCommand("anyName");
-
     await handler.execute(command);
 
     expect(eventBus.published).toEqual(
       new CategoryCreatedEvent(
-        '1', "anyName", new Date().toUTCString(), "user1"
+        new Category('1', 'anyName'),
+        new Date().toISOString(),
+        new CategoryUser('1', 'name', 'any@email.com')
       )
     )
   });
