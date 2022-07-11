@@ -4,7 +4,7 @@ import { EventBusMock } from '../../../mocks/event-bus.mock';
 import { Category, CategoryUser } from '../../entities/category';
 import { CategoryRepositoryMock } from '../../../mocks/category-repository.mock';
 import { CategoryRepository } from '../../repositories/category.repository';
-import { CategoryCreatedEvent } from '../events/category-created.event';
+import { CategoryCreatedEvent } from './events/category-created.event';
 import { CreateCategoryCommand } from './create-category.command';
 import { CreateCategoryCommandHandler } from './create-category-command.handler';
 
@@ -16,6 +16,7 @@ describe('CreateCategoryHandler', () => {
 
   const command = new CreateCategoryCommand(
     "anyName",
+    'anyCompanyId',
     new CategoryUser('1', 'name', 'any@email.com')
   );
 
@@ -28,7 +29,7 @@ describe('CreateCategoryHandler', () => {
         CreateCategoryCommandHandler
       ],
       imports: [
-        CqrsModule,
+        CqrsModule
       ],
       providers: [
         CategoryRepository
@@ -45,7 +46,7 @@ describe('CreateCategoryHandler', () => {
     await handler.execute(command);
 
     expect(categoryRepository.savedWith).toEqual(
-      new Category(null, "anyName")
+      new Category(null, "anyName", new CategoryUser('1', 'name', 'any@email.com'), "anyCompanyId")
     )
   });
 
@@ -54,9 +55,8 @@ describe('CreateCategoryHandler', () => {
 
     expect(eventBus.published).toEqual(
       new CategoryCreatedEvent(
-        new Category('1', 'anyName'),
-        new Date().toISOString(),
-        new CategoryUser('1', 'name', 'any@email.com')
+        new Category('1', 'anyName', new CategoryUser('1', 'name', 'any@email.com'), "anyCompanyId"),
+        new Date().toISOString()
       )
     )
   });

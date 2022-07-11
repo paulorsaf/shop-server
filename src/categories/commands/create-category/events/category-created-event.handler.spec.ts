@@ -1,11 +1,11 @@
 import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { EventBusMock } from '../../../mocks/event-bus.mock';
-import { CategoryRepositoryMock } from '../../../mocks/category-repository.mock';
-import { CategoryRepository } from '../../repositories/category.repository';
 import { CategoryCreatedEvent } from './category-created.event';
 import { CategoryCreatedEventHandler } from './category-created-event.handler';
-import { Category, CategoryUser } from '../../entities/category';
+import { CategoryRepositoryMock } from '../../../../mocks/category-repository.mock';
+import { EventBusMock } from '../../../../mocks/event-bus.mock';
+import { CategoryRepository } from '../../../repositories/category.repository';
+import { Category, CategoryUser } from '../../../entities/category';
 
 describe('CategoryCreatedEventHandler', () => {
 
@@ -37,9 +37,8 @@ describe('CategoryCreatedEventHandler', () => {
 
   it('given execute handler, then add category-created event', async () => {
     const event = new CategoryCreatedEvent(
-      new Category('1', 'name'),
-      'createdAt',
-      new CategoryUser('1', 'name', 'any@email.com')
+      new Category('1', 'name', new CategoryUser('1', 'name', 'any@email.com'), "anyCompanyId"),
+      'createdAt'
     );
 
     await handler.handle(event);

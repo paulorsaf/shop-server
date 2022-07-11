@@ -1,5 +1,5 @@
 import { EventsHandler, IEventHandler } from "@nestjs/cqrs";
-import { CategoryRepository } from "../../repositories/category.repository";
+import { CategoryRepository } from "../../../repositories/category.repository";
 import { CategoryCreatedEvent } from "./category-created.event";
 
 @EventsHandler(CategoryCreatedEvent)
