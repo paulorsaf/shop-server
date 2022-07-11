@@ -1,5 +1,4 @@
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
-import { Category } from "../../entities/category";
 import { CategoryRepository } from "../../repositories/category.repository";
 import { CreateCategoryCommand } from "./create-category.command";
 import { CategoryCreatedEvent } from "./events/category-created.event";
@@ -13,13 +12,17 @@ export class CreateCategoryCommandHandler implements ICommandHandler<CreateCateg
     ) {}
 
     async execute(command: CreateCategoryCommand) {
-        const category = new Category(null, command.name, command.user, command.companyId);
-        const savedCategory = await this.categoryRepository.save(category);
+        const savedCategory = await this.categoryRepository.save({
+            companyId: command.companyId, name: command.name, createdBy: command.createdBy
+        });
 
-        this.eventBus.publish(new CategoryCreatedEvent(
-            new Category(savedCategory.id, command.name, command.user, command.companyId),
-            new Date().toISOString()
-        ));
+        this.eventBus.publish(
+            new CategoryCreatedEvent(
+                {id: savedCategory.id, name: savedCategory.name},
+                savedCategory.companyId,
+                savedCategory.createdBy
+            )
+        );
     }
 
 }

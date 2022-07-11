@@ -3,13 +3,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBusMock } from './../mocks/command-bus.mock';
 import { CategoriesController } from './categories.controller';
 import { CategoryRepository } from './repositories/category.repository';
-import { CategoryUser } from './entities/category';
 import { User } from '../authentication/model/user';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { QueryBusMock } from '../mocks/query-bus.mock';
 import { CreateCategoryCommandHandler } from './commands/create-category/create-category-command.handler';
 import { CreateCategoryCommand } from './commands/create-category/create-category.command';
-import { FindByCompanyQuery } from './queries/find-categories/find-by-company.query';
+import { FindByCompanyQuery } from './queries/find-by-company/find-category-by-company.query';
+import { FindCategoryByIdQuery } from './queries/find-by-id/find-category-by-id.query';
+import { UpdateCategoryCommand } from './commands/update-category/update-category.command';
 
 describe('CategoriesController', () => {
 
@@ -17,7 +18,7 @@ describe('CategoriesController', () => {
   let commandBus: CommandBusMock;
   let queryBus: QueryBusMock;
 
-  const user = <User> {id: '1', name: "any name", email: "any@email.com", companyId: 'anyId'};
+  const user = <User> {id: 'anyUserId', companyId: 'anyCompanyId'};
 
   beforeEach(async () => {
     commandBus = new CommandBusMock();
@@ -46,13 +47,11 @@ describe('CategoriesController', () => {
   describe('given create category', () => {
 
     const createCategoryCommand = new CreateCategoryCommand(
-      "any category name",
-      user.companyId,
-      new CategoryUser(user.id, user.name, user.email)
+      "anyName", "anyCompanyId", "anyUserId"
     );
 
     it('then execute create category command', () => {
-      controller.create(user, "any category name");
+      controller.create(user, "anyName");
   
       expect(commandBus.executed).toEqual(createCategoryCommand);
     });
@@ -66,6 +65,32 @@ describe('CategoriesController', () => {
   
       expect(queryBus.executed).toEqual(
         new FindByCompanyQuery(user.companyId)
+      );
+    });
+
+  })
+
+  describe('given find category by id', () => {
+
+    it('then execute find category by id command', () => {
+      controller.findById(user, 'categoryId');
+  
+      expect(queryBus.executed).toEqual(
+        new FindCategoryByIdQuery(user.companyId, 'categoryId')
+      );
+    });
+
+  })
+
+  describe('given update category', () => {
+
+    it('then execute update category command', () => {
+      controller.update(user, 'categoryId', 'updatedCategoryName');
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateCategoryCommand(
+          'categoryId', 'updatedCategoryName', user.id, user.companyId
+        )
       );
     });
 

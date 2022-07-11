@@ -3,32 +3,18 @@ export class Category {
     constructor(
         public readonly id: string,
         public readonly name: string,
-        public readonly createdBy: CategoryUser,
-        public readonly companyId: string
+        public readonly companyId: string,
+        public readonly createdBy: string,
+        public readonly createdAt: string,
+        public readonly updatedAt: string
     ) {}
-
-}
-
-export class SaveCategory {
-
-    private createdAt: string;
-
-    constructor(
-        public readonly name: string,
-        public readonly createdBy: CategoryUser,
-        public readonly companyId: string
-    ) {
-        this.createdAt = new Date().toISOString();
-    }
 
 }
 
 export class CategoryUser {
 
     constructor(
-        public readonly id: string,
-        public readonly name: string,
-        public readonly email: string
+        public readonly id: string
     ) {}
 
 }

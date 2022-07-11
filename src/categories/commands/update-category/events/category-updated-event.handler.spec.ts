@@ -1,15 +1,15 @@
 import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CategoryCreatedEvent } from './category-created.event';
-import { CategoryCreatedEventHandler } from './category-created-event.handler';
 import { CategoryRepositoryMock } from '../../../../mocks/category-repository.mock';
 import { EventBusMock } from '../../../../mocks/event-bus.mock';
 import { CategoryRepository } from '../../../repositories/category.repository';
-import { Category } from '../../../entities/category';
+import { Category, CategoryUser } from '../../../entities/category';
+import { CategoryUpdatedEventHandler } from './category-updated-event.handler';
+import { CategoryUpdatedEvent } from './category-updated.event';
 
-describe('CategoryCreatedEventHandler', () => {
+describe('CategoryUpdatedEventHandler', () => {
 
-  let handler: CategoryCreatedEventHandler;
+  let handler: CategoryUpdatedEventHandler;
   let categoryRepository: CategoryRepositoryMock;
   let eventBus: EventBusMock;
 
@@ -19,7 +19,7 @@ describe('CategoryCreatedEventHandler', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [
-        CategoryCreatedEventHandler
+        CategoryUpdatedEventHandler
       ],
       imports: [
         CqrsModule,
@@ -32,15 +32,15 @@ describe('CategoryCreatedEventHandler', () => {
     .overrideProvider(EventBus).useValue(eventBus)
     .compile();
 
-    handler = module.get<CategoryCreatedEventHandler>(CategoryCreatedEventHandler);
+    handler = module.get<CategoryUpdatedEventHandler>(CategoryUpdatedEventHandler);
   });
 
   it('given execute handler, then add category-created event', async () => {
-    const event = new CategoryCreatedEvent(
+    const event = new CategoryUpdatedEvent(
       {id: "anyId", name: "anyName"},
       "anyCompanyId",
       "anyUserId"
-    )
+    );
 
     await handler.handle(event);
 

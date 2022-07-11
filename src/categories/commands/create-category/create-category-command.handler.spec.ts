@@ -15,9 +15,10 @@ describe('CreateCategoryHandler', () => {
   let eventBus: EventBusMock;
 
   const command = new CreateCategoryCommand(
-    "anyName",
-    'anyCompanyId',
-    new CategoryUser('1', 'name', 'any@email.com')
+    'anyName', 'anyCompanyId', 'anyUserId'
+  );
+  const category = new Category(
+    'anyId', 'anyName', 'anyCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'
   );
 
   beforeEach(async () => {
@@ -40,14 +41,16 @@ describe('CreateCategoryHandler', () => {
     .compile();
 
     handler = module.get<CreateCategoryCommandHandler>(CreateCategoryCommandHandler);
+
+    categoryRepository.response = category;
   });
 
   it('given execute handler, then save category', async () => {
     await handler.execute(command);
 
-    expect(categoryRepository.savedWith).toEqual(
-      new Category(null, "anyName", new CategoryUser('1', 'name', 'any@email.com'), "anyCompanyId")
-    )
+    expect(categoryRepository.savedWith).toEqual({
+      companyId: "anyCompanyId", name: "anyName", createdBy: "anyUserId"
+    })
   });
 
   it('given execute handler, then publish category created event', async () => {
@@ -55,8 +58,9 @@ describe('CreateCategoryHandler', () => {
 
     expect(eventBus.published).toEqual(
       new CategoryCreatedEvent(
-        new Category('1', 'anyName', new CategoryUser('1', 'name', 'any@email.com'), "anyCompanyId"),
-        new Date().toISOString()
+        {id: "anyId", name: "anyName"},
+        "anyCompanyId",
+        "anyUserId"
       )
     )
   });
