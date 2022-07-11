@@ -3,6 +3,7 @@ export class CategoryRepositoryMock {
     addedWith: any;
     addedEvent: string;
     savedWith: any;
+    updatedWith: any;
 
     response: any;
 
@@ -14,12 +15,17 @@ export class CategoryRepositoryMock {
         return this.response;
     }
 
+    findById() {
+        return this.response;
+    }
+
     save(model: any) {
         this.savedWith = model;
-        return {
-            ...model,
-            id: '1'
-        };
+        return this.response;
+    }
+
+    update(model: any) {
+        this.updatedWith = model;
     }
 
 }
