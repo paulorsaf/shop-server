@@ -11,6 +11,7 @@ import { CreateCategoryCommand } from './commands/create-category/create-categor
 import { FindByCompanyQuery } from './queries/find-by-company/find-category-by-company.query';
 import { FindCategoryByIdQuery } from './queries/find-by-id/find-category-by-id.query';
 import { UpdateCategoryCommand } from './commands/update-category/update-category.command';
+import { DeleteCategoryCommand } from './commands/delete-category/delete-category.command';
 
 describe('CategoriesController', () => {
 
@@ -90,6 +91,20 @@ describe('CategoriesController', () => {
       expect(commandBus.executed).toEqual(
         new UpdateCategoryCommand(
           'categoryId', 'updatedCategoryName', user.id, user.companyId
+        )
+      );
+    });
+
+  })
+
+  describe('given delete category', () => {
+
+    it('then execute delete category command', () => {
+      controller.delete(user, 'categoryId');
+  
+      expect(commandBus.executed).toEqual(
+        new DeleteCategoryCommand(
+          'categoryId', user.id, user.companyId
         )
       );
     });

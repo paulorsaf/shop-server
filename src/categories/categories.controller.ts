@@ -1,9 +1,10 @@
-import { Controller, Post, Body, UseGuards, Get, Param, Patch } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Param, Patch, Delete } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../authentication/guards/jwt.admin.strategy';
 import { User } from '../authentication/model/user';
 import { CreateCategoryCommand } from './commands/create-category/create-category.command';
+import { DeleteCategoryCommand } from './commands/delete-category/delete-category.command';
 import { UpdateCategoryCommand } from './commands/update-category/update-category.command';
 import { CategoryUser } from './entities/category';
 import { FindByCompanyQuery } from './queries/find-by-company/find-category-by-company.query';
@@ -49,6 +50,16 @@ export class CategoriesController {
     return this.commandBus.execute(
       new UpdateCategoryCommand(
         categoryId, name, user.id, user.companyId
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Delete(':categoryId')
+  delete(@AuthUser() user: User, @Param('categoryId') categoryId: string) {
+    return this.commandBus.execute(
+      new DeleteCategoryCommand(
+        categoryId, user.id, user.companyId
       )
     );
   }

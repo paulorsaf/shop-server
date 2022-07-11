@@ -1,5 +1,5 @@
-export class CategoryUpdatedEvent {
-  private readonly eventType = "CATEGORY_UPDATED_EVENT";
+export class CategoryDeletedEvent {
+  private readonly eventType = "CATEGORY_DELETED_EVENT";
   constructor(
     public readonly category: Category,
     public readonly companyId: string,

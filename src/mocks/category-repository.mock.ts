@@ -2,6 +2,7 @@ export class CategoryRepositoryMock {
 
     addedWith: any;
     addedEvent: string;
+    deletedWith: any;
     savedWith: any;
     updatedWith: any;
 
@@ -9,6 +10,10 @@ export class CategoryRepositoryMock {
 
     addEvent(event: any) {
         this.addedEvent = event;
+    }
+
+    delete(id: string) {
+        this.deletedWith = id;
     }
 
     findByCompany(companyId: string) {
