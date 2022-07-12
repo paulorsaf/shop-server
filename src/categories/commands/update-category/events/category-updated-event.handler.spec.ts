@@ -3,7 +3,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CategoryRepositoryMock } from '../../../../mocks/category-repository.mock';
 import { EventBusMock } from '../../../../mocks/event-bus.mock';
 import { CategoryRepository } from '../../../repositories/category.repository';
-import { Category, CategoryUser } from '../../../entities/category';
 import { CategoryUpdatedEventHandler } from './category-updated-event.handler';
 import { CategoryUpdatedEvent } from './category-updated.event';
 

@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CategoriesModule } from './categories/categories.module';
-import { FirebaseAdminAppModule } from './firebase-admin-app.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
-    CategoriesModule
+    CategoriesModule,
+    ProductsModule
   ]
 })
 export class AppModule {}

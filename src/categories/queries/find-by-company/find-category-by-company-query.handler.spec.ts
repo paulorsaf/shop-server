@@ -1,7 +1,6 @@
-import { CqrsModule, EventBus } from '@nestjs/cqrs';
+import { CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { EventBusMock } from '../../../mocks/event-bus.mock';
-import { Category, CategoryUser } from '../../entities/category';
+import { Category } from '../../entities/category';
 import { CategoryRepositoryMock } from '../../../mocks/category-repository.mock';
 import { CategoryRepository } from '../../repositories/category.repository';
 import { FindByCompanyQueryHandler } from './find-category-by-company-query.handler';

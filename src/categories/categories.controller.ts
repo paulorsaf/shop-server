@@ -6,7 +6,6 @@ import { User } from '../authentication/model/user';
 import { CreateCategoryCommand } from './commands/create-category/create-category.command';
 import { DeleteCategoryCommand } from './commands/delete-category/delete-category.command';
 import { UpdateCategoryCommand } from './commands/update-category/update-category.command';
-import { CategoryUser } from './entities/category';
 import { FindByCompanyQuery } from './queries/find-by-company/find-category-by-company.query';
 import { FindCategoryByIdQuery } from './queries/find-by-id/find-category-by-id.query';
 
