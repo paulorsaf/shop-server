@@ -10,6 +10,8 @@ import { FindProductsByCompanyQuery } from './queries/find-by-company/find-produ
 import { CreateProductCommand } from './commands/create-product/create-product.command';
 import { CreateProductDTO } from './commands/create-product/dtos/create-product.dto';
 import { FindProductByIdQuery } from './queries/find-by-id/find-product-by-id.query';
+import { UpdateProductCommand } from './commands/update-product-command/update-product.command';
+import { UpdateProductDTO } from './commands/update-product-command/dtos/update-product.dto';
 
 describe('ProductsController', () => {
 
@@ -78,6 +80,22 @@ describe('ProductsController', () => {
       expect(commandBus.executed).toEqual(
         new CreateProductCommand(
           product, user.companyId, user.id
+        )
+      );
+    });
+
+  })
+
+  describe('given update product', () => {
+
+    const product = new UpdateProductDTO('anyProductId', "anyName", "anyCategoryId", 10, 5);
+
+    it('then execute update product command', () => {
+      controller.update(user, 'anyProductId', product);
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateProductCommand(
+          {...product, id: 'anyProductId'}, user.companyId, user.id
         )
       );
     });

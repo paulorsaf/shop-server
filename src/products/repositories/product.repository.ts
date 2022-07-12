@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { CreateProductDTO } from '../commands/create-product/dtos/create-product.dto';
+import { UpdateProductDTO } from '../commands/update-product-command/dtos/update-product.dto';
 import { Product } from '../entities/product';
 
 @Injectable()
@@ -34,14 +35,26 @@ export class ProductRepository {
       }));
   }
 
-  async save(product: CreateProductDTO & {companyId: string, createdBy: string}):
-    Promise<{id: string}> {
+  async save(product: CreateProductDTO & {companyId: string, createdBy: string}): Promise<{id: string}> {
     return admin.firestore()
       .collection('products')
       .add({...product, createdAt: new Date().toISOString()})
       .then(snapshot => {
         return {id: snapshot.id}
       })
+  }
+
+  async update(product: UpdateProductDTO & {companyId: string, updatedBy: string}): Promise<void> {
+    const update = {
+      ...product,
+      updatedAt: new Date().toISOString()
+    }
+
+    return admin.firestore()
+      .collection('products')
+      .doc(product.id)
+      .update(update)
+      .then(() => Promise.resolve())
   }
 
 }

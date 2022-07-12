@@ -8,6 +8,7 @@ export class Product {
         public readonly companyId: string,
         public readonly createdBy: string,
         public readonly createdAt: string,
-        public readonly updatedAt: string
+        public readonly updatedAt?: string,
+        public readonly updatedBy?: string
     ){}
 }

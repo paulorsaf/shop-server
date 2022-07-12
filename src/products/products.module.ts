@@ -8,6 +8,8 @@ import { FindProductsByCompanyQueryHandler } from './queries/find-by-company/fin
 import { ProductRepository } from './repositories/product.repository';
 import { EventRepository } from '../repositories/event.repository';
 import { FindProductByIdQueryHandler } from './queries/find-by-id/find-product-by-id-query.handler';
+import { ProductUpdatedEventHandler } from './commands/update-product-command/events/product-updated-event.handler';
+import { UpdateProductCommandHandler } from './commands/update-product-command/update-product-command.handler';
 
 @Module({
   controllers: [
@@ -22,11 +24,13 @@ import { FindProductByIdQueryHandler } from './queries/find-by-id/find-product-b
     EventRepository,
 
     CreateProductCommandHandler,
+    UpdateProductCommandHandler,
     
     FindProductsByCompanyQueryHandler,
     FindProductByIdQueryHandler,
 
-    ProductCreatedEventHandler
+    ProductCreatedEventHandler,
+    ProductUpdatedEventHandler
   ]
 })
 export class ProductsModule {}
