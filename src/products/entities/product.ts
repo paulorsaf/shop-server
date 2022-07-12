@@ -3,6 +3,8 @@ export class Product {
         public readonly id: string,
         public readonly name: string,
         public readonly categoryId: string,
+        public readonly price: number,
+        public readonly priceWithDiscount: number,
         public readonly companyId: string,
         public readonly createdBy: string,
         public readonly createdAt: string,

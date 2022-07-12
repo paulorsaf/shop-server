@@ -1,16 +1,11 @@
 export class CategoryRepositoryMock {
 
     addedWith: any;
-    addedEvent: string;
     deletedWith: any;
     savedWith: any;
     updatedWith: any;
 
     response: any;
-
-    addEvent(event: any) {
-        this.addedEvent = event;
-    }
 
     delete(id: string) {
         this.deletedWith = id;

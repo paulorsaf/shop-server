@@ -1,16 +1,16 @@
 import { EventsHandler, IEventHandler } from "@nestjs/cqrs";
-import { CategoryRepository } from "../../../repositories/category.repository";
+import { EventRepository } from "../../../../repositories/event.repository";
 import { CategoryCreatedEvent } from "./category-created.event";
 
 @EventsHandler(CategoryCreatedEvent)
 export class CategoryCreatedEventHandler implements IEventHandler<CategoryCreatedEvent> {
 
     constructor(
-        private categoryRepository: CategoryRepository
+        private eventRepository: EventRepository
     ) {}
 
     handle(event: CategoryCreatedEvent) {
-        this.categoryRepository.addEvent(event);
+        this.eventRepository.addEvent(event);
     }
 
 }

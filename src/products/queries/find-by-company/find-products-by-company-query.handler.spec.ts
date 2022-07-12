@@ -36,7 +36,7 @@ describe('FindProductsByCompanyQueryHandler', () => {
   it('given execute handler, then find products by company', async () => {
     const products = [
       new Product(
-        'anyId', 'anyName', 'anyCategoryId', 'anyCompanyId', 'anyUserId', 'createdAt', 'updatedAt'
+        'anyId', 'anyName', 'anyCategoryId', 10, 8, 'anyCompanyId', 'anyUserId', 'createdAt', 'updatedAt'
       )
     ];
 

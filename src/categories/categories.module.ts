@@ -11,6 +11,7 @@ import { UpdateCategoryCommandHandler } from './commands/update-category/update-
 import { CategoryUpdatedEventHandler } from './commands/update-category/events/category-updated-event.handler';
 import { DeleteCategoryCommandHandler } from './commands/delete-category/delete-category-command.handler';
 import { CategoryDeletedEventHandler } from './commands/delete-category/events/category-deleted-event.handler';
+import { EventRepository } from '../repositories/event.repository';
 
 @Module({
   controllers: [
@@ -22,6 +23,7 @@ import { CategoryDeletedEventHandler } from './commands/delete-category/events/c
   ],
   providers: [
     CategoryRepository,
+    EventRepository,
 
     CreateCategoryCommandHandler,
     UpdateCategoryCommandHandler,

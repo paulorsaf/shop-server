@@ -7,6 +7,8 @@ import { User } from '../authentication/model/user';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { QueryBusMock } from '../mocks/query-bus.mock';
 import { FindProductsByCompanyQuery } from './queries/find-by-company/find-products-by-company.query';
+import { CreateProductCommand } from './commands/create-product/create-product.command';
+import { CreateProductDTO } from './commands/create-product/dtos/create-product.dto';
 
 describe('ProductsController', () => {
 
@@ -46,6 +48,22 @@ describe('ProductsController', () => {
   
       expect(queryBus.executed).toEqual(
         new FindProductsByCompanyQuery(user.companyId)
+      );
+    });
+
+  })
+
+  describe('given save product', () => {
+
+    const product = new CreateProductDTO("anyName", "anyCategoryId", 10, 5);
+
+    it('then execute save product command', () => {
+      controller.save(user, product);
+  
+      expect(commandBus.executed).toEqual(
+        new CreateProductCommand(
+          product, user.companyId, user.id
+        )
       );
     });
 

@@ -2,20 +2,19 @@ import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CategoryCreatedEvent } from './category-created.event';
 import { CategoryCreatedEventHandler } from './category-created-event.handler';
-import { CategoryRepositoryMock } from '../../../../mocks/category-repository.mock';
 import { EventBusMock } from '../../../../mocks/event-bus.mock';
-import { CategoryRepository } from '../../../repositories/category.repository';
-import { Category } from '../../../entities/category';
+import { EventRepositoryMock } from '../../../../mocks/event-repository.mock';
+import { EventRepository } from '../../../../repositories/event.repository';
 
 describe('CategoryCreatedEventHandler', () => {
 
   let handler: CategoryCreatedEventHandler;
-  let categoryRepository: CategoryRepositoryMock;
+  let eventRepository: EventRepositoryMock;
   let eventBus: EventBusMock;
 
   beforeEach(async () => {
     eventBus = new EventBusMock();
-    categoryRepository = new CategoryRepositoryMock();
+    eventRepository = new EventRepositoryMock();
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [
@@ -25,10 +24,10 @@ describe('CategoryCreatedEventHandler', () => {
         CqrsModule,
       ],
       providers: [
-        CategoryRepository
+        EventRepository
       ]
     })
-    .overrideProvider(CategoryRepository).useValue(categoryRepository)
+    .overrideProvider(EventRepository).useValue(eventRepository)
     .overrideProvider(EventBus).useValue(eventBus)
     .compile();
 
@@ -44,7 +43,7 @@ describe('CategoryCreatedEventHandler', () => {
 
     await handler.handle(event);
 
-    expect(categoryRepository.addedEvent).toEqual(event);
+    expect(eventRepository.addedEvent).toEqual(event);
   });
 
 });

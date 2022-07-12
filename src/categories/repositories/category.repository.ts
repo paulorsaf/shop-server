@@ -1,24 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Category } from '../entities/category';
 import * as admin from 'firebase-admin';
-import { CategoryCreatedEvent } from '../commands/create-category/events/category-created.event';
-import { CategoryUpdatedEvent } from '../commands/update-category/events/category-updated.event';
-import { CategoryDeletedEvent } from '../commands/delete-category/events/category-deleted.event';
 
 @Injectable()
 export class CategoryRepository {
 
   constructor(
   ) {}
-
-  addEvent(event: CategoryCreatedEvent | CategoryUpdatedEvent | CategoryDeletedEvent) {
-    admin.firestore().collection('events').add(
-      JSON.parse(JSON.stringify({
-        ...event,
-        timestamp: new Date().toISOString()
-      }))
-    );
-  }
 
   async delete(id: string) {
     return admin.firestore()
