@@ -9,6 +9,7 @@ import { QueryBusMock } from '../mocks/query-bus.mock';
 import { FindProductsByCompanyQuery } from './queries/find-by-company/find-products-by-company.query';
 import { CreateProductCommand } from './commands/create-product/create-product.command';
 import { CreateProductDTO } from './commands/create-product/dtos/create-product.dto';
+import { FindProductByIdQuery } from './queries/find-by-id/find-product-by-id.query';
 
 describe('ProductsController', () => {
 
@@ -48,6 +49,20 @@ describe('ProductsController', () => {
   
       expect(queryBus.executed).toEqual(
         new FindProductsByCompanyQuery(user.companyId)
+      );
+    });
+
+  })
+
+  describe('given find product by id', () => {
+
+    it('then execute find product by id command', () => {
+      controller.findById(user, 'productId');
+  
+      expect(queryBus.executed).toEqual(
+        new FindProductByIdQuery(
+          user.companyId, 'productId'
+        )
       );
     });
 

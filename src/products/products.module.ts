@@ -7,6 +7,7 @@ import { ProductsController } from './products.controller';
 import { FindProductsByCompanyQueryHandler } from './queries/find-by-company/find-products-by-company-query.handler';
 import { ProductRepository } from './repositories/product.repository';
 import { EventRepository } from '../repositories/event.repository';
+import { FindProductByIdQueryHandler } from './queries/find-by-id/find-product-by-id-query.handler';
 
 @Module({
   controllers: [
@@ -23,6 +24,7 @@ import { EventRepository } from '../repositories/event.repository';
     CreateProductCommandHandler,
     
     FindProductsByCompanyQueryHandler,
+    FindProductByIdQueryHandler,
 
     ProductCreatedEventHandler
   ]

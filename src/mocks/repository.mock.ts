@@ -4,6 +4,7 @@ export class RepositoryMock {
     addedEvent: string;
     deletedWith: any;
     savedWith: any;
+    searchedById = false;
     updatedWith: any;
 
     response: any;
@@ -21,6 +22,7 @@ export class RepositoryMock {
     }
 
     findById() {
+        this.searchedById = true;
         return this.response;
     }
 

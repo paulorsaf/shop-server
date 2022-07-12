@@ -13,10 +13,20 @@ export class FindCategoryByIdQueryHandler implements IQueryHandler<FindCategoryB
 
     async execute(query: FindCategoryByIdQuery): Promise<Category> {
         const category = await this.categoryRepository.findById(query.categoryId);
-        if (category.companyId !== query.companyId) {
-            throw new NotFoundException('Categoria nao encontrada');
+        if (!this.belongsToCompany(category, query.companyId)) {
+            return null;
         }
         return category;
+    }
+
+    private belongsToCompany(category: Category, companyId: string) {
+        if (!category) {
+            return false;
+        }
+        if (category.companyId !== companyId) {
+            return false;
+        }
+        return true;
     }
 
 }

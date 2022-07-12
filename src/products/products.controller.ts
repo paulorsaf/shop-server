@@ -7,6 +7,7 @@ import { CreateProductCommand } from './commands/create-product/create-product.c
 import { CreateProductDTO } from './commands/create-product/dtos/create-product.dto';
 import { Product } from './entities/product';
 import { FindProductsByCompanyQuery } from './queries/find-by-company/find-products-by-company.query';
+import { FindProductByIdQuery } from './queries/find-by-id/find-product-by-id.query';
 
 @Controller('products')
 export class ProductsController {
@@ -21,6 +22,14 @@ export class ProductsController {
   find(@AuthUser() user: User) {
     return this.queryBus.execute(
       new FindProductsByCompanyQuery(user.companyId)
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Get(':productId')
+  findById(@AuthUser() user: User, @Param('productId') productId: string) {
+    return this.queryBus.execute(
+      new FindProductByIdQuery(user.companyId, productId)
     );
   }
 

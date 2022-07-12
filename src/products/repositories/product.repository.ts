@@ -23,6 +23,17 @@ export class ProductRepository {
       );
   }
 
+  async findById(productId: string) {
+    return admin.firestore()
+      .collection('products')
+      .doc(productId)
+      .get()
+      .then(snapshot => (<Product> {
+        ...snapshot.data(),
+        id: snapshot.id
+      }));
+  }
+
   async save(product: CreateProductDTO & {companyId: string, createdBy: string}):
     Promise<{id: string}> {
     return admin.firestore()

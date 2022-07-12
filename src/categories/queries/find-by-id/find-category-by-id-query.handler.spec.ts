@@ -54,13 +54,23 @@ describe('FindCategoryByIdQueryHandler', () => {
     expect(response).toEqual(category);
   });
 
-  it('given found category by id, when category doesnt belong to company, then return not found error', async () => {
+  it('given execute handler, when category not found, then return null', async () => {
+    categoryRepository.response = null;
+
+    const response = await handler.execute(command);
+
+    expect(response).toBeNull();
+  });
+
+  it('given found category by id, when category doesnt belong to company, then return null', async () => {
     const category = new Category(
       'anyId', 'anyName', 'anyOtherCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'
     );
     categoryRepository.response = category;
 
-    await expect(handler.execute(command)).rejects.toThrowError(NotFoundException);
+    const response = await handler.execute(command);
+
+    expect(response).toBeNull();
   });
 
 });
