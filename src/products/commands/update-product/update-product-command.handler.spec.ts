@@ -50,7 +50,8 @@ describe('UpdateProductCommandHandler', () => {
     await handler.execute(command);
 
     expect(productRepository.updatedWith).toEqual({
-      ...command,
+      companyId: command.companyId,
+      updatedBy: command.updatedBy,
       ...command.product
     })
   });

@@ -1,12 +1,13 @@
-import { Controller, UseGuards, Get, Post, Param, Body, Patch } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Param, Body, Patch, Delete } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../authentication/guards/jwt.admin.strategy';
 import { User } from '../authentication/model/user';
 import { CreateProductCommand } from './commands/create-product/create-product.command';
 import { CreateProductDTO } from './commands/create-product/dtos/create-product.dto';
-import { UpdateProductDTO } from './commands/update-product-command/dtos/update-product.dto';
-import { UpdateProductCommand } from './commands/update-product-command/update-product.command';
+import { DeleteProductCommand } from './commands/delete-product/delete-product.command';
+import { UpdateProductDTO } from './commands/update-product/dtos/update-product.dto';
+import { UpdateProductCommand } from './commands/update-product/update-product.command';
 import { Product } from './entities/product';
 import { FindProductsByCompanyQuery } from './queries/find-by-company/find-products-by-company.query';
 import { FindProductByIdQuery } from './queries/find-by-id/find-product-by-id.query';
@@ -51,6 +52,16 @@ export class ProductsController {
     return this.commandBus.execute(
       new UpdateProductCommand(
         {...product, id: productId}, user.companyId, user.id
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Delete(':productId')
+  delete(@AuthUser() user: User, @Param('productId') productId: string) {
+    return this.commandBus.execute(
+      new DeleteProductCommand(
+        productId, user.id, user.companyId
       )
     );
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { CreateProductDTO } from '../commands/create-product/dtos/create-product.dto';
-import { UpdateProductDTO } from '../commands/update-product-command/dtos/update-product.dto';
+import { UpdateProductDTO } from '../commands/update-product/dtos/update-product.dto';
 import { Product } from '../entities/product';
 
 @Injectable()
@@ -22,6 +22,13 @@ export class ProductRepository {
           id: d.id
         })
       );
+  }
+
+  async delete(productId: string) {
+    return admin.firestore()
+      .collection('products')
+      .doc(productId)
+      .delete();
   }
 
   async findById(productId: string) {
