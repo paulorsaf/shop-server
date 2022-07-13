@@ -17,6 +17,10 @@ export const createNestServer = async (expressInstance) => {
     new ExpressAdapter(expressInstance),
     {cors: false}
   );
+  
+  app.enableCors({
+    origin: '*'
+  })
 
   return app.init();
 };
