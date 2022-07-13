@@ -8,9 +8,9 @@ steps:
     - name: node
       entrypoint: npm
       args: ['test']
-    - name: node
-      entrypoint: npm
-      args: ['run', 'test:e2e']
+    # - name: node
+    #   entrypoint: npm
+    #   args: ['run', 'test:e2e']
     - name: 'gcr.io/cloud-builders/gcloud'
       args:
       - functions
