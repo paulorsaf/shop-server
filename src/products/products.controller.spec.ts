@@ -110,7 +110,7 @@ describe('ProductsController', () => {
   
       expect(commandBus.executed).toEqual(
         new DeleteProductCommand(
-          'anyProductId', user.companyId, user.id
+          'anyProductId', user.id, user.companyId
         )
       );
     });
