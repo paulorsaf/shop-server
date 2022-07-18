@@ -9,7 +9,7 @@ const server = express();
 
 export const createNestServer = async (expressInstance) => {
   admin.initializeApp({
-    credential: admin.credential.cert('./src/service-account.json')
+    credential: admin.credential.cert(JSON.parse(process.env.SERVICE_ACCOUNT))
   })
 
   const app = await NestFactory.create(
