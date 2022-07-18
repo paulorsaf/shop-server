@@ -8,6 +8,7 @@ import { StockRepository } from '../../repositories/stock.repository';
 import { Stock, StockOption } from '../../entities/stock';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import * as crypto from 'crypto';
+import { StockOptionAddedEvent } from './events/stock-option-added.event';
 
 describe('AddStockOptionCommandHandler', () => {
 
@@ -55,6 +56,20 @@ describe('AddStockOptionCommandHandler', () => {
     await handler.execute(command);
 
     expect(stockRepository.addedWith).toEqual(new StockOption('anyId', 10, 'anyColor', 'anySize'));
+  });
+
+  it('given stock for product found, when added stock option, then publish stock option added event', async () => {
+    stockRepository.response = new Stock('anyCompanyId', 'anyProductId', 'anyId', []);
+
+    await handler.execute(command);
+
+    expect(eventBus.published).toEqual(
+      new StockOptionAddedEvent(
+        'anyCompanyId', 'anyProductId', 'anyId', {
+          id: 'anyId', quantity: 10, color: "anyColor", size: "anySize"
+        }, 'anyUserId'
+      )
+    );
   });
 
   it('given stock for product found, when doesnt belong to company, then throw unauthorized error', async () => {

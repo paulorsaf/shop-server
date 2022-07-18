@@ -1,15 +1,15 @@
 import { EventsHandler, IEventHandler } from "@nestjs/cqrs";
 import { EventRepository } from "../../../../../repositories/event.repository";
-import { StockCreatedEvent } from "./stock-created.event";
+import { StockOptionAddedEvent } from "./stock-option-added.event";
 
-@EventsHandler(StockCreatedEvent)
-export class StockCreatedEventHandler implements IEventHandler<StockCreatedEvent> {
+@EventsHandler(StockOptionAddedEvent)
+export class StockOptionAddedEventHandler implements IEventHandler<StockOptionAddedEvent> {
 
     constructor(
         private eventRepository: EventRepository
     ){}
 
-    handle(event: StockCreatedEvent) {
+    handle(event: StockOptionAddedEvent) {
         this.eventRepository.addEvent(event);
     }
 
