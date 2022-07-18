@@ -8,7 +8,6 @@ import { CreateProductDTO } from './commands/create-product/dtos/create-product.
 import { DeleteProductCommand } from './commands/delete-product/delete-product.command';
 import { UpdateProductDTO } from './commands/update-product/dtos/update-product.dto';
 import { UpdateProductCommand } from './commands/update-product/update-product.command';
-import { Product } from './entities/product';
 import { FindProductsByCompanyQuery } from './queries/find-by-company/find-products-by-company.query';
 import { FindProductByIdQuery } from './queries/find-by-id/find-product-by-id.query';
 

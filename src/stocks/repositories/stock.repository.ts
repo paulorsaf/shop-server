@@ -8,6 +8,10 @@ export class StockRepository {
   constructor(
   ) {}
 
+  async addStock(stock: Stock) {
+    return Promise.resolve();
+  }
+
   async findByProduct(productId: string) {
     return admin.firestore()
       .collection('stocks')
