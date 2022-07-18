@@ -8,6 +8,7 @@ import { StockRepository } from '../../repositories/stock.repository';
 import { Stock, StockOption } from '../../entities/stock';
 import { UnauthorizedException } from '@nestjs/common';
 import * as crypto from 'crypto';
+import { StockCreatedEvent } from './events/stock-created.event';
 
 describe('CreateStockOptionCommandHandler', () => {
 
@@ -54,6 +55,23 @@ describe('CreateStockOptionCommandHandler', () => {
       'anyCompanyId', 'anyProductId', 'anyId', [new StockOption('anyId', 10, 'anyColor', 'anySize')]
     );
     expect(stockRepository.createdWith).toEqual(stock);
+  });
+
+  it('given stock for product not found, then public stock created event', async () => {
+    stockRepository.response = null;
+
+    await handler.execute(command);
+
+    const stock = new Stock(
+      'anyCompanyId', 'anyProductId', 'anyId', [new StockOption('anyId', 10, 'anyColor', 'anySize')]
+    );
+    expect(eventBus.published).toEqual(
+      new StockCreatedEvent(
+        'anyCompanyId', 'anyProductId', {
+          id: "anyId", stockOption: {id: 'anyId', quantity: 10, color: 'anyColor', size: 'anySize'}
+        }, 'anyUserId'
+      )
+    );
   });
 
   it('given stock for product found, then throw unauthorized', async () => {

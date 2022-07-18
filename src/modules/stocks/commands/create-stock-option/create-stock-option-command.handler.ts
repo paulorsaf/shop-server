@@ -1,14 +1,16 @@
 import { UnauthorizedException } from "@nestjs/common";
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
+import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { randomUUID } from "crypto";
 import { Stock, StockOption } from "../../entities/stock";
 import { StockRepository } from "../../repositories/stock.repository";
 import { CreateStockOptionCommand } from "./create-stock-option.command";
+import { StockCreatedEvent } from "./events/stock-created.event";
 
 @CommandHandler(CreateStockOptionCommand)
 export class CreateStockOptionCommandHandler implements ICommandHandler<CreateStockOptionCommand> {
 
     constructor(
+        private eventBus: EventBus,
         private stockRepository: StockRepository
     ){}
 
@@ -21,6 +23,14 @@ export class CreateStockOptionCommandHandler implements ICommandHandler<CreateSt
         const stock = this.createStock(command);
 
         this.stockRepository.createStock(stock);
+
+        this.eventBus.publish(
+            new StockCreatedEvent(
+                command.companyId, command.productId, {
+                    id: stock.id, stockOption: stock.stockOptions[0]
+                }, command.createdBy
+            )
+        )
     }
 
     private createStock(command: CreateStockOptionCommand){
