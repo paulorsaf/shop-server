@@ -8,8 +8,11 @@ export class StockRepository {
   constructor(
   ) {}
 
-  async addStock(stock: Stock) {
-    return Promise.resolve();
+  async createStock(stock: Stock) {
+    return admin.firestore()
+      .collection('stocks')
+      .doc(stock.id)
+      .create(JSON.parse(JSON.stringify(stock)));
   }
 
   async findByProduct(productId: string) {

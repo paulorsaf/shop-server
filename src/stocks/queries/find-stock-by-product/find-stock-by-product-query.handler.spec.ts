@@ -13,7 +13,7 @@ describe('FindStockByProductQueryHandler', () => {
 
   const command = new FindStockByProductQuery('anyCompanyId', 'anyProductId');
   const stock = new Stock(
-    "anyCompanyId", "anyProductId", [new StockOption("anyId", 10, "anyColor", "anySize")]
+    "anyCompanyId", "anyProductId", "anyId", [new StockOption("anyId", 10, "anyColor", "anySize")]
   );
 
   beforeEach(async () => {
@@ -59,10 +59,9 @@ describe('FindStockByProductQueryHandler', () => {
   });
 
   it('given found stock, when stock doesnt belong to company, then return empty', async () => {
-    const stock = new Stock(
-      "anyOtherCompanyId", "anyProductId", [new StockOption("anyId", 10, "anyColor", "anySize")]
+    stockRepository.response = new Stock(
+      "anyOtherCompanyId", "anyProductId", 'anyId', [new StockOption("anyId", 10, "anyColor", "anySize")]
     );
-    stockRepository.response = stock;
 
     await expect(handler.execute(command)).resolves.toEqual([]);
   });

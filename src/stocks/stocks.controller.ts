@@ -31,7 +31,7 @@ export class StocksController {
     @Param('productId') productId: string,
     @Body() addStockOption: AddStockOption
   ) {
-    this.commandBus.execute(
+    return this.commandBus.execute(
       new AddStockOptionCommand(
         user.companyId, productId, addStockOption, user.id
       )

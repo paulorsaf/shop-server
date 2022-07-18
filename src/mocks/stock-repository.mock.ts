@@ -1,12 +1,12 @@
 export class StockRepositoryMock {
 
-    addedWith: any;
+    createdWith: any;
     searchedById: string = "";
 
     response: any;
 
-    addStock(params: any) {
-        this.addedWith = params;
+    createStock(params: any) {
+        this.createdWith = params;
     }
 
     findByProduct(productId: string) {

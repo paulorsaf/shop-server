@@ -14,15 +14,18 @@ export class AddStockOptionCommandHandler implements ICommandHandler<AddStockOpt
 
     async execute(command: AddStockOptionCommand): Promise<void> {
         const savedStock = await this.stockRepository.findByProduct(command.productId);
-        if (savedStock && savedStock.companyId !== command.companyId) {
+        if (savedStock) {
             throw new UnauthorizedException('Nao autorizado');
         }
 
+        const stock = this.createStock(command);
+
+        this.stockRepository.createStock(stock);
+    }
+
+    private createStock(command: AddStockOptionCommand){
         const stockOption = this.createStockOption(command);
-        const stock = this.createStock(
-            command.companyId, command.productId, savedStock?.stockOptions || [], stockOption
-        );
-        this.stockRepository.addStock(stock);
+        return new Stock(command.companyId, command.productId, randomUUID(), [stockOption]);
     }
 
     private createStockOption(command: AddStockOptionCommand) {
@@ -32,12 +35,6 @@ export class AddStockOptionCommandHandler implements ICommandHandler<AddStockOpt
             command.stockOption.color,
             command.stockOption.size
         )
-    }
-
-    private createStock(
-        companyId: string, productId: string, stockOptions: StockOption[], stockOption: StockOption
-    ){
-        return new Stock(companyId, productId, [...stockOptions, stockOption]);
     }
 
 }

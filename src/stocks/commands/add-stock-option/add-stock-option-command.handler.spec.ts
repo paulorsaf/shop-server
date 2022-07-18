@@ -51,38 +51,15 @@ describe('AddStockOptionCommandHandler', () => {
     await handler.execute(command);
 
     const stock = new Stock(
-      'anyCompanyId', 'anyProductId', [new StockOption('anyId', 10, 'anyColor', 'anySize')]
+      'anyCompanyId', 'anyProductId', 'anyId', [new StockOption('anyId', 10, 'anyColor', 'anySize')]
     );
-    expect(stockRepository.addedWith).toEqual(stock);
+    expect(stockRepository.createdWith).toEqual(stock);
   });
 
-  it('given stock for product found, when stock doesnt belong to company, then throw unauthorized', async () => {
-    stockRepository.response = new Stock('anyOtherCompanyId', 'anyProductId', []);
+  it('given stock for product found, then throw unauthorized', async () => {
+    stockRepository.response = new Stock('anyOtherCompanyId', 'anyProductId', 'anyId', []);
 
     await expect(handler.execute(command)).rejects.toThrowError(UnauthorizedException);
-  });
-
-  it('given stock for product found, when stock has empty options, then add stock option', async () => {
-    stockRepository.response = new Stock('anyCompanyId', 'anyProductId', []);
-
-    await handler.execute(command);
-
-    const stock = new Stock(
-      'anyCompanyId', 'anyProductId', [new StockOption('anyId', 10, 'anyColor', 'anySize')]
-    );
-    expect(stockRepository.addedWith).toEqual(stock);
-  });
-
-  it('given stock for product found, when stock has options, then concat stock option', async () => {
-    const stockOption = new StockOption('1', 20, 'someColor', 'someSize')
-    stockRepository.response = new Stock('anyCompanyId', 'anyProductId', [stockOption]);
-
-    await handler.execute(command);
-
-    const stock = new Stock(
-      'anyCompanyId', 'anyProductId', [stockOption, new StockOption('anyId', 10, 'anyColor', 'anySize')]
-    );
-    expect(stockRepository.addedWith).toEqual(stock);
   });
 
 });
