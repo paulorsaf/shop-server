@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { CategoriesModule } from './categories/categories.module';
-import { ProductsModule } from './products/products.module';
-import { StocksModule } from './stocks/stocks.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { ProductsModule } from './modules/products/products.module';
+import { StocksModule } from './modules/stocks/stocks.module';
 
 @Module({
   imports: [
