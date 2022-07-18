@@ -42,12 +42,12 @@ describe('FindStockByProductQueryHandler', () => {
     expect(stockRepository.searchedById).toEqual('anyProductId');
   });
 
-  it('given execute handler, when stocj not found, then return null', async () => {
+  it('given execute handler, when stocj not found, then return empty', async () => {
     stockRepository.response = null;
 
     const response = await handler.execute(command);
 
-    expect(response).toBeNull();
+    expect(response).toEqual([]);
   });
 
   it('given found stock, when stock belongs to company, then return stock', async () => {
@@ -55,16 +55,16 @@ describe('FindStockByProductQueryHandler', () => {
 
     const response = await handler.execute(command);
 
-    expect(response).toEqual(stock);
+    expect(response).toEqual(stock.stockOptions);
   });
 
-  it('given found stock, when stock doesnt belong to company, then return null', async () => {
+  it('given found stock, when stock doesnt belong to company, then return empty', async () => {
     const stock = new Stock(
       "anyOtherCompanyId", "anyProductId", [new StockOption("anyId", 10, "anyColor", "anySize")]
     );
     stockRepository.response = stock;
 
-    await expect(handler.execute(command)).resolves.toBeNull();
+    await expect(handler.execute(command)).resolves.toEqual([]);
   });
 
 });
