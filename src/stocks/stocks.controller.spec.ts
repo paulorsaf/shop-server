@@ -6,7 +6,8 @@ import { AuthenticationModule } from '../authentication/authentication.module';
 import { QueryBusMock } from '../mocks/query-bus.mock';
 import { StocksController } from './stocks.controller';
 import { FindStockByProductQuery } from './queries/find-stock-by-product/find-stock-by-product.query';
-import { AddStockOption } from './dtos/add-stock-option';
+import { StockOptionDTO } from './dtos/stock-option-dto';
+import { CreateStockOptionCommand } from './commands/create-stock-option/create-stock-option.command';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
 
 describe('StocksController', () => {
@@ -49,12 +50,28 @@ describe('StocksController', () => {
 
   })
 
+  describe('given create stock option', () => {
+
+    const addStockOption: StockOptionDTO = {quantity: 10};
+
+    it('then execute create stock option command', () => {
+      controller.create(user, "anyProductId", addStockOption);
+  
+      expect(commandBus.executed).toEqual(
+        new CreateStockOptionCommand(
+          user.companyId, "anyProductId", addStockOption, user.id
+        )
+      );
+    });
+
+  })
+
   describe('given add stock option', () => {
 
-    const addStockOption: AddStockOption = {quantity: 10};
+    const addStockOption: StockOptionDTO = {quantity: 10};
 
     it('then execute add stock option command', () => {
-      controller.save(user, "anyProductId", addStockOption);
+      controller.add(user, "anyProductId", addStockOption);
   
       expect(commandBus.executed).toEqual(
         new AddStockOptionCommand(

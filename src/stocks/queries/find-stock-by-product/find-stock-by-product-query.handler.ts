@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { Stock, StockOption } from "../../entities/stock";
+import { Stock } from "../../entities/stock";
 import { StockRepository } from "../../repositories/stock.repository";
 import { FindStockByProductQuery } from "./find-stock-by-product.query";
 
@@ -10,15 +10,15 @@ export class FindStockByProductQueryHandler implements IQueryHandler<FindStockBy
         private stockRepository: StockRepository
     ){}
 
-    async execute(query: FindStockByProductQuery): Promise<StockOption[]> {
+    async execute(query: FindStockByProductQuery): Promise<Stock> {
         const stock = await this.stockRepository.findByProduct(query.productId);
         if (!stock) {
-            return [];
+            return null;
         }
         if (stock.companyId !== query.companyId) {
-            return [];
+            return null;
         }
-        return stock.stockOptions;
+        return stock;
     }
 
 }

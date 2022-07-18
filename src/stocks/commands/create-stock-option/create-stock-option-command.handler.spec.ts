@@ -1,21 +1,21 @@
 import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBusMock } from '../../../mocks/event-bus.mock';
-import { AddStockOptionCommand } from './add-stock-option.command';
-import { AddStockOptionCommandHandler } from './add-stock-option-command.handler';
+import { CreateStockOptionCommand } from './create-stock-option.command';
+import { CreateStockOptionCommandHandler } from './create-stock-option-command.handler';
 import { StockRepositoryMock } from '../../../mocks/stock-repository.mock';
 import { StockRepository } from '../../repositories/stock.repository';
 import { Stock, StockOption } from '../../entities/stock';
-import { NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 import * as crypto from 'crypto';
 
-describe('AddStockOptionCommandHandler', () => {
+describe('CreateStockOptionCommandHandler', () => {
 
-  let handler: AddStockOptionCommandHandler;
+  let handler: CreateStockOptionCommandHandler;
   let stockRepository: StockRepositoryMock;
   let eventBus: EventBusMock;
 
-  const command = new AddStockOptionCommand(
+  const command = new CreateStockOptionCommand(
     'anyCompanyId', 'anyProductId', {quantity: 10, color: "anyColor", size: 'anySize'}, 'anyUserId'
   );
 
@@ -25,7 +25,7 @@ describe('AddStockOptionCommandHandler', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [
-        AddStockOptionCommandHandler
+        CreateStockOptionCommandHandler
       ],
       imports: [
         CqrsModule
@@ -38,26 +38,25 @@ describe('AddStockOptionCommandHandler', () => {
     .overrideProvider(EventBus).useValue(eventBus)
     .compile();
 
-    handler = module.get<AddStockOptionCommandHandler>(AddStockOptionCommandHandler);
+    handler = module.get<CreateStockOptionCommandHandler>(CreateStockOptionCommandHandler);
+
+    stockRepository.response = {id: "anyProductId"};
 
     jest.spyOn(crypto, 'randomUUID').mockReturnValue('anyId');
   });
 
-  it('given stock for product not found, then throw not found', async () => {
+  it('given stock for product not found, then create stock', async () => {
     stockRepository.response = null;
-
-    await expect(handler.execute(command)).rejects.toThrowError(NotFoundException);
-  });
-
-  it('given stock for product found, then add stock option', async () => {
-    stockRepository.response = new Stock('anyCompanyId', 'anyProductId', 'anyId', []);
 
     await handler.execute(command);
 
-    expect(stockRepository.addedWith).toEqual(new StockOption('anyId', 10, 'anyColor', 'anySize'));
+    const stock = new Stock(
+      'anyCompanyId', 'anyProductId', 'anyId', [new StockOption('anyId', 10, 'anyColor', 'anySize')]
+    );
+    expect(stockRepository.createdWith).toEqual(stock);
   });
 
-  it('given stock for product found, when doesnt belong to company, then throw unauthorized error', async () => {
+  it('given stock for product found, then throw unauthorized', async () => {
     stockRepository.response = new Stock('anyOtherCompanyId', 'anyProductId', 'anyId', []);
 
     await expect(handler.execute(command)).rejects.toThrowError(UnauthorizedException);

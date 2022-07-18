@@ -8,6 +8,17 @@ export class StockRepository {
   constructor(
   ) {}
 
+  async addStockOption(stockId: string, stockOption: StockOption) {
+    return admin.firestore()
+      .collection('stocks')
+      .doc(stockId)
+      .update({
+        stockOptions: admin.firestore.FieldValue.arrayUnion(
+          JSON.parse(JSON.stringify(stockOption))
+        )
+      });
+  }
+
   async createStock(stock: Stock) {
     return admin.firestore()
       .collection('stocks')

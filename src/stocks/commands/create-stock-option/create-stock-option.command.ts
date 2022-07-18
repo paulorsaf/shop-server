@@ -1,6 +1,6 @@
-import { StockOptionDTO } from "src/stocks/dtos/stock-option-dto";
+import { StockOptionDTO } from "../../dtos/stock-option-dto";
 
-export class AddStockOptionCommand {
+export class CreateStockOptionCommand {
     constructor(
         public readonly companyId: string,
         public readonly productId: string,
