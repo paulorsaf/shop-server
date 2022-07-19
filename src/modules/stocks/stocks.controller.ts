@@ -4,7 +4,7 @@ import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
 import { User } from '../../authentication/model/user';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
-import { CreateStockOptionCommand } from './commands/create-stock-option/create-stock-option.command';
+import { CreateStockOptionCommand } from './commands/create-stock/create-stock.command';
 import { StockOptionDTO } from './dtos/stock-option-dto';
 import { FindStockByProductQuery } from './queries/find-stock-by-product/find-stock-by-product.query';
 

@@ -1,8 +1,8 @@
 import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBusMock } from '../../../../mocks/event-bus.mock';
-import { CreateStockOptionCommand } from './create-stock-option.command';
-import { CreateStockOptionCommandHandler } from './create-stock-option-command.handler';
+import { CreateStockOptionCommand } from './create-stock.command';
+import { CreateStockOptionCommandHandler } from './create-stock-command.handler';
 import { StockRepositoryMock } from '../../../../mocks/stock-repository.mock';
 import { StockRepository } from '../../repositories/stock.repository';
 import { Stock, StockOption } from '../../entities/stock';

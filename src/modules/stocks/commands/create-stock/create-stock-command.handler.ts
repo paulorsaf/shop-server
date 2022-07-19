@@ -3,7 +3,7 @@ import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { randomUUID } from "crypto";
 import { Stock, StockOption } from "../../entities/stock";
 import { StockRepository } from "../../repositories/stock.repository";
-import { CreateStockOptionCommand } from "./create-stock-option.command";
+import { CreateStockOptionCommand } from "./create-stock.command";
 import { StockCreatedEvent } from "./events/stock-created.event";
 
 @CommandHandler(CreateStockOptionCommand)

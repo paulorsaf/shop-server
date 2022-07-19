@@ -7,7 +7,7 @@ import { QueryBusMock } from '../../mocks/query-bus.mock';
 import { StocksController } from './stocks.controller';
 import { FindStockByProductQuery } from './queries/find-stock-by-product/find-stock-by-product.query';
 import { StockOptionDTO } from './dtos/stock-option-dto';
-import { CreateStockOptionCommand } from './commands/create-stock-option/create-stock-option.command';
+import { CreateStockOptionCommand } from './commands/create-stock/create-stock.command';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
 
 describe('StocksController', () => {

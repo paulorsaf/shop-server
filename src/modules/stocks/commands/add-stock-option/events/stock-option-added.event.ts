@@ -4,7 +4,7 @@ export class StockOptionAddedEvent {
         public readonly companyId: string,
         public readonly productId: string,
         public readonly stockId: string,
-        public readonly stock: StockOption,
+        public readonly stockOption: StockOption,
         public readonly userId: string
     ){}
 }
