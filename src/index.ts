@@ -9,7 +9,8 @@ const server = express();
 
 export const createNestServer = async (expressInstance) => {
   admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(process.env.SERVICE_ACCOUNT))
+    credential: admin.credential.cert(JSON.parse(process.env.SERVICE_ACCOUNT)),
+    storageBucket: 'gs://shop-354211.appspot.com'
   })
 
   const app = await NestFactory.create(
