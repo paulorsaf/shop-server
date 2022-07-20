@@ -71,7 +71,7 @@ describe('AddProductImageCommandHandler', () => {
   describe('given product exists and belongs to company', () => {
 
     beforeEach(async() => {
-      storageRepository.response = "http://anyImageId.jpg";
+      storageRepository.response = {fileName: 'anyImageId.jpg', imageUrl: "http://anyImageId.jpg"};
       productRepository.response = {companyId: 'anyCompanyId'};
   
       await handler.execute(command);

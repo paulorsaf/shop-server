@@ -20,16 +20,21 @@ export class AddProductImageCommandHandler implements ICommandHandler<AddProduct
     async execute(command: AddProductImageCommand) {
         await this.verifyProductExistsAndBelongsToCompany(command);
 
-        const fileName = this.getRandomFileName(command.image.filename);
-        const imageUrl = await this.saveFileOnStorage(command, fileName);
+        const savedImage = await this.saveFileOnStorage(command);
 
-        const image = {imageUrl, productId: command.productId, fileName};
+        const image = {
+            imageUrl: savedImage.imageUrl,
+            productId: command.productId,
+            fileName: savedImage.fileName
+        };
         this.productImageRepository.addImage(image);
 
         this.publishProductImageAddedEvent(command, image);
     }
 
-    private async saveFileOnStorage(command: AddProductImageCommand, fileName: string) {
+    private async saveFileOnStorage(command: AddProductImageCommand) {
+        const fileName = this.getRandomFileName(command.image.filename);
+        
         return await this.storageRepository.save({
             companyId: command.companyId,
             filePath: command.image.path,

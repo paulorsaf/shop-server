@@ -5,11 +5,19 @@ export class StorageRepository {
     save(image: SaveProductImage) {
         return admin.storage().bucket().upload('./' + image.filePath, {
             destination: this.getFileDestination(image)
-        }).then(response =>
-            response[0].getSignedUrl({
+        }).then(imageData => {
+            return imageData[0].getSignedUrl({
                 action: 'read', expires: '12-12-2999'
-            }).then(response => response[0])
-        )
+            }).then(response => ({
+                fileName: this.getImageName(imageData[0].metadata.name),
+                imageUrl: response[0]
+            }))
+        })
+    }
+
+    private getImageName(name: string) {
+        const nameSplit = name.split('/');
+        return nameSplit[nameSplit.length-1];
     }
 
     private getFileDestination(image: SaveProductImage) {
