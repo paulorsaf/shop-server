@@ -13,7 +13,7 @@ export class UpdateProductCommandHandler implements ICommandHandler<UpdateProduc
     ){}
 
     async execute(command: UpdateProductCommand): Promise<void> {
-        await this.findProductByIdAndCompanyId(command.product.id, command.companyId);
+        await this.verifyProductByIdAndCompanyId(command.product.id, command.companyId);
         
         await this.productRepository.update({
             companyId: command.companyId,
@@ -21,16 +21,10 @@ export class UpdateProductCommandHandler implements ICommandHandler<UpdateProduc
             ...command.product
         })
 
-        this.eventBus.publish(
-            new ProductUpdatedEvent(
-                command.product,
-                command.companyId,
-                command.updatedBy
-            )
-        )
+        this.publishProductUpdatedEvent(command);
     }
 
-    private async findProductByIdAndCompanyId(id: string, companyId: string) {
+    private async verifyProductByIdAndCompanyId(id: string, companyId: string) {
         const product = await this.productRepository.findById(id);
         if (!product) {
             throw new NotFoundException('Produto nao encontrado');
@@ -39,6 +33,16 @@ export class UpdateProductCommandHandler implements ICommandHandler<UpdateProduc
             throw new UnauthorizedException('Operaçao nao autorizada');
         }
         return product;
+    }
+
+    private publishProductUpdatedEvent(command: UpdateProductCommand) {
+        this.eventBus.publish(
+            new ProductUpdatedEvent(
+                command.product,
+                command.companyId,
+                command.updatedBy
+            )
+        )
     }
 
 }

@@ -34,7 +34,7 @@ describe('StockOptionSagas', () => {
     sagas.stockCreated(of(event)).subscribe(response => {
       expect(response).toEqual(
         new UpdateProductStockCommand(
-          event.companyId, event.productId, event.stock.stockOption.quantity
+          event.companyId, event.productId, event.stock.stockOption.quantity, event.userId
         )
       );
       done();
@@ -51,7 +51,7 @@ describe('StockOptionSagas', () => {
     sagas.stockOptionAdded(of(event)).subscribe(response => {
       expect(response).toEqual(
         new UpdateProductStockCommand(
-          event.companyId, event.productId, event.stockOption.quantity
+          event.companyId, event.productId, event.stockOption.quantity, event.userId
         )
       );
       done();

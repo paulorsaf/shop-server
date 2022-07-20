@@ -1,4 +1,5 @@
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
+import { Product } from "../../entities/product";
 import { ProductRepository } from "../../repositories/product.repository";
 import { CreateProductCommand } from "./create-product.command";
 import { ProductCreatedEvent } from "./events/product-created.event";
@@ -12,17 +13,19 @@ export class CreateProductCommandHandler implements ICommandHandler<CreateProduc
     ){ }
 
     async execute(command: CreateProductCommand) {
-        const product = {
+        const savedProduct = await this.productRepository.save({
             ...command.product,
             companyId: command.companyId,
             createdBy: command.createdBy
-        };
+        });
 
-        const savedProduct = await this.productRepository.save(product);
+        this.publishProductCreatedEvent(command, savedProduct.id);
+    }
 
+    private publishProductCreatedEvent(command: CreateProductCommand, productId: string) {
         this.eventBus.publish(
             new ProductCreatedEvent(
-                {...command.product, id: savedProduct.id},
+                {...command.product, id: productId},
                 command.companyId,
                 command.createdBy
             )

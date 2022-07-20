@@ -4,7 +4,7 @@ import { EventBusMock } from '../../../../mocks/event-bus.mock';
 import { Category } from '../../entities/category';
 import { CategoryRepositoryMock } from '../../../../mocks/category-repository.mock';
 import { CategoryRepository } from '../../repositories/category.repository';
-import { UnauthorizedException } from '@nestjs/common';
+import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { DeleteCategoryCommandHandler } from './delete-category-command.handler';
 import { DeleteCategoryCommand } from './delete-category.command';
 import { CategoryDeletedEvent } from './events/category-deleted.event';
@@ -39,6 +39,12 @@ describe('DeleteCategoryCommandHandler', () => {
     .compile();
 
     handler = module.get<DeleteCategoryCommandHandler>(DeleteCategoryCommandHandler);
+  });
+
+  it('given category not found, then return not found exception', async () => {
+    categoryRepository.response = null;
+
+    await expect(handler.execute(command)).rejects.toThrowError(NotFoundException);
   });
 
   describe('given category belongs to company', () => {

@@ -24,13 +24,7 @@ export class CreateStockOptionCommandHandler implements ICommandHandler<CreateSt
 
         this.stockRepository.createStock(stock);
 
-        this.eventBus.publish(
-            new StockCreatedEvent(
-                command.companyId, command.productId, {
-                    id: stock.id, stockOption: stock.stockOptions[0]
-                }, command.createdBy
-            )
-        )
+        this.publishStockCreatedEvent(command, stock);
     }
 
     private createStock(command: CreateStockOptionCommand){
@@ -44,6 +38,16 @@ export class CreateStockOptionCommandHandler implements ICommandHandler<CreateSt
             command.stockOption.quantity,
             command.stockOption.color,
             command.stockOption.size
+        )
+    }
+
+    private publishStockCreatedEvent(command: CreateStockOptionCommand, stock: Stock) {
+        this.eventBus.publish(
+            new StockCreatedEvent(
+                command.companyId, command.productId, {
+                    id: stock.id, stockOption: stock.stockOptions[0]
+                }, command.createdBy
+            )
         )
     }
 

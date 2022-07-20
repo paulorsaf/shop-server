@@ -1,10 +1,10 @@
-export class UpdateProductStockCommand {
+export class ProductStockUpdatedEvent {
 
     constructor(
         public readonly companyId: string,
         public readonly productId: string,
         public readonly amount: number,
-        public readonly updatedBy: string
+        public readonly userId: string
     ){}
 
 }

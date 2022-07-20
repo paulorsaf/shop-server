@@ -11,6 +11,7 @@ import { StorageRepository } from '../../repositories/storage.repository';
 import { RepositoryMock } from '../../../../mocks/repository.mock';
 import { StorageRepositoryMock } from '../../../../mocks/storage-repository.mock';
 import * as crypto from 'crypto';
+import { ProductImageAddedEvent } from './events/product-image-added.event';
 
 describe('AddProductImageCommandHandler', () => {
 
@@ -91,6 +92,16 @@ describe('AddProductImageCommandHandler', () => {
         imageUrl: "http://anyImageId.jpg",
         fileName: "anyImageId.jpg"
       });
+    })
+  
+    it('when product image saved, then publish product image added event', async () => {
+      expect(eventBus.published).toEqual(
+        new ProductImageAddedEvent(
+          'anyCompanyId', 'anyProductId', {
+            imageUrl: "http://anyImageId.jpg", fileName: "anyImageId.jpg"
+          }, 'anyUserId'
+        )
+      );
     })
 
   })

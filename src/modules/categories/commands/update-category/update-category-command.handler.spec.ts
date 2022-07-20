@@ -6,7 +6,7 @@ import { CategoryRepositoryMock } from '../../../../mocks/category-repository.mo
 import { CategoryRepository } from '../../repositories/category.repository';
 import { UpdateCategoryCommandHandler } from './update-category-command.handler';
 import { UpdateCategoryCommand } from './update-category.command';
-import { UnauthorizedException } from '@nestjs/common';
+import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CategoryUpdatedEvent } from './events/category-updated.event';
 
 describe('UpdateCategoryCommandHandler', () => {
@@ -39,6 +39,12 @@ describe('UpdateCategoryCommandHandler', () => {
     .compile();
 
     handler = module.get<UpdateCategoryCommandHandler>(UpdateCategoryCommandHandler);
+  });
+
+  it('given category not found, then return not found exception', async () => {
+    categoryRepository.response = null;
+
+    await expect(handler.execute(command)).rejects.toThrowError(NotFoundException);
   });
 
   describe('given category belongs to company', () => {

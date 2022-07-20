@@ -12,6 +12,8 @@ import { StockRepository } from './repositories/stock.repository';
 import { StocksController } from './stocks.controller';
 import { UpdateProductStockCommandHandler } from './commands/update-product-stock/update-product-stock-command.handler';
 import { ProductRepository } from './repositories/product.repository';
+import { ProductImageAddedEventHandler } from '../product-images/commands/add-product-image/events/product-image-added-event.handler';
+import { ProductStockUpdatedEventHandler } from './commands/update-product-stock/events/product-stock-updated-event.handler';
 
 @Module({
   controllers: [
@@ -34,6 +36,8 @@ import { ProductRepository } from './repositories/product.repository';
 
     StockCreatedEventHandler,
     StockOptionAddedEventHandler,
+    ProductImageAddedEventHandler,
+    ProductStockUpdatedEventHandler,
 
     StockOptionSagas
   ]

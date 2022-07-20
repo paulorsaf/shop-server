@@ -13,7 +13,7 @@ export class StockOptionSagas {
         events$.pipe(
             ofType(StockCreatedEvent),
             map(event => new UpdateProductStockCommand(
-                event.companyId, event.productId, event.stock.stockOption.quantity
+                event.companyId, event.productId, event.stock.stockOption.quantity, event.userId
             ))
         );
 
@@ -22,7 +22,7 @@ export class StockOptionSagas {
         events$.pipe(
             ofType(StockOptionAddedEvent),
             map(event => new UpdateProductStockCommand(
-                event.companyId, event.productId, event.stockOption.quantity
+                event.companyId, event.productId, event.stockOption.quantity, event.userId
             ))
         );
 

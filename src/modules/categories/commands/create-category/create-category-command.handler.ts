@@ -1,4 +1,5 @@
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
+import { Category } from "../../entities/category";
 import { CategoryRepository } from "../../repositories/category.repository";
 import { CreateCategoryCommand } from "./create-category.command";
 import { CategoryCreatedEvent } from "./events/category-created.event";
@@ -16,11 +17,15 @@ export class CreateCategoryCommandHandler implements ICommandHandler<CreateCateg
             companyId: command.companyId, name: command.name, createdBy: command.createdBy
         });
 
+        this.publishCategoryCreatedEvent(savedCategory);
+    }
+
+    private publishCategoryCreatedEvent(category: Category) {
         this.eventBus.publish(
             new CategoryCreatedEvent(
-                {id: savedCategory.id, name: savedCategory.name},
-                savedCategory.companyId,
-                savedCategory.createdBy
+                {id: category.id, name: category.name},
+                category.companyId,
+                category.createdBy
             )
         );
     }

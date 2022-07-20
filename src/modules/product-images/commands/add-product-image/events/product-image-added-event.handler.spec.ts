@@ -1,21 +1,24 @@
-import { CqrsModule } from '@nestjs/cqrs';
+import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { StockCreatedEvent } from './stock-created.event';
-import { StockCreatedEventHandler } from './stock-created-event.handler';
+import { ProductImageAddedEvent } from './product-image-added.event';
+import { ProductImageAddedEventHandler } from './product-image-added-event.handler';
+import { EventBusMock } from '../../../../../mocks/event-bus.mock';
 import { EventRepositoryMock } from '../../../../../mocks/event-repository.mock';
 import { EventRepository } from '../../../../../repositories/event.repository';
 
-describe('StockCreatedEventHandler', () => {
+describe('ProductImageAddedEventHandler', () => {
 
-  let handler: StockCreatedEventHandler;
+  let handler: ProductImageAddedEventHandler;
   let eventRepository: EventRepositoryMock;
+  let eventBus: EventBusMock;
 
   beforeEach(async () => {
+    eventBus = new EventBusMock();
     eventRepository = new EventRepositoryMock();
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [
-        StockCreatedEventHandler
+        ProductImageAddedEventHandler
       ],
       imports: [
         CqrsModule,
@@ -25,16 +28,15 @@ describe('StockCreatedEventHandler', () => {
       ]
     })
     .overrideProvider(EventRepository).useValue(eventRepository)
+    .overrideProvider(EventBus).useValue(eventBus)
     .compile();
 
-    handler = module.get<StockCreatedEventHandler>(StockCreatedEventHandler);
+    handler = module.get<ProductImageAddedEventHandler>(ProductImageAddedEventHandler);
   });
 
   it('given execute handler, then add category-created event', async () => {
-    const event = new StockCreatedEvent(
-      "anyCompanyId", "anyProductId", {
-        id: "anyId", stockOption: {id: "anyId", quantity: 10, color: "anyColor", size: "anySize"}
-      }, "anyUserId"
+    const event = new ProductImageAddedEvent(
+      "anyCompanyId", 'anyProductId', {fileName: "anyFileName", imageUrl: "anyImageUrl"}, "anyUserId"
     )
 
     await handler.handle(event);

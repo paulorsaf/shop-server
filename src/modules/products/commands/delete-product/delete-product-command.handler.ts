@@ -18,13 +18,7 @@ export class DeleteProductCommandHandler implements ICommandHandler<DeleteProduc
 
         this.productRepository.delete(product.id);
 
-        this.eventBus.publish(
-            new ProductDeletedEvent(
-                {id: product.id},
-                command.companyId,
-                command.userId
-            )
-        );
+        this.publishProductDeletedEvent(command, product);
     }
 
     private async findProduct(command: DeleteProductCommand): Promise<Product> {
@@ -36,6 +30,16 @@ export class DeleteProductCommandHandler implements ICommandHandler<DeleteProduc
             throw new UnauthorizedException();
         }
         return product;
+    }
+
+    private publishProductDeletedEvent(command: DeleteProductCommand, product: Product) {
+        this.eventBus.publish(
+            new ProductDeletedEvent(
+                {id: product.id},
+                command.companyId,
+                command.userId
+            )
+        );
     }
 
 }
