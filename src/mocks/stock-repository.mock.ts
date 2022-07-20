@@ -5,6 +5,7 @@ export class StockRepositoryMock {
     createdWith: any;
     removedWith: any;
     searchedById: string = "";
+    updatedWith: any;
 
     response: any;
 
@@ -24,6 +25,9 @@ export class StockRepositoryMock {
     }
     removeStockOption(params: any) {
         this.removedWith = params;
+    }
+    updateStockOption(params: any) {
+        this.updatedWith = params;
     }
 
 }

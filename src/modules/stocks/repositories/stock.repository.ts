@@ -5,7 +5,7 @@ import { Stock, StockOption } from '../entities/stock';
 @Injectable()
 export class StockRepository {
 
-  async addStockOption(stockId: string, stockOption: StockOption) {
+  addStockOption(stockId: string, stockOption: StockOption) {
     return admin.firestore()
       .collection('stocks')
       .doc(stockId)
@@ -16,14 +16,14 @@ export class StockRepository {
       });
   }
 
-  async createStock(stock: Stock) {
+  createStock(stock: Stock) {
     return admin.firestore()
       .collection('stocks')
       .doc(stock.id)
       .create(JSON.parse(JSON.stringify(stock)));
   }
 
-  async findByProduct(productId: string) {
+  findByProduct(productId: string) {
     return admin.firestore()
       .collection('stocks')
       .where('productId', '==', productId)
@@ -36,7 +36,7 @@ export class StockRepository {
       });
   }
 
-  async removeStockOption(remove: RemoveStockOption) {
+  removeStockOption(remove: RemoveStockOption) {
     return admin.firestore()
       .collection('stocks')
       .doc(remove.stockId)
@@ -47,16 +47,59 @@ export class StockRepository {
       });
   }
 
-  async removeStock(stockId: string) {
+  removeStock(stockId: string) {
     return admin.firestore()
       .collection('stocks')
       .doc(stockId)
       .delete();
   }
 
+  async updateStockOption(update: UpdateStockOption) {
+    const batch = admin.firestore().batch();
+    
+    this.removeOriginalStockOption(update.stockId, update.originalStockOption, batch);
+    this.addNewStockOption(update.stockId, update.stockOption, batch);
+
+    return await batch.commit();
+  }
+
+  private removeOriginalStockOption(
+    stockId: string, stockOption: StockOption, batch: admin.firestore.WriteBatch
+  ){
+    const removeRef = admin.firestore()
+      .collection('stocks')
+      .doc(stockId);
+
+    batch.update(removeRef, {
+      stockOptions: admin.firestore.FieldValue.arrayRemove(
+        JSON.parse(JSON.stringify(stockOption))
+      )
+    });
+  }
+
+  private addNewStockOption(
+    stockId: string, stockOption: StockOption, batch: admin.firestore.WriteBatch
+  ) {
+    const updateRef = admin.firestore()
+      .collection('stocks')
+      .doc(stockId);
+
+    batch.update(updateRef, {
+      stockOptions: admin.firestore.FieldValue.arrayUnion(
+        JSON.parse(JSON.stringify(stockOption))
+      )
+    });
+  }
+
 }
 
 type RemoveStockOption = {
   stockId: string;
+  stockOption: StockOption;
+}
+
+type UpdateStockOption = {
+  stockId: string;
+  originalStockOption: StockOption;
   stockOption: StockOption;
 }

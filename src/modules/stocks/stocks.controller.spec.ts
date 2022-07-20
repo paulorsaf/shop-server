@@ -10,6 +10,7 @@ import { StockOptionDTO } from './dtos/stock-option-dto';
 import { CreateStockOptionCommand } from './commands/create-stock/create-stock.command';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
 import { RemoveStockOptionCommand } from './commands/remove-stock-option/remove-stock-option.command';
+import { UpdateStockOptionCommand } from './commands/update-stock-option/update-stock-option.command';
 
 describe('StocksController', () => {
 
@@ -93,6 +94,25 @@ describe('StocksController', () => {
       expect(commandBus.executed).toEqual(
         new RemoveStockOptionCommand(
           user.companyId, "anyProductId", "anyStockId", "anyStockOptionId", user.id
+        )
+      );
+    });
+
+  })
+
+  describe('given update stock option', () => {
+
+    const stockOptionDTO: StockOptionDTO = {quantity: 10};
+
+    it('then execute update stock option command', () => {
+      controller.update(
+        user, "anyProductId", "anyStockId", "anyStockOptionId", stockOptionDTO
+      );
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateStockOptionCommand(
+          user.companyId, "anyProductId", "anyStockId", "anyStockOptionId", stockOptionDTO,
+          user.id
         )
       );
     });

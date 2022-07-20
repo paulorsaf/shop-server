@@ -11,6 +11,7 @@ import { UpdateProductStockCommandHandler } from '../products/commands/update-pr
 import { ProductRepository } from './repositories/product.repository';
 import { RemoveStockOptionCommandHandler } from './commands/remove-stock-option/remove-stock-option-command.handler';
 import { RemoveStockByProductCommandHandler } from './commands/remove-stock-by-product/remove-stock-by-product-command.handler';
+import { UpdateStockOptionCommandHandler } from './commands/update-stock-option/update-stock-option-command.handler';
 
 @Module({
   controllers: [
@@ -30,6 +31,7 @@ import { RemoveStockByProductCommandHandler } from './commands/remove-stock-by-p
 
     AddStockOptionCommandHandler,
     RemoveStockOptionCommandHandler,
+    UpdateStockOptionCommandHandler,
     
     RemoveStockByProductCommandHandler,
     UpdateProductStockCommandHandler,

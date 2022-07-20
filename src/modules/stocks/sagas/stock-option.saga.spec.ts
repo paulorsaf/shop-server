@@ -7,6 +7,7 @@ import { StockOptionAddedEvent } from '../commands/add-stock-option/events/stock
 import { StockOptionSagas } from './stock-option.saga';
 import { StockCreatedEvent } from '../commands/create-stock/events/stock-created.event';
 import { StockOptionRemovedEvent } from '../commands/remove-stock-option/events/stock-option-removed.event';
+import { StockOptionUpdatedEvent } from '../commands/update-stock-option/events/stock-option-updated.event';
 
 describe('StockOptionSagas', () => {
 
@@ -59,7 +60,7 @@ describe('StockOptionSagas', () => {
     });
   });
 
-  it('given stock option removed, then publish remove product stock command', done => {
+  it('given stock option removed, then publish update product stock command', done => {
     const event = new StockOptionRemovedEvent(
       'anyCompanyId', 'anyProductId', {
         stockId: "anyStockId", stockOption: {
@@ -72,6 +73,28 @@ describe('StockOptionSagas', () => {
       expect(response).toEqual(
         new UpdateProductStockCommand(
           event.companyId, event.productId, -event.stock.stockOption.quantity, event.userId
+        )
+      );
+      done();
+    });
+  });
+
+  it('given stock option updated, then publish update product stock command', done => {
+    const event = new StockOptionUpdatedEvent(
+      'anyCompanyId', 'anyProductId', 'anyStockId', {
+        id: "anyStockOptionId", quantity: 5, color: "anyColor", size: "anySize"
+      }, {
+        id: "anyStockOptionId", quantity: 10, color: "anyColor", size: "anySize"
+      }, 'anyUserId'
+    );
+
+    sagas.stockOptionUpdated(of(event)).subscribe(response => {
+      expect(response).toEqual(
+        new UpdateProductStockCommand(
+          event.companyId,
+          event.productId,
+          event.stockOption.quantity - event.originalStockOption.quantity,
+          event.userId
         )
       );
       done();
