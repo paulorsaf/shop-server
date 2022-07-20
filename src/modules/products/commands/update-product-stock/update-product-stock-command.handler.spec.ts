@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UpdateProductStockCommandHandler } from './update-product-stock-command.handler';
 import { UpdateProductStockCommand } from './update-product-stock.command';
 import { ProductRepositoryMock } from '../../../../mocks/product-repository.mock';
-import { ProductRepository } from '../../repositories/product.repository';
+import { ProductRepository } from '../../../stocks/repositories/product.repository';
 import { NotFoundException } from '@nestjs/common';
 import { EventBusMock } from '../../../../mocks/event-bus.mock';
 import { ProductStockUpdatedEvent } from './events/product-stock-updated.event';

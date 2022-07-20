@@ -1,11 +1,12 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { of } from 'rxjs';
-import { Stock, StockOption } from '../entities/stock';
-import { UpdateProductStockCommand } from '../commands/update-product-stock/update-product-stock.command';
+import { StockOption } from '../entities/stock';
+import { UpdateProductStockCommand } from '../../products/commands/update-product-stock/update-product-stock.command';
 import { StockOptionAddedEvent } from '../commands/add-stock-option/events/stock-option-added.event';
 import { StockOptionSagas } from './stock-option.saga';
 import { StockCreatedEvent } from '../commands/create-stock/events/stock-created.event';
+import { StockOptionRemovedEvent } from '../commands/remove-stock-option/events/stock-option-removed.event';
 
 describe('StockOptionSagas', () => {
 
@@ -52,6 +53,25 @@ describe('StockOptionSagas', () => {
       expect(response).toEqual(
         new UpdateProductStockCommand(
           event.companyId, event.productId, event.stockOption.quantity, event.userId
+        )
+      );
+      done();
+    });
+  });
+
+  it('given stock option removed, then publish remove product stock command', done => {
+    const event = new StockOptionRemovedEvent(
+      'anyCompanyId', 'anyProductId', {
+        stockId: "anyStockId", stockOption: {
+          id: "anyStockOptionId", quantity: -10, color: "anyColor", size: "anySize"
+        }
+      }, 'anyUserId'
+    );
+
+    sagas.stockOptionRemoved(of(event)).subscribe(response => {
+      expect(response).toEqual(
+        new UpdateProductStockCommand(
+          event.companyId, event.productId, -event.stock.stockOption.quantity, event.userId
         )
       );
       done();

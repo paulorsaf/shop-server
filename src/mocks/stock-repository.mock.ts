@@ -3,10 +3,15 @@ export class StockRepositoryMock {
     addedWith: any;
     addedWithId: string;
     createdWith: any;
+    removedWith: any;
     searchedById: string = "";
 
     response: any;
 
+    addStockOption(id: string, params: any) {
+        this.addedWithId = id;
+        this.addedWith = params;
+    }
     createStock(params: any) {
         this.createdWith = params;
     }
@@ -14,9 +19,11 @@ export class StockRepositoryMock {
         this.searchedById = productId;
         return this.response;
     }
-    addStockOption(id: string, params: any) {
-        this.addedWithId = id;
-        this.addedWith = params;
+    removeStock(params: any) {
+        this.removedWith = params;
+    }
+    removeStockOption(params: any) {
+        this.removedWith = params;
     }
 
 }

@@ -35,8 +35,8 @@ export class DeleteProductCommandHandler implements ICommandHandler<DeleteProduc
     private publishProductDeletedEvent(command: DeleteProductCommand, product: Product) {
         this.eventBus.publish(
             new ProductDeletedEvent(
-                {id: product.id},
                 command.companyId,
+                {id: product.id},
                 command.userId
             )
         );

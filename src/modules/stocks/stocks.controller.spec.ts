@@ -9,6 +9,7 @@ import { FindStockByProductQuery } from './queries/find-stock-by-product/find-st
 import { StockOptionDTO } from './dtos/stock-option-dto';
 import { CreateStockOptionCommand } from './commands/create-stock/create-stock.command';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
+import { RemoveStockOptionCommand } from './commands/remove-stock-option/remove-stock-option.command';
 
 describe('StocksController', () => {
 
@@ -76,6 +77,22 @@ describe('StocksController', () => {
       expect(commandBus.executed).toEqual(
         new AddStockOptionCommand(
           user.companyId, "anyProductId", addStockOption, user.id
+        )
+      );
+    });
+
+  })
+
+  describe('given remove stock option', () => {
+
+    const addStockOption: StockOptionDTO = {quantity: 10};
+
+    it('then execute add stock option command', () => {
+      controller.delete(user, "anyProductId", "anyStockId", "anyStockOptionId");
+  
+      expect(commandBus.executed).toEqual(
+        new RemoveStockOptionCommand(
+          user.companyId, "anyProductId", "anyStockId", "anyStockOptionId", user.id
         )
       );
     });

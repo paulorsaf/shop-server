@@ -1,10 +1,11 @@
-import { Controller, UseGuards, Get, Param, Post, Body, Patch } from '@nestjs/common';
+import { Controller, UseGuards, Get, Param, Post, Body, Patch, Delete } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
 import { User } from '../../authentication/model/user';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
 import { CreateStockOptionCommand } from './commands/create-stock/create-stock.command';
+import { RemoveStockOptionCommand } from './commands/remove-stock-option/remove-stock-option.command';
 import { StockOptionDTO } from './dtos/stock-option-dto';
 import { FindStockByProductQuery } from './queries/find-stock-by-product/find-stock-by-product.query';
 
@@ -48,6 +49,21 @@ export class StocksController {
     return this.commandBus.execute(
       new AddStockOptionCommand(
         user.companyId, productId, addStockOption, user.id
+      )
+    )
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Delete(':stockId/stockoptions/:stockOptionId')
+  delete(
+    @AuthUser() user: User,
+    @Param('productId') productId: string,
+    @Param('stockId') stockId: string,
+    @Param('stockOptionId') stockOptionId: string
+  ) {
+    return this.commandBus.execute(
+      new RemoveStockOptionCommand(
+        user.companyId, productId, stockId, stockOptionId, user.id
       )
     )
   }

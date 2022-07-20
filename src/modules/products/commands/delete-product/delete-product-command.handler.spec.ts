@@ -68,8 +68,8 @@ describe('DeleteProductCommandHandler', () => {
   
       expect(eventBus.published).toEqual(
         new ProductDeletedEvent(
-          {id: "anyId"},
           "anyCompanyId",
+          {id: "anyId"},
           "anyUserId"
         )
       )

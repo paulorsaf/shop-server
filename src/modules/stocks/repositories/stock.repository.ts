@@ -5,9 +5,6 @@ import { Stock, StockOption } from '../entities/stock';
 @Injectable()
 export class StockRepository {
 
-  constructor(
-  ) {}
-
   async addStockOption(stockId: string, stockOption: StockOption) {
     return admin.firestore()
       .collection('stocks')
@@ -39,4 +36,27 @@ export class StockRepository {
       });
   }
 
+  async removeStockOption(remove: RemoveStockOption) {
+    return admin.firestore()
+      .collection('stocks')
+      .doc(remove.stockId)
+      .update({
+        stockOptions: admin.firestore.FieldValue.arrayRemove(
+          JSON.parse(JSON.stringify(remove.stockOption))
+        )
+      });
+  }
+
+  async removeStock(stockId: string) {
+    return admin.firestore()
+      .collection('stocks')
+      .doc(stockId)
+      .delete();
+  }
+
+}
+
+type RemoveStockOption = {
+  stockId: string;
+  stockOption: StockOption;
 }

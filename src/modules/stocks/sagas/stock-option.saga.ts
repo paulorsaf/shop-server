@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { ICommand, ofType, Saga } from "@nestjs/cqrs";
 import { map, Observable } from "rxjs";
-import { UpdateProductStockCommand } from "../commands/update-product-stock/update-product-stock.command";
+import { UpdateProductStockCommand } from "../../products/commands/update-product-stock/update-product-stock.command";
 import { StockOptionAddedEvent } from "../commands/add-stock-option/events/stock-option-added.event";
 import { StockCreatedEvent } from "../commands/create-stock/events/stock-created.event";
+import { StockOptionRemovedEvent } from "../commands/remove-stock-option/events/stock-option-removed.event";
 
 @Injectable()
 export class StockOptionSagas {
@@ -23,6 +24,15 @@ export class StockOptionSagas {
             ofType(StockOptionAddedEvent),
             map(event => new UpdateProductStockCommand(
                 event.companyId, event.productId, event.stockOption.quantity, event.userId
+            ))
+        );
+
+    @Saga()
+    stockOptionRemoved = (events$: Observable<any>): Observable<ICommand> => 
+        events$.pipe(
+            ofType(StockOptionRemovedEvent),
+            map(event => new UpdateProductStockCommand(
+                event.companyId, event.productId, -event.stock.stockOption.quantity, event.userId
             ))
         );
 

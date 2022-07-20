@@ -57,14 +57,11 @@ describe('CreateStockOptionCommandHandler', () => {
     expect(stockRepository.createdWith).toEqual(stock);
   });
 
-  it('given stock for product not found, then public stock created event', async () => {
+  it('given stock for product not found, then publish stock created event', async () => {
     stockRepository.response = null;
 
     await handler.execute(command);
 
-    const stock = new Stock(
-      'anyCompanyId', 'anyProductId', 'anyId', [new StockOption('anyId', 10, 'anyColor', 'anySize')]
-    );
     expect(eventBus.published).toEqual(
       new StockCreatedEvent(
         'anyCompanyId', 'anyProductId', {

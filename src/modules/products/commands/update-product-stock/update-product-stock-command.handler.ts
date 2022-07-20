@@ -1,6 +1,6 @@
 import { NotFoundException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
-import { ProductRepository } from "../../repositories/product.repository";
+import { ProductRepository } from "../../../stocks/repositories/product.repository";
 import { ProductStockUpdatedEvent } from "./events/product-stock-updated.event";
 import { UpdateProductStockCommand } from "./update-product-stock.command";
 

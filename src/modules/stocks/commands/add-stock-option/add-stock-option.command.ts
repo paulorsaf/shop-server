@@ -1,4 +1,4 @@
-import { StockOptionDTO } from "src/modules/stocks/dtos/stock-option-dto";
+import { StockOptionDTO } from "../../../stocks/dtos/stock-option-dto";
 
 export class AddStockOptionCommand {
     constructor(
