@@ -13,11 +13,13 @@ export class StorageRepository {
     }
 
     async deleteImage(image: DeleteImage) {
-        const file = admin.storage()
-            .bucket()
-            .file(`${image.companyId}/${image.productId}/${image.fileName}`);
-
-        await file.delete();
+        try {
+            const file = admin.storage()
+                .bucket()
+                .file(`${image.companyId}/${image.productId}/${image.fileName}`);
+    
+            await file.delete();
+        } catch (e){}
     }
 
 }
