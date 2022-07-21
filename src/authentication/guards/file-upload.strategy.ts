@@ -8,11 +8,11 @@ import * as fs from 'fs';
 export class FileUploadStrategy implements CanActivate {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        console.log('###1')
+        console.log('###1', os.tmpdir())
         const request = context.switchToHttp().getRequest();
-        console.log('###2')
+        console.log('###2', request.headers)
         let busboy = busBoy({ headers: request.headers });
-        console.log('###3', os.tmpdir());
+        console.log('###3', busboy);
 
         let filePath = '';
         busboy.on('file', function(name, stream, info) {
