@@ -10,7 +10,7 @@ export class Base64FileUploadToFileStrategy implements CanActivate {
         const request = context.switchToHttp().getRequest();
         const body = request.body;
 
-        const fileName = `${os.tmpdir()}${randomUUID()}-${body.name}`;
+        const fileName = `${os.tmpdir()}/${randomUUID()}-${body.name}`;
         console.log('### filename', fileName)
         const buff = Buffer.from(body.file.replace(/^data:image\/png;base64,/, ""), 'base64');
         fs.writeFileSync(fileName, buff);
