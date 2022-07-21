@@ -33,6 +33,7 @@ export class ProductImagesController {
     @Param('productId') productId: string,
     @UploadedFile() file: Express.Multer.File
   ) {
+    console.log('### controller', user, productId, file);
     return this.commandBus.execute(
       new AddProductImageCommand(
         user.companyId, productId, file, user.id
