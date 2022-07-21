@@ -20,6 +20,7 @@ export class ProductImagesController {
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './tmp', filename: (req, file, cb) => {
+        console.log('### entered here')
         const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
         cb(null, `${randomName}${extname(file.originalname)}`)
       }
