@@ -16,6 +16,18 @@ export class ProductImageRepository {
             });
     }
 
+    removeImage(productImage: AddProductImage) {
+        return admin.firestore()
+            .collection('products')
+            .doc(productImage.productId)
+            .update({
+                images: admin.firestore.FieldValue.arrayRemove({
+                    fileName: productImage.fileName,
+                    imageUrl: productImage.imageUrl
+                })
+            });
+    }
+
 }
 
 type AddProductImage = {

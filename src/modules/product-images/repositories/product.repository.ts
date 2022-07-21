@@ -17,9 +17,11 @@ export class ProductRepository {
         if (!snapshot.exists) {
           return null;
         }
-        return <Product> {
-          companyId: snapshot.data().companyId,
-          id: snapshot.id
+        const product = <Product> snapshot.data();
+        return {
+          companyId: product.companyId,
+          id: snapshot.id,
+          images: product.images
         }
       });
   }
