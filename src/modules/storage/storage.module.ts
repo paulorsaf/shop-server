@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { StorageRepository } from './repositories/storage.repository';
-import { DeleteFileCommandHandler } from './commands/delete-file/delete-file-command.handler';
+import { DeleteProductFileCommandHandler } from './commands/delete-product-file/delete-product-file-command.handler';
+import { DeleteFolderCommandHandler } from './commands/delete-product-folder/delete-product-folder-command.handler';
 
 @Module({
   imports: [
@@ -10,7 +11,8 @@ import { DeleteFileCommandHandler } from './commands/delete-file/delete-file-com
   providers: [
     StorageRepository,
 
-    DeleteFileCommandHandler
+    DeleteProductFileCommandHandler,
+    DeleteFolderCommandHandler
   ]
 })
 export class StorageModule {}

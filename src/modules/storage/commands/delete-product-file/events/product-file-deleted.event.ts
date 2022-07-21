@@ -1,5 +1,5 @@
-export class ImageFileDeletedEvent {
-    private readonly eventType = "IMAGE_FILE_DELETED_EVENT";
+export class ProductFileDeletedEvent {
+    private readonly eventType = "PRODUCT_FILE_DELETED_EVENT";
     constructor(
         public readonly companyId: string,
         public readonly productId: string,

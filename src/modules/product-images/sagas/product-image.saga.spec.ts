@@ -1,7 +1,7 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { of } from 'rxjs';
-import { DeleteFileCommand } from '../../storage/commands/delete-file/delete-file.command';
+import { DeleteProductFileCommand } from '../../storage/commands/delete-product-file/delete-product-file.command';
 import { ProductImageDeletedEvent } from '../commands/delete-product-image/events/product-image-deleted.event';
 import { ProductImageSagas } from './product-image.saga';
 
@@ -32,7 +32,7 @@ describe('ProductImageSagas', () => {
 
     sagas.productImageDeleted(of(event)).subscribe(response => {
       expect(response).toEqual(
-        new DeleteFileCommand(
+        new DeleteProductFileCommand(
           event.companyId, event.productId, event.image.fileName, event.userId
         )
       );

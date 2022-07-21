@@ -9,6 +9,9 @@ export class StorageRepositoryMock {
         this.savedWith = model;
         return this.response;
     }
+    deleteFolder(model: any) {
+        this.deletedWith = model;
+    }
     deleteImage(model: any) {
         this.deletedWith = model;
     }

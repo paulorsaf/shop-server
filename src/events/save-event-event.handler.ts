@@ -13,20 +13,20 @@ import { StockCreatedEvent } from "../modules/stocks/commands/create-stock/event
 import { ProductStockUpdatedEvent } from "../modules/products/commands/update-product-stock/events/product-stock-updated.event";
 import { StockRemovedEvent } from "../modules/stocks/commands/remove-stock-by-product/events/stock-removed.event";
 import { StockOptionUpdatedEvent } from "../modules/stocks/commands/update-stock-option/events/stock-option-updated.event";
-import { DeleteProductImageCommand } from "../modules/product-images/commands/delete-product-image/delete-product-image.command";
 import { ProductImageDeletedEvent } from "../modules/product-images/commands/delete-product-image/events/product-image-deleted.event";
-import { ImageFileDeletedEvent } from "../modules/storage/commands/delete-file/events/image-file-deleted.event";
+import { ProductFileDeletedEvent } from "../modules/storage/commands/delete-product-file/events/product-file-deleted.event";
+import { ProductFolderDeletedEvent } from "../modules/storage/commands/delete-product-folder/events/product-folder-deleted.event";
 
 @EventsHandler(
     CategoryCreatedEvent,
     CategoryUpdatedEvent,
     CategoryDeletedEvent,
-    DeleteProductImageCommand,
-    ImageFileDeletedEvent,
     ProductCreatedEvent,
     ProductDeletedEvent,
     ProductImageAddedEvent,
     ProductImageDeletedEvent,
+    ProductFileDeletedEvent,
+    ProductFolderDeletedEvent,
     ProductStockUpdatedEvent,
     ProductUpdatedEvent,
     StockCreatedEvent,

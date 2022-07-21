@@ -1,8 +1,7 @@
-export class DeleteFileCommand {
+export class DeleteProductFolderCommand {
     constructor(
         public readonly companyId: string,
         public readonly productId: string,
-        public readonly fileName: string,
         public readonly deletedBy: string
     ){}
 }

@@ -4,6 +4,14 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class StorageRepository {
 
+    async deleteFolder(image: DeleteFolder) {
+        await admin.storage()
+            .bucket()
+            .deleteFiles({
+                prefix: `${image.companyId}/${image.productId}`
+            });
+    }
+
     async deleteImage(image: DeleteImage) {
         const file = admin.storage()
             .bucket()
@@ -12,6 +20,11 @@ export class StorageRepository {
         await file.delete();
     }
 
+}
+
+type DeleteFolder = {
+    companyId: string;
+    productId: string;
 }
 
 type DeleteImage = {

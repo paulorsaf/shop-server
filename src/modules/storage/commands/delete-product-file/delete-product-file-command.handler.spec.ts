@@ -1,19 +1,19 @@
 import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBusMock } from '../../../../mocks/event-bus.mock';
-import { DeleteFileCommand } from './delete-file.command';
-import { DeleteFileCommandHandler } from './delete-file-command.handler';
+import { DeleteProductFileCommand } from './delete-product-file.command';
+import { DeleteProductFileCommandHandler } from './delete-product-file-command.handler';
 import { StorageRepositoryMock } from '../../../../mocks/storage-repository.mock';
 import { StorageRepository } from '../../repositories/storage.repository';
-import { ImageFileDeletedEvent } from './events/image-file-deleted.event';
+import { ProductFileDeletedEvent } from './events/product-file-deleted.event';
 
-describe('DeleteFileCommandHandler', () => {
+describe('DeleteProductFileCommandHandler', () => {
 
-  let handler: DeleteFileCommandHandler;
+  let handler: DeleteProductFileCommandHandler;
   let storageRepository: StorageRepositoryMock;
   let eventBus: EventBusMock;
 
-  const command = new DeleteFileCommand(
+  const command = new DeleteProductFileCommand(
     'anyCompanyId', 'anyProductId', 'anyFileName', 'anyUserId'
   );
 
@@ -23,7 +23,7 @@ describe('DeleteFileCommandHandler', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [
-        DeleteFileCommandHandler
+        DeleteProductFileCommandHandler
       ],
       imports: [
         CqrsModule
@@ -36,7 +36,7 @@ describe('DeleteFileCommandHandler', () => {
     .overrideProvider(EventBus).useValue(eventBus)
     .compile();
 
-    handler = module.get<DeleteFileCommandHandler>(DeleteFileCommandHandler);
+    handler = module.get<DeleteProductFileCommandHandler>(DeleteProductFileCommandHandler);
   });
 
   it('given image details, then remove image', async () => {
@@ -53,7 +53,7 @@ describe('DeleteFileCommandHandler', () => {
     await handler.execute(command);
 
     expect(eventBus.published).toEqual(
-      new ImageFileDeletedEvent(
+      new ProductFileDeletedEvent(
         'anyCompanyId', 'anyProductId', 'anyFileName', 'anyUserId'
       )
     );

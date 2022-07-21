@@ -1,7 +1,7 @@
 import { StockOption } from "../../../entities/stock";
 
 export class StockOptionRemovedEvent {
-    private readonly eventType = "PRODUCT_STOCK_REMOVED_EVENT";
+    private readonly eventType = "PRODUCT_STOCK_DELETED_EVENT";
     constructor(
         public readonly companyId: string,
         public readonly productId: string,
