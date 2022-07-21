@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
+import { MulterModule } from '@nestjs/platform-express';
 import { AuthenticationModule } from '../../authentication/authentication.module';
 import { EventRepository } from '../../repositories/event.repository';
 import { AddProductImageCommandHandler } from './commands/add-product-image/add-product-image-command.handler';
@@ -16,7 +17,8 @@ import { ProductImageSagas } from './sagas/product-image.saga';
   ],
   imports: [
     CqrsModule,
-    AuthenticationModule
+    AuthenticationModule,
+    MulterModule.register({dest: './tmp',})
   ],
   providers: [
     EventRepository,
