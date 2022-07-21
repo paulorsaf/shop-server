@@ -9,6 +9,7 @@ import { Stock, StockOption } from '../../entities/stock';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { StockOptionAddedEvent } from './events/stock-option-added.event';
+import { StockWithSameConfigurationException } from '../../exceptions/stock-with-same-configuration.exception';
 
 describe('AddStockOptionCommandHandler', () => {
 
@@ -50,32 +51,44 @@ describe('AddStockOptionCommandHandler', () => {
     await expect(handler.execute(command)).rejects.toThrowError(NotFoundException);
   });
 
-  it('given stock for product found, then add stock option', async () => {
-    stockRepository.response = new Stock('anyCompanyId', 'anyProductId', 'anyId', []);
+  describe('given stock for product found', () => {
 
-    await handler.execute(command);
+    beforeEach(() => {
+      stockRepository.response = new Stock('anyCompanyId', 'anyProductId', 'anyId', []);
+    })
 
-    expect(stockRepository.addedWith).toEqual(new StockOption('anyId', 10, 'anyColor', 'anySize'));
-  });
+    it('then add stock option', async () => {
+      await handler.execute(command);
+  
+      expect(stockRepository.addedWith).toEqual(new StockOption('anyId', 10, 'anyColor', 'anySize'));
+    });
 
-  it('given stock for product found, when added stock option, then publish stock option added event', async () => {
-    stockRepository.response = new Stock('anyCompanyId', 'anyProductId', 'anyId', []);
+    it('when stock with same configuration already exists, then throw error', async () => {
+      stockRepository.response = new Stock('anyCompanyId', 'anyProductId', 'anyId', [
+        new StockOption('anyId', 2, 'anyColor', 'anySize')
+      ]);
+  
+      expect(handler.execute(command)).rejects.toThrowError(StockWithSameConfigurationException);
+    });
+  
+    it('when added stock option, then publish stock option added event', async () => {
+      await handler.execute(command);
+  
+      expect(eventBus.published).toEqual(
+        new StockOptionAddedEvent(
+          'anyCompanyId', 'anyProductId', 'anyId', {
+            id: 'anyId', quantity: 10, color: "anyColor", size: "anySize"
+          }, 'anyUserId'
+        )
+      );
+    });
+  
+    it('when doesnt belong to company, then throw unauthorized error', async () => {
+      stockRepository.response.companyId = 'anyOtherCompanyId';
+  
+      await expect(handler.execute(command)).rejects.toThrowError(UnauthorizedException);
+    });
 
-    await handler.execute(command);
-
-    expect(eventBus.published).toEqual(
-      new StockOptionAddedEvent(
-        'anyCompanyId', 'anyProductId', 'anyId', {
-          id: 'anyId', quantity: 10, color: "anyColor", size: "anySize"
-        }, 'anyUserId'
-      )
-    );
-  });
-
-  it('given stock for product found, when doesnt belong to company, then throw unauthorized error', async () => {
-    stockRepository.response = new Stock('anyOtherCompanyId', 'anyProductId', 'anyId', []);
-
-    await expect(handler.execute(command)).rejects.toThrowError(UnauthorizedException);
-  });
+  })
 
 });

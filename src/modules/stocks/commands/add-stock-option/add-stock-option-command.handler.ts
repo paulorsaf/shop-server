@@ -2,6 +2,7 @@ import { NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { randomUUID } from "crypto";
 import { Stock, StockOption } from "../../entities/stock";
+import { StockWithSameConfigurationException } from "../../exceptions/stock-with-same-configuration.exception";
 import { StockRepository } from "../../repositories/stock.repository";
 import { AddStockOptionCommand } from "./add-stock-option.command";
 import { StockOptionAddedEvent } from "./events/stock-option-added.event";
@@ -17,10 +18,21 @@ export class AddStockOptionCommandHandler implements ICommandHandler<AddStockOpt
     async execute(command: AddStockOptionCommand) {
         const stock = await this.findStock(command);
 
+        if (this.hasStockWithSameConfiguration(stock, command)) {
+            throw new StockWithSameConfigurationException();
+        }
+
         const stockOption = this.createStockOption(command);
         this.stockRepository.addStockOption(stock.id, stockOption);
 
         this.publishStockOptionAddedEvent(command, stock, stockOption)
+    }
+
+    private hasStockWithSameConfiguration(stock: Stock, command: AddStockOptionCommand) {
+        return stock.stockOptions?.find(option =>
+            option.color === command.stockOption.color &&
+            option.size === command.stockOption.size
+        );
     }
 
     private async findStock(command: AddStockOptionCommand) {

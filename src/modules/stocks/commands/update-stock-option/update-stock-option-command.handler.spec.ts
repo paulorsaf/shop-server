@@ -7,6 +7,8 @@ import { StockRepositoryMock } from '../../../../mocks/stock-repository.mock';
 import { StockRepository } from '../../repositories/stock.repository';
 import { NotFoundException } from '@nestjs/common';
 import { StockOptionUpdatedEvent } from './events/stock-option-updated.event';
+import { Stock, StockOption } from '../../entities/stock';
+import { StockWithSameConfigurationException } from '../../exceptions/stock-with-same-configuration.exception';
 
 describe('UpdateStockOptionCommandHandler', () => {
 
@@ -90,6 +92,14 @@ describe('UpdateStockOptionCommandHandler', () => {
           }, command.updatedBy
         )
       );
+    });
+
+    it('when stock with same configuration already exists, then throw error', async () => {
+      stockRepository.response = new Stock('anyCompanyId', 'anyProductId', 'anyId', [
+        new StockOption('anyId', 2, 'anyColor', 'anySize')
+      ]);
+  
+      expect(handler.execute(command)).rejects.toThrowError(StockWithSameConfigurationException);
     });
 
   })

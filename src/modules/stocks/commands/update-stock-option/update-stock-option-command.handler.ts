@@ -1,6 +1,7 @@
 import { NotFoundException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { Stock, StockOption } from "../../entities/stock";
+import { StockWithSameConfigurationException } from "../../exceptions/stock-with-same-configuration.exception";
 import { StockRepository } from "../../repositories/stock.repository";
 import { StockOptionUpdatedEvent } from "./events/stock-option-updated.event";
 import { UpdateStockOptionCommand } from "./update-stock-option.command";
@@ -14,12 +15,15 @@ export class UpdateStockOptionCommandHandler implements ICommandHandler<UpdateSt
     ){}
 
     async execute(command: UpdateStockOptionCommand) {
-        const stockOption = await this.findStockOption(command);
+        const stock = await this.findStock(command);
+
+        if (this.hasStockWithSameConfiguration(stock, command)) {
+            throw new StockWithSameConfigurationException();
+        }
+
+        const stockOption = await this.findStockOption(stock, command);
         
-        const newStockOption = new StockOption(
-            command.stockOptionId, command.stockOption.quantity, command.stockOption.color,
-            command.stockOption.size
-        );
+        const newStockOption = this.createStockOption(command);
         await this.stockRepository.updateStockOption({
             stockId: command.stockId,
             originalStockOption: stockOption,
@@ -27,6 +31,22 @@ export class UpdateStockOptionCommandHandler implements ICommandHandler<UpdateSt
         });
 
         this.publishStockOptionUpdatedEvent(command, stockOption, newStockOption);
+    }
+
+    private hasStockWithSameConfiguration(stock: Stock, command: UpdateStockOptionCommand) {
+        return stock.stockOptions?.filter(
+            option => option.id !== command.stockOptionId
+        ).find(option =>
+            option.color === command.stockOption.color &&
+            option.size === command.stockOption.size
+        );
+    }
+
+    private createStockOption(command: UpdateStockOptionCommand) {
+        return new StockOption(
+            command.stockOptionId, command.stockOption.quantity, command.stockOption.color,
+            command.stockOption.size
+        );
     }
 
     private publishStockOptionUpdatedEvent(
@@ -40,8 +60,7 @@ export class UpdateStockOptionCommandHandler implements ICommandHandler<UpdateSt
         );
     }
 
-    private async findStockOption(command: UpdateStockOptionCommand) {
-        const stock = await this.findStock(command);
+    private async findStockOption(stock: Stock, command: UpdateStockOptionCommand) {
         const stockOption = stock.stockOptions.find(s => s.id === command.stockOptionId);
         if (!stockOption) {
             throw new NotFoundException();
