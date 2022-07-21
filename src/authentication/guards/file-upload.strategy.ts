@@ -8,12 +8,17 @@ import * as fs from 'fs';
 export class FileUploadStrategy implements CanActivate {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
+        console.log('###1')
         const request = context.switchToHttp().getRequest();
+        console.log('###2')
         let busboy = busBoy({ headers: request.headers });
+        console.log('###3')
 
         let filePath = '';
         busboy.on('file', function(name, stream, info) {
+            console.log('###4', info)
             const fileType = info.filename.substring(info.filename.lastIndexOf('.'));
+            console.log('###5', fileType)
             filePath = os.tmpdir() + randomUUID() + fileType;
             stream.pipe(fs.createWriteStream(filePath));
         });
@@ -22,6 +27,7 @@ export class FileUploadStrategy implements CanActivate {
 
         return new Promise((resolve) => {
             busboy.on('finish', function() {
+                console.log('###6', filePath)
                 request.filePath = filePath;
                 resolve(true);
             });

@@ -8,7 +8,9 @@ async function bootstrap() {
     storageBucket: 'gs://shop-354211.appspot.com'
   })
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'warn', 'debug']
+  });
 
   app.enableCors({
     origin: '*'
@@ -16,4 +18,6 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
-bootstrap();
+bootstrap()
+  .then(() => console.log('Nest Ready'))
+  .catch(err => console.error('Nest broken', err));

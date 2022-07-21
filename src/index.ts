@@ -16,7 +16,10 @@ export const createNestServer = async (expressInstance) => {
   const app = await NestFactory.create(
     AppModule,
     new ExpressAdapter(expressInstance),
-    {cors: false}
+    {
+      cors: false,
+      logger: ['error', 'warn', 'debug']
+    }
   );
   
   app.enableCors({

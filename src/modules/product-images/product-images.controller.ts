@@ -22,6 +22,7 @@ export class ProductImagesController {
     @Param('productId') productId: string,
     @UploadedFilePath() filePath: string
   ) {
+    console.log('###7', filePath);
     return this.commandBus.execute(
       new AddProductImageCommand(
         user.companyId, productId, filePath, user.id
