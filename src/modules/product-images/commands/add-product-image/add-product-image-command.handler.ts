@@ -18,6 +18,8 @@ export class AddProductImageCommandHandler implements ICommandHandler<AddProduct
     ) {}
 
     async execute(command: AddProductImageCommand) {
+        console.log('###', command.image.path);
+        
         await this.verifyProductExistsAndBelongsToCompany(command);
 
         const savedImage = await this.saveFileOnStorage(command);
