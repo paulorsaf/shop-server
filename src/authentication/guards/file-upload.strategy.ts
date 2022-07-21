@@ -22,10 +22,13 @@ export class FileUploadStrategy implements CanActivate {
             filePath = os.tmpdir() + randomUUID() + fileType;
             stream.pipe(fs.createWriteStream(filePath));
         });
+        console.log('###3.1')
 
         request.pipe(busboy);
+        console.log('###3.2')
 
         return new Promise((resolve) => {
+            console.log('###3.3')
             busboy.on('finish', function() {
                 console.log('###6', filePath)
                 request.filePath = filePath;
