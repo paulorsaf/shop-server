@@ -5,7 +5,7 @@ import * as admin from 'firebase-admin';
 export class StorageRepository {
 
     save(image: SaveProductImage) {
-        return admin.storage().bucket().upload('./' + image.filePath, {
+        return admin.storage().bucket().upload(image.filePath, {
             destination: this.getFileDestination(image)
         }).then(imageData => {
             return imageData[0].getSignedUrl({

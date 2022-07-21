@@ -21,9 +21,8 @@ describe('AddProductImageCommandHandler', () => {
   let storageRepository: StorageRepositoryMock;
   let eventBus: EventBusMock;
 
-  const file = {filename: "anyOriginal.name.jpg"} as any;
   const command = new AddProductImageCommand(
-    'anyCompanyId', 'anyProductId', file, 'anyUserId'
+    'anyCompanyId', 'anyProductId', "anyOriginal.name.jpg", 'anyUserId'
   );
 
   beforeEach(async () => {
@@ -80,7 +79,7 @@ describe('AddProductImageCommandHandler', () => {
     it('then save image on storage', async () => {
       expect(storageRepository.savedWith).toEqual({
         companyId: command.companyId,
-        filePath: command.image.path,
+        filePath: command.filePath,
         productId: command.productId,
         name: "anyImageId.jpg"
       });

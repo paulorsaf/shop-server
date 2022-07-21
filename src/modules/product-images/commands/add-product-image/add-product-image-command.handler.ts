@@ -33,11 +33,11 @@ export class AddProductImageCommandHandler implements ICommandHandler<AddProduct
     }
 
     private async saveFileOnStorage(command: AddProductImageCommand) {
-        const fileName = this.getRandomFileName(command.image.filename);
+        const fileName = this.getRandomFileName(command.filePath);
         
         return await this.storageRepository.save({
             companyId: command.companyId,
-            filePath: command.image.path,
+            filePath: command.filePath,
             productId: command.productId,
             name: fileName
         });

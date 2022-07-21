@@ -27,6 +27,8 @@
     "@nestjs/cqrs": "^8.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
+    "@types/busboy": "^1.5.0",
+    "busboy": "^1.6.0",
     "firebase": "^9.9.0",
     "firebase-admin": "^11.0.0",
     "firebase-functions": "^3.22.0",
