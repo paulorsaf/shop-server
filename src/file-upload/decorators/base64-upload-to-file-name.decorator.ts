@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const UploadedFilePath = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
+export const Base64UploadToFileName = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    return request.filePath;
+    return request.fileName;
   },
 );

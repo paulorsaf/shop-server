@@ -1,9 +1,7 @@
-import { Controller, UseGuards, Post, Param, UploadedFile, UseInterceptors, Delete } from '@nestjs/common';
+import { Controller, UseGuards, Post, Param, UploadedFile, Delete, Body } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { randomUUID } from 'crypto';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { Base64UploadToFileName } from 'src/file-upload/decorators/base64-upload-to-file-name.decorator';
+import { Base64FileUploadToFileStrategy } from 'src/file-upload/strategies/base64-upload-to-file-name.strategy';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
 import { User } from '../../authentication/model/user';
@@ -17,18 +15,16 @@ export class ProductImagesController {
     private commandBus: CommandBus
   ) {}
 
-  @UseGuards(JwtAdminStrategy)
-  @UseInterceptors(FileInterceptor('file', { dest: './' }))
+  @UseGuards(JwtAdminStrategy, Base64FileUploadToFileStrategy)
   @Post()
   add(
     @AuthUser() user: User,
     @Param('productId') productId: string,
-    @UploadedFile() file: Express.Multer.File
+    @Base64UploadToFileName() fileName: string
   ) {
-    console.log('### file', file)
     return this.commandBus.execute(
       new AddProductImageCommand(
-        user.companyId, productId, file.filename, user.id
+        user.companyId, productId, fileName, user.id
       )
     )
   }

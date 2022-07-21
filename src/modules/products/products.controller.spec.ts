@@ -89,7 +89,9 @@ describe('ProductsController', () => {
 
   describe('given update product', () => {
 
-    const product = new UpdateProductDTO('anyProductId', "anyName", "anyCategoryId", 10, 5);
+    const product = new UpdateProductDTO(
+      'anyProductId', "anyName", "anyCategoryId", 10, 5, 'anyDescription'
+    );
 
     it('then execute update product command', () => {
       controller.update(user, 'anyProductId', product);
