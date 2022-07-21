@@ -42,14 +42,14 @@ describe('ProductImagesController', () => {
 
   describe('given add product image', () => {
 
-    const file = {id: 'anyFile'} as any;
+    const file = {filename: 'anyFile'} as any;
 
     it('then execute add product image command', () => {
       controller.add(user, 'anyProductId', file);
   
       expect(commandBus.executed).toEqual(
         new AddProductImageCommand(
-          'anyCompanyId', 'anyProductId', file, 'anyUserId'
+          'anyCompanyId', 'anyProductId', 'anyFile', 'anyUserId'
         )
       );
     });
