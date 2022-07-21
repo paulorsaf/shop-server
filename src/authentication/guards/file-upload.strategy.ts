@@ -34,6 +34,7 @@ export class FileUploadStrategy implements CanActivate {
                 request.filePath = filePath;
                 resolve(true);
             });
+            console.log('###3.4')
         })
     }
 
