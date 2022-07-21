@@ -12,7 +12,7 @@ export class FileUploadStrategy implements CanActivate {
         const request = context.switchToHttp().getRequest();
         console.log('###2')
         let busboy = busBoy({ headers: request.headers });
-        console.log('###3')
+        console.log('###3', os.tmpdir());
 
         let filePath = '';
         busboy.on('file', function(name, stream, info) {
