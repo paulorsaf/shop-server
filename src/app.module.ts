@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SaveEventHandler } from './events/save-event-event.handler';
+import { BannersModule } from './modules/banners/banners.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductImagesModule } from './modules/product-images/product-images.module';
 import { ProductsModule } from './modules/products/products.module';
@@ -9,6 +10,7 @@ import { EventRepository } from './repositories/event.repository';
 
 @Module({
   imports: [
+    BannersModule,
     CategoriesModule,
     ProductsModule,
     ProductImagesModule,
