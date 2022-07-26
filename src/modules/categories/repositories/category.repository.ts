@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Category } from '../entities/category';
 import * as admin from 'firebase-admin';
+import { format } from 'date-fns';
 
 @Injectable()
 export class CategoryRepository {
@@ -44,7 +45,7 @@ export class CategoryRepository {
       companyId: category.companyId,
       createdBy: category.createdBy,
       name: category.name,
-      createdAt: new Date().toISOString()
+      createdAt: format(new Date(), 'yyy-MM-dd HH:mm:ss')
     }
     
     return admin.firestore()
@@ -58,7 +59,7 @@ export class CategoryRepository {
   }
 
   async update(category: {id: string, name: string}) {
-    const updatedAt = new Date().toISOString();
+    const updatedAt = format(new Date(), 'yyy-MM-dd HH:mm:ss');
 
     return admin.firestore()
       .collection('categories')

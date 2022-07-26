@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { format } from 'date-fns';
 import * as admin from 'firebase-admin';
 import { CreateProductDTO } from '../commands/create-product/dtos/create-product.dto';
 import { UpdateProductDTO } from '../commands/update-product/dtos/update-product.dto';
@@ -45,7 +46,7 @@ export class ProductRepository {
   async save(product: CreateProductDTO & {companyId: string, createdBy: string}): Promise<{id: string}> {
     return admin.firestore()
       .collection('products')
-      .add({...product, createdAt: new Date().toISOString()})
+      .add({...product, createdAt: format(new Date(), 'yyy-MM-dd HH:mm:ss')})
       .then(snapshot => {
         return {id: snapshot.id}
       })
@@ -54,7 +55,7 @@ export class ProductRepository {
   async update(product: UpdateProductDTO & {companyId: string, updatedBy: string}): Promise<void> {
     const update = {
       ...product,
-      updatedAt: new Date().toISOString()
+      updatedAt: format(new Date(), 'yyy-MM-dd HH:mm:ss')
     }
 
     return admin.firestore()

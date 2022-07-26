@@ -6,4 +6,8 @@ export class BannerRepositoryMock {
         return this.response;
     }
 
+    findById(params: any) {
+        return this.response;
+    }
+
 }

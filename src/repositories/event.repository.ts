@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import { Injectable } from "@nestjs/common";
+import { format } from 'date-fns';
 
 @Injectable()
 export class EventRepository {
@@ -8,7 +9,7 @@ export class EventRepository {
         return admin.firestore().collection('events').add(
             JSON.parse(JSON.stringify({
                 ...event,
-                timestamp: new Date().toISOString()
+                timestamp: format(new Date(), 'yyy-MM-dd HH:mm:ss')
             }))
         );
     }

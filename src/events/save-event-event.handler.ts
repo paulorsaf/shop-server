@@ -16,8 +16,14 @@ import { StockOptionUpdatedEvent } from "../modules/stocks/commands/update-stock
 import { ProductImageDeletedEvent } from "../modules/product-images/commands/delete-product-image/events/product-image-deleted.event";
 import { ProductFileDeletedEvent } from "../modules/storage/commands/delete-product-file/events/product-file-deleted.event";
 import { ProductFolderDeletedEvent } from "../modules/storage/commands/delete-product-folder/events/product-folder-deleted.event";
+import { BannerDetailCreatedEvent } from "../modules/banners/commands/create-banner-detail/events/banner-detail-created.event";
+import { BannerDetailUpdatedEvent } from "../modules/banners/commands/update-banner-detail/events/banner-detail-updated.event";
+import { BannerDetailDeletedEvent } from "../modules/banners/commands/delete-banner-detail/events/banner-detail-deleted.event";
 
 @EventsHandler(
+    BannerDetailCreatedEvent,
+    BannerDetailDeletedEvent,
+    BannerDetailUpdatedEvent,
     CategoryCreatedEvent,
     CategoryUpdatedEvent,
     CategoryDeletedEvent,
