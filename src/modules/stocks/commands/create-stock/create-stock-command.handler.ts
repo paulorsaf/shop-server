@@ -14,7 +14,7 @@ export class CreateStockOptionCommandHandler implements ICommandHandler<CreateSt
         private stockRepository: StockRepository
     ){}
 
-    async execute(command: CreateStockOptionCommand): Promise<void> {
+    async execute(command: CreateStockOptionCommand) {
         const savedStock = await this.stockRepository.findByProduct(command.productId);
         if (savedStock) {
             throw new UnauthorizedException('Nao autorizado');

@@ -6,7 +6,6 @@
   "private": true,
   "license": "UNLICENSED",
   "main": "index.js",
-  "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -36,7 +35,8 @@
     "firebase-tools": "^11.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "shop-shared-server": "^0.0.7"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

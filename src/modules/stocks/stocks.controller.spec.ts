@@ -10,7 +10,7 @@ import { StockOptionDTO } from './dtos/stock-option-dto';
 import { CreateStockOptionCommand } from './commands/create-stock/create-stock.command';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
 import { RemoveStockOptionCommand } from './commands/remove-stock-option/remove-stock-option.command';
-import { UpdateStockOptionCommand } from './commands/update-stock-option/update-stock-option.command';
+import { UpdateStockOptionCommand } from 'shop-shared-server/dist/src/index';
 
 describe('StocksController', () => {
 

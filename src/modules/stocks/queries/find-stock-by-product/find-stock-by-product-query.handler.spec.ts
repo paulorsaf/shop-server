@@ -1,7 +1,7 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Stock, StockOption } from '../../entities/stock';
 import { StockRepositoryMock } from '../../../../mocks/stock-repository.mock';
+import { Stock, StockOption } from '../../entities/stock';
 import { StockRepository } from '../../repositories/stock.repository';
 import { FindStockByProductQueryHandler } from './find-stock-by-product-query.handler';
 import { FindStockByProductQuery } from './find-stock-by-product.query';

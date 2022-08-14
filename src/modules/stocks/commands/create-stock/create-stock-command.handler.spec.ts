@@ -5,10 +5,10 @@ import { CreateStockOptionCommand } from './create-stock.command';
 import { CreateStockOptionCommandHandler } from './create-stock-command.handler';
 import { StockRepositoryMock } from '../../../../mocks/stock-repository.mock';
 import { StockRepository } from '../../repositories/stock.repository';
-import { Stock, StockOption } from '../../entities/stock';
 import { UnauthorizedException } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { StockCreatedEvent } from './events/stock-created.event';
+import { Stock, StockOption } from '../../entities/stock';
 
 describe('CreateStockOptionCommandHandler', () => {
 

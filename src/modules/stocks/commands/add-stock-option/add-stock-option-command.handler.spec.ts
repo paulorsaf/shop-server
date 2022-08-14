@@ -5,11 +5,11 @@ import { AddStockOptionCommand } from './add-stock-option.command';
 import { AddStockOptionCommandHandler } from './add-stock-option-command.handler';
 import { StockRepositoryMock } from '../../../../mocks/stock-repository.mock';
 import { StockRepository } from '../../repositories/stock.repository';
-import { Stock, StockOption } from '../../entities/stock';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { StockOptionAddedEvent } from './events/stock-option-added.event';
-import { StockWithSameConfigurationException } from '../../exceptions/stock-with-same-configuration.exception';
+import { StockWithSameConfigurationException } from 'shop-shared-server/dist/src/index';
+import { Stock, StockOption } from '../../entities/stock';
 
 describe('AddStockOptionCommandHandler', () => {
 
