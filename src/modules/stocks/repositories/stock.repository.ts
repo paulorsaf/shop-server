@@ -54,6 +54,14 @@ export class StockRepository {
       .delete();
   }
 
+  async getTotalStockByProduct(productId: string): Promise<number> {
+    return this.findByProduct(productId).then(stock => {
+      let total = 0;
+      stock.stockOptions?.forEach(s => total += s.quantity);
+      return total;
+    })
+  }
+
   async updateStockOption(update: UpdateStockOption) {
     const batch = admin.firestore().batch();
     

@@ -1,6 +1,7 @@
 import { NotFoundException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { ProductRepository } from "../../repositories/product.repository";
+import { StockRepository } from "../../repositories/stock.repository";
 import { ProductStockUpdatedEvent } from "./events/product-stock-updated.event";
 import { UpdateProductStockCommand } from "./update-product-stock.command";
 
@@ -9,27 +10,15 @@ export class UpdateProductStockCommandHandler implements ICommandHandler<UpdateP
 
     constructor(
         private eventBus: EventBus,
-        private productRepository: ProductRepository
+        private productRepository: ProductRepository,
+        private stockRepository: StockRepository
     ){}
 
     async execute(command: UpdateProductStockCommand) {
-        const product = await this.findProductByIdAndCompanyId(command);
-
-        const amount = product.stock + command.amount;
+        const amount = await this.stockRepository.getTotalStockByProduct(command.productId);
         this.productRepository.updateStockAmount({amount, productId: command.productId});
 
         this.publishProductStockUpdatedEvent(command, amount);
-    }
-
-    private async findProductByIdAndCompanyId(command: UpdateProductStockCommand) {
-        const product = await this.productRepository.findById(command.productId);
-        if (!product) {
-            throw new NotFoundException('Produto nao encontrado');
-        }
-        if (product.companyId !== command.companyId) {
-            throw new NotFoundException('Produto nao encontrado');
-        }
-        return product;
     }
 
     private publishProductStockUpdatedEvent(command: UpdateProductStockCommand, amount: number) {
