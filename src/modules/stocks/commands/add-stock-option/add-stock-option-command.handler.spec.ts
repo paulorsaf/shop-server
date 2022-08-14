@@ -8,8 +8,8 @@ import { StockRepository } from '../../repositories/stock.repository';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { StockOptionAddedEvent } from './events/stock-option-added.event';
-import { StockWithSameConfigurationException } from 'shop-shared-server/dist/src/index';
 import { Stock, StockOption } from '../../entities/stock';
+import { StockWithSameConfigurationException } from '../../exceptions/stock-with-same-configuration.exception';
 
 describe('AddStockOptionCommandHandler', () => {
 

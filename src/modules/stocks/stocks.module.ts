@@ -10,7 +10,8 @@ import { StocksController } from './stocks.controller';
 import { ProductRepository } from './repositories/product.repository';
 import { RemoveStockOptionCommandHandler } from './commands/remove-stock-option/remove-stock-option-command.handler';
 import { RemoveStockByProductCommandHandler } from './commands/remove-stock-by-product/remove-stock-by-product-command.handler';
-import { UpdateStockOptionCommandHandler, UpdateProductStockCommandHandler, ProductRepository as SharedProductRepository, StockRepository as SharedStockRepository } from 'shop-shared-server/dist/src/index';
+import { UpdateStockOptionCommandHandler } from './commands/update-stock-option/update-stock-option-command.handler';
+import { UpdateProductStockCommandHandler } from './commands/update-product-stock/update-product-stock-command.handler';
 
 @Module({
   controllers: [
@@ -23,9 +24,6 @@ import { UpdateStockOptionCommandHandler, UpdateProductStockCommandHandler, Prod
   providers: [
     StockRepository,
     ProductRepository,
-
-    SharedProductRepository,
-    SharedStockRepository,
 
     FindStockByProductQueryHandler,
 

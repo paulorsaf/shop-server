@@ -1,12 +1,13 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { of } from 'rxjs';
-import { UpdateProductStockCommand, StockOptionUpdatedEvent } from 'shop-shared-server/dist/src/index';
 import { StockOptionAddedEvent } from '../commands/add-stock-option/events/stock-option-added.event';
 import { StockOptionSagas } from './stock-option.saga';
 import { StockCreatedEvent } from '../commands/create-stock/events/stock-created.event';
 import { StockOptionRemovedEvent } from '../commands/remove-stock-option/events/stock-option-removed.event';
 import { StockOption } from '../entities/stock';
+import { UpdateProductStockCommand } from '../commands/update-product-stock/update-product-stock.command';
+import { StockOptionUpdatedEvent } from '../commands/update-stock-option/events/stock-option-updated.event';
 
 describe('StockOptionSagas', () => {
 

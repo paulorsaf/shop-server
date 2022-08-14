@@ -6,7 +6,7 @@ import { User } from '../../authentication/model/user';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
 import { CreateStockOptionCommand } from './commands/create-stock/create-stock.command';
 import { RemoveStockOptionCommand } from './commands/remove-stock-option/remove-stock-option.command';
-import { UpdateStockOptionCommand } from 'shop-shared-server/dist/src/index';
+import { UpdateStockOptionCommand } from './commands/update-stock-option/update-stock-option.command';
 import { StockOptionDTO } from './dtos/stock-option-dto';
 import { FindStockByProductQuery } from './queries/find-stock-by-product/find-stock-by-product.query';
 

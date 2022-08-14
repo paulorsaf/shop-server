@@ -1,8 +1,8 @@
 import { NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { randomUUID } from "crypto";
-import { StockWithSameConfigurationException } from "shop-shared-server/dist/src/index";
 import { Stock, StockOption } from "../../entities/stock";
+import { StockWithSameConfigurationException } from "../../exceptions/stock-with-same-configuration.exception";
 import { StockRepository } from "../../repositories/stock.repository";
 import { AddStockOptionCommand } from "./add-stock-option.command";
 import { StockOptionAddedEvent } from "./events/stock-option-added.event";

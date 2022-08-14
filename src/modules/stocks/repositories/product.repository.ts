@@ -25,4 +25,18 @@ export class ProductRepository {
       });
   }
 
+  async updateStockAmount(update: UpdateProductStock) {
+    return admin.firestore()
+      .collection('products')
+      .doc(update.productId)
+      .update({
+        stock: update.amount
+      });
+  }
+
+}
+
+type UpdateProductStock = {
+  amount: number;
+  productId: string;
 }
