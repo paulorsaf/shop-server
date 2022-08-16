@@ -5,15 +5,11 @@ import { Stock, StockOption } from '../entities/stock';
 @Injectable()
 export class StockRepository {
 
-  addStockOption(stockId: string, stockOption: StockOption) {
+  addStock(stock: Stock) {
     return admin.firestore()
       .collection('stocks')
-      .doc(stockId)
-      .update({
-        stockOptions: admin.firestore.FieldValue.arrayUnion(
-          JSON.parse(JSON.stringify(stockOption))
-        )
-      });
+      .add(JSON.parse(JSON.stringify(stock)))
+      .then(r => r.id);
   }
 
   createStock(stock: Stock) {
@@ -21,6 +17,21 @@ export class StockRepository {
       .collection('stocks')
       .doc(stock.id)
       .create(JSON.parse(JSON.stringify(stock)));
+  }
+
+  findById(stockId: string) {
+    return admin.firestore()
+      .collection('stocks')
+      .doc(stockId)
+      .get()
+      .then(snapshot => {
+        if (!snapshot.exists) {
+          return null;
+        }
+        return <Stock> {
+          ...snapshot.data(), id: snapshot.id
+        };
+      });
   }
 
   findByProduct(productId: string) {
@@ -36,14 +47,19 @@ export class StockRepository {
       });
   }
 
-  removeStockOption(remove: RemoveStockOption) {
+  findByProductAndCompany(productId: string, companyId: string) {
     return admin.firestore()
       .collection('stocks')
-      .doc(remove.stockId)
-      .update({
-        stockOptions: admin.firestore.FieldValue.arrayRemove(
-          JSON.parse(JSON.stringify(remove.stockOption))
-        )
+      .where('productId', '==', productId)
+      .where('companyId', '==', companyId)
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          return [];
+        }
+        return <Stock[]> snapshot.docs.map(d => ({
+          ...d.data(), id: d.id
+        }));
       });
   }
 
@@ -54,49 +70,19 @@ export class StockRepository {
       .delete();
   }
 
-  async getTotalStockByProduct(productId: string): Promise<number> {
-    return this.findByProduct(productId).then(stock => {
+  async getTotalStockByProduct(productId: string, companyId: string): Promise<number> {
+    return this.findByProductAndCompany(productId, companyId).then(stock => {
       let total = 0;
-      stock.stockOptions?.forEach(s => total += s.quantity);
+      stock.forEach(s => total += s.quantity);
       return total;
     })
   }
 
   async updateStockOption(update: UpdateStockOption) {
-    const batch = admin.firestore().batch();
-    
-    this.removeOriginalStockOption(update.stockId, update.originalStockOption, batch);
-    this.addNewStockOption(update.stockId, update.stockOption, batch);
-
-    return await batch.commit();
-  }
-
-  private removeOriginalStockOption(
-    stockId: string, stockOption: StockOption, batch: admin.firestore.WriteBatch
-  ){
-    const removeRef = admin.firestore()
+    admin.firestore()
       .collection('stocks')
-      .doc(stockId);
-
-    batch.update(removeRef, {
-      stockOptions: admin.firestore.FieldValue.arrayRemove(
-        JSON.parse(JSON.stringify(stockOption))
-      )
-    });
-  }
-
-  private addNewStockOption(
-    stockId: string, stockOption: StockOption, batch: admin.firestore.WriteBatch
-  ) {
-    const updateRef = admin.firestore()
-      .collection('stocks')
-      .doc(stockId);
-
-    batch.update(updateRef, {
-      stockOptions: admin.firestore.FieldValue.arrayUnion(
-        JSON.parse(JSON.stringify(stockOption))
-      )
-    });
+      .doc(update.stockId)
+      .update(JSON.parse(JSON.stringify(update.stock)));
   }
 
 }
@@ -108,6 +94,9 @@ type RemoveStockOption = {
 
 type UpdateStockOption = {
   stockId: string;
-  originalStockOption: StockOption;
-  stockOption: StockOption;
+  stock: {
+    quantity: number,
+    size: string,
+    color: string
+  };
 }

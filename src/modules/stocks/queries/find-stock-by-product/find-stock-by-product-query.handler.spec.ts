@@ -1,7 +1,5 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { StockRepositoryMock } from '../../../../mocks/stock-repository.mock';
-import { Stock, StockOption } from '../../entities/stock';
 import { StockRepository } from '../../repositories/stock.repository';
 import { FindStockByProductQueryHandler } from './find-stock-by-product-query.handler';
 import { FindStockByProductQuery } from './find-stock-by-product.query';
@@ -12,9 +10,6 @@ describe('FindStockByProductQueryHandler', () => {
   let stockRepository: StockRepositoryMock;
 
   const command = new FindStockByProductQuery('anyCompanyId', 'anyProductId');
-  const stock = new Stock(
-    "anyCompanyId", "anyProductId", "anyId", [new StockOption("anyId", 10, "anyColor", "anySize")]
-  );
 
   beforeEach(async () => {
     stockRepository = new StockRepositoryMock();
@@ -36,34 +31,20 @@ describe('FindStockByProductQueryHandler', () => {
     handler = module.get<FindStockByProductQueryHandler>(FindStockByProductQueryHandler);
   });
 
-  it('given execute handler, then find stock by product id', async () => {
-    await handler.execute(command);
-
-    expect(stockRepository.searchedById).toEqual('anyProductId');
-  });
-
-  it('given execute handler, when stocj not found, then return empty', async () => {
-    stockRepository.response = null;
+  it('given find stocks, then return stocks', async () => {
+    let stocks = [{id: 1}, {id: 2}];
+    stockRepository._response = stocks;
 
     const response = await handler.execute(command);
 
-    expect(response).toBeNull();
-  });
-
-  it('given found stock, when stock belongs to company, then return stock', async () => {
-    stockRepository.response = stock;
-
-    const response = await handler.execute(command);
-
-    expect(response).toEqual(stock);
-  });
-
-  it('given found stock, when stock doesnt belong to company, then return empty', async () => {
-    stockRepository.response = new Stock(
-      "anyOtherCompanyId", "anyProductId", 'anyId', [new StockOption("anyId", 10, "anyColor", "anySize")]
-    );
-
-    await expect(handler.execute(command)).resolves.toBeNull();
+    expect(response).toEqual(stocks);
   });
 
 });
+
+class StockRepositoryMock {
+  _response: any;
+  findByProductAndCompany() {
+    return this._response;
+  }
+}

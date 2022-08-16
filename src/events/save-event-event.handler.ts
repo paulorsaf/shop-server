@@ -9,7 +9,6 @@ import { ProductImageAddedEvent } from "../modules/product-images/commands/add-p
 import { ProductCreatedEvent } from "../modules/products/commands/create-product/events/product-created.event";
 import { ProductDeletedEvent } from "../modules/products/commands/delete-product/events/product-deleted.event";
 import { ProductUpdatedEvent } from "../modules/products/commands/update-product/events/product-updated.event";
-import { StockCreatedEvent } from "../modules/stocks/commands/create-stock/events/stock-created.event";
 import { StockRemovedEvent } from "../modules/stocks/commands/remove-stock-by-product/events/stock-removed.event";
 import { ProductImageDeletedEvent } from "../modules/product-images/commands/delete-product-image/events/product-image-deleted.event";
 import { ProductFileDeletedEvent } from "../modules/storage/commands/delete-product-file/events/product-file-deleted.event";
@@ -35,7 +34,6 @@ import { StockOptionUpdatedEvent } from "../modules/stocks/commands/update-stock
     ProductFolderDeletedEvent,
     ProductStockUpdatedEvent,
     ProductUpdatedEvent,
-    StockCreatedEvent,
     StockOptionAddedEvent,
     StockOptionRemovedEvent,
     StockOptionUpdatedEvent,

@@ -3,7 +3,10 @@ export class Stock {
         public readonly companyId: string,
         public readonly productId: string,
         public readonly id: string,
-        public readonly stockOptions: StockOption[]
+        public readonly stockOptions: StockOption[],
+        public readonly quantity?: number,
+        public readonly color?: string,
+        public readonly size?: string
     ){}
 }
 

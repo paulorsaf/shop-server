@@ -1,6 +1,6 @@
 import { NotFoundException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
-import { Stock, StockOption } from "../../entities/stock";
+import { Stock } from "../../entities/stock";
 import { StockWithSameConfigurationException } from "../../exceptions/stock-with-same-configuration.exception";
 import { StockRepository } from "../../repositories/stock.repository";
 import { StockOptionUpdatedEvent } from "./events/stock-option-updated.event";
@@ -15,68 +15,63 @@ export class UpdateStockOptionCommandHandler implements ICommandHandler<UpdateSt
     ){}
 
     async execute(command: UpdateStockOptionCommand) {
-        const stock = await this.findStock(command);
+        await this.verifyStockExistsAndIsValid(command);
 
-        if (this.hasStockWithSameConfiguration(stock, command)) {
-            throw new StockWithSameConfigurationException();
-        }
-
-        const stockOption = await this.findStockOption(stock, command);
-        
-        const newStockOption = this.createStockOption(command);
+        const update = this.createStockUpdate(command);
         await this.stockRepository.updateStockOption({
-            stockId: command.stockId,
-            originalStockOption: stockOption,
-            stockOption: newStockOption
+            stockId: command.stockId, stock: update
         });
 
-        this.publishStockOptionUpdatedEvent(command, stockOption, newStockOption);
+        this.publishStockOptionUpdatedEvent(command, update);
     }
 
-    private hasStockWithSameConfiguration(stock: Stock, command: UpdateStockOptionCommand) {
-        return stock.stockOptions?.filter(
-            option => option.id !== command.stockOptionId
-        ).find(option =>
-            option.color === command.stockOption.color &&
-            option.size === command.stockOption.size
-        );
+    private async verifyStockExistsAndIsValid(command: UpdateStockOptionCommand) {
+        const stock = await this.stockRepository.findById(command.stockId);
+        if (!stock) {
+            throw new NotFoundException();
+        }
+
+        const stocks = await this.findExistingStocks(command);
+        if (this.hasStockWithSameConfiguration(stocks, stock)) {
+            throw new StockWithSameConfigurationException();
+        }
     }
 
-    private createStockOption(command: UpdateStockOptionCommand) {
-        return new StockOption(
-            command.stockOptionId, command.stockOption.quantity, command.stockOption.color,
-            command.stockOption.size
-        );
+    private hasStockWithSameConfiguration(stocks: Stock[], stock: Stock) {
+        return stocks
+            .filter(s => s.id !== stock.id)
+            .find(s => s.color === stock.color && s.size === stock.size);
+    }
+
+    private createStockUpdate(command: UpdateStockOptionCommand) {
+        return {
+            color: command.stockOption.color,
+            quantity: command.stockOption.quantity,
+            size: command.stockOption.size
+        }
     }
 
     private publishStockOptionUpdatedEvent(
-        command: UpdateStockOptionCommand, originalStockOption: StockOption, newStockOption: StockOption
+        command: UpdateStockOptionCommand, stock: StockUpdate
     ) {
         this.eventBus.publish(
             new StockOptionUpdatedEvent(
-                command.companyId, command.productId, command.stockId, originalStockOption,
-                newStockOption, command.updatedBy
+                command.companyId, command.productId, command.stockId,
+                stock, command.updatedBy
             )
         );
     }
 
-    private async findStockOption(stock: Stock, command: UpdateStockOptionCommand) {
-        const stockOption = stock.stockOptions.find(s => s.id === command.stockOptionId);
-        if (!stockOption) {
-            throw new NotFoundException();
-        }
-        return stockOption;
+    private async findExistingStocks(command: UpdateStockOptionCommand) {
+        return await this.stockRepository.findByProductAndCompany(
+            command.productId, command.companyId
+        );
     }
 
-    private async findStock(command: UpdateStockOptionCommand) {
-        const stock = await this.stockRepository.findByProduct(command.productId);
-        if (!stock) {
-            throw new NotFoundException();
-        }
-        if (stock.companyId !== command.companyId) {
-            throw new NotFoundException();
-        }
-        return stock;
-    }
+}
 
+type StockUpdate = {
+    color: string;
+    quantity: number;
+    size: string;
 }

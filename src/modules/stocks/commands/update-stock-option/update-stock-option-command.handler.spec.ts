@@ -6,7 +6,6 @@ import { UpdateStockOptionCommandHandler } from './update-stock-option-command.h
 import { StockRepository } from '../../repositories/stock.repository';
 import { NotFoundException } from '@nestjs/common';
 import { StockOptionUpdatedEvent } from './events/stock-option-updated.event';
-import { Stock, StockOption } from '../../entities/stock';
 import { StockWithSameConfigurationException } from '../../exceptions/stock-with-same-configuration.exception';
 import { ProductRepository } from '../../repositories/product.repository';
 import { ProductRepositoryMock } from '../../../../mocks/product-repository.mock';
@@ -19,7 +18,7 @@ describe('UpdateStockOptionCommandHandler', () => {
   let eventBus: EventBusMock;
 
   const command = new UpdateStockOptionCommand(
-    'anyCompanyId', 'anyProductId', 'anyStockId', 'anyStockOptionId', {
+    'anyCompanyId', 'anyProductId', 'anyStockId', {
       quantity: 10, color: 'anyColor', size: 'anySize'
     }, 'anyUserId'
   );
@@ -48,37 +47,33 @@ describe('UpdateStockOptionCommandHandler', () => {
     handler = module.get<UpdateStockOptionCommandHandler>(UpdateStockOptionCommandHandler);
   });
 
-  it('given product stock not found, then throw not found exception', async () => {
-    stockRepository.response = null;
+  it('given stock not found, then throw not found exception', async () => {
+    stockRepository._findByIdResponse = null;
 
     await expect(handler.execute(command)).rejects.toThrowError(NotFoundException);
   });
 
-  describe('given product stock found', () => {
-
-    let stockOption: any;
+  describe('given stock found', () => {
 
     beforeEach(() => {
-      stockOption = {
-        id: "anyStockOptionId", amount: 5, color: 'anyOtherColor', size: 'anyOtherSize'
-      };
-      stockRepository.response = {
-        id: "anyStockId", companyId: "anyCompanyId", stockOptions: [stockOption]
-      };
+      stockRepository._findByIdResponse = {id: "anyId", color: 'anyColor', size: 'anySize'};
+      stockRepository._findByProductAndCompanyResponse = [];
     })
 
-    it('when stock option not found, then throw not found exception', async () => {
-      stockOption.id = "anyOtherStockOptionId";
-
-      await expect(handler.execute(command)).rejects.toThrowError(NotFoundException);
+    it('when stock with same configuration already exists, then throw error', async () => {
+      stockRepository._findByProductAndCompanyResponse = [{
+        id: "anyOtherId", color: 'anyColor', size: 'anySize'
+      }];
+  
+      expect(handler.execute(command)).rejects.toThrowError(StockWithSameConfigurationException);
     });
   
-    it('when stock option found, then update stock option', async () => {
+    it('then update stock option', async () => {
       await handler.execute(command);
   
       expect(stockRepository.updatedWith).toEqual({
-        stockId: command.stockId, originalStockOption: stockOption, stockOption: {
-          id: command.stockOptionId, ...command.stockOption
+        stockId: command.stockId, stock: {
+          quantity: 10, color: 'anyColor', size: 'anySize'
         }
       });
     });
@@ -88,22 +83,13 @@ describe('UpdateStockOptionCommandHandler', () => {
   
       expect(eventBus.published).toEqual(
         new StockOptionUpdatedEvent(
-          command.companyId, command.productId, command.stockId, stockOption, {
-            id: command.stockOptionId,
+          command.companyId, command.productId, command.stockId, {
             quantity: command.stockOption.quantity,
             color: command.stockOption.color,
             size: command.stockOption.size
           }, command.updatedBy
         )
       );
-    });
-
-    it('when stock with same configuration already exists, then throw error', async () => {
-      stockRepository.response = new Stock('anyCompanyId', 'anyProductId', 'anyId', [
-        new StockOption('anyId', 2, 'anyColor', 'anySize')
-      ]);
-  
-      expect(handler.execute(command)).rejects.toThrowError(StockWithSameConfigurationException);
     });
 
   })
@@ -119,11 +105,15 @@ class StockRepositoryMock {
   searchedById: string = "";
   updatedWith: any;
 
-  response: any;
+  _findByProductAndCompanyResponse: any;
+  _findByIdResponse: any;
 
-  findByProduct(productId: string) {
+  findById() {
+    return this._findByIdResponse;
+  }
+  findByProductAndCompany(productId: string) {
     this.searchedById = productId;
-    return this.response;
+    return this._findByProductAndCompanyResponse;
   }
   updateStockOption(params: any) {
     this.updatedWith = params;

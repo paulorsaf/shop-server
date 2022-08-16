@@ -15,7 +15,9 @@ export class UpdateProductStockCommandHandler implements ICommandHandler<UpdateP
     ){}
 
     async execute(command: UpdateProductStockCommand) {
-        const amount = await this.stockRepository.getTotalStockByProduct(command.productId);
+        const amount = await this.stockRepository.getTotalStockByProduct(
+            command.productId, command.companyId
+        );
         this.productRepository.updateStockAmount({amount, productId: command.productId});
 
         this.publishProductStockUpdatedEvent(command, amount);

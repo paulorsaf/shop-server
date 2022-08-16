@@ -15,7 +15,7 @@ describe('RemoveStockOptionCommandHandler', () => {
   let eventBus: EventBusMock;
 
   const command = new RemoveStockOptionCommand(
-    'anyCompanyId', 'anyProductId', 'anyStockId', 'anyStockOptionId', 'anyUserId'
+    'anyCompanyId', 'anyProductId', 'anyStockId', 'anyUserId'
   );
 
   beforeEach(async () => {
@@ -65,18 +65,10 @@ describe('RemoveStockOptionCommandHandler', () => {
       await expect(handler.execute(command)).rejects.toThrowError(NotFoundException);
     });
   
-    it('when stock option not found, then throw not found exception', async () => {
-      stockOption.id = "anyOtherStockOptionId";
-
-      await expect(handler.execute(command)).rejects.toThrowError(NotFoundException);
-    });
-  
     it('when stock option exists, then remove stock option', async () => {
       await handler.execute(command);
   
-      expect(stockRepository.removedWith).toEqual({
-        stockId: "anyStockId", stockOption
-      });
+      expect(stockRepository.removedWith).toEqual("anyStockId");
     });
   
     it('when stock option removed, then publish stock removed event', async () => {
@@ -84,7 +76,7 @@ describe('RemoveStockOptionCommandHandler', () => {
   
       expect(eventBus.published).toEqual(
         new StockOptionRemovedEvent(
-          'anyCompanyId', 'anyProductId', { stockId: "anyStockId", stockOption }, 'anyUserId'
+          'anyCompanyId', 'anyProductId', "anyStockId", 'anyUserId'
         )
       );
     });

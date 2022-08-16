@@ -7,7 +7,6 @@ import { QueryBusMock } from '../../mocks/query-bus.mock';
 import { StocksController } from './stocks.controller';
 import { FindStockByProductQuery } from './queries/find-stock-by-product/find-stock-by-product.query';
 import { StockOptionDTO } from './dtos/stock-option-dto';
-import { CreateStockOptionCommand } from './commands/create-stock/create-stock.command';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
 import { RemoveStockOptionCommand } from './commands/remove-stock-option/remove-stock-option.command';
 import { UpdateStockOptionCommand } from './commands/update-stock-option/update-stock-option.command';
@@ -60,22 +59,6 @@ describe('StocksController', () => {
       controller.create(user, "anyProductId", addStockOption);
   
       expect(commandBus.executed).toEqual(
-        new CreateStockOptionCommand(
-          user.companyId, "anyProductId", addStockOption, user.id
-        )
-      );
-    });
-
-  })
-
-  describe('given add stock option', () => {
-
-    const addStockOption: StockOptionDTO = {quantity: 10};
-
-    it('then execute add stock option command', () => {
-      controller.add(user, "anyProductId", addStockOption);
-  
-      expect(commandBus.executed).toEqual(
         new AddStockOptionCommand(
           user.companyId, "anyProductId", addStockOption, user.id
         )
@@ -89,11 +72,11 @@ describe('StocksController', () => {
     const addStockOption: StockOptionDTO = {quantity: 10};
 
     it('then execute add stock option command', () => {
-      controller.delete(user, "anyProductId", "anyStockId", "anyStockOptionId");
+      controller.delete(user, "anyProductId", "anyStockId");
   
       expect(commandBus.executed).toEqual(
         new RemoveStockOptionCommand(
-          user.companyId, "anyProductId", "anyStockId", "anyStockOptionId", user.id
+          user.companyId, "anyProductId", "anyStockId", user.id
         )
       );
     });
@@ -106,13 +89,12 @@ describe('StocksController', () => {
 
     it('then execute update stock option command', () => {
       controller.update(
-        user, "anyProductId", "anyStockId", "anyStockOptionId", stockOptionDTO
+        user, "anyProductId", "anyStockId", stockOptionDTO
       );
   
       expect(commandBus.executed).toEqual(
         new UpdateStockOptionCommand(
-          user.companyId, "anyProductId", "anyStockId", "anyStockOptionId", stockOptionDTO,
-          user.id
+          user.companyId, "anyProductId", "anyStockId", stockOptionDTO, user.id
         )
       );
     });

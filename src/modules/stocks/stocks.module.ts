@@ -3,7 +3,6 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { AuthenticationModule } from '../../authentication/authentication.module';
 import { AddStockOptionCommandHandler } from './commands/add-stock-option/add-stock-option-command.handler';
 import { StockOptionSagas } from './sagas/stock-option.saga';
-import { CreateStockOptionCommandHandler } from './commands/create-stock/create-stock-command.handler';
 import { FindStockByProductQueryHandler } from './queries/find-stock-by-product/find-stock-by-product-query.handler';
 import { StockRepository } from './repositories/stock.repository';
 import { StocksController } from './stocks.controller';
@@ -26,8 +25,6 @@ import { UpdateProductStockCommandHandler } from './commands/update-product-stoc
     ProductRepository,
 
     FindStockByProductQueryHandler,
-
-    CreateStockOptionCommandHandler,
 
     AddStockOptionCommandHandler,
     RemoveStockOptionCommandHandler,

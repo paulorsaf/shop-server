@@ -1,7 +1,5 @@
-import { NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
-import { randomUUID } from "crypto";
-import { Stock, StockOption } from "../../entities/stock";
+import { Stock } from "../../entities/stock";
 import { StockWithSameConfigurationException } from "../../exceptions/stock-with-same-configuration.exception";
 import { StockRepository } from "../../repositories/stock.repository";
 import { AddStockOptionCommand } from "./add-stock-option.command";
@@ -16,39 +14,39 @@ export class AddStockOptionCommandHandler implements ICommandHandler<AddStockOpt
     ){}
 
     async execute(command: AddStockOptionCommand) {
-        const stock = await this.findStock(command);
-
-        if (this.hasStockWithSameConfiguration(stock, command)) {
+        const stocks = await this.findExistingStocks(command);
+        if (this.hasStockWithSameConfiguration(stocks, command)) {
             throw new StockWithSameConfigurationException();
         }
 
-        const stockOption = this.createStockOption(command);
-        this.stockRepository.addStockOption(stock.id, stockOption);
+        const stock = this.createStock(command);
+        const id = await this.stockRepository.addStock(stock);
 
-        this.publishStockOptionAddedEvent(command, stock, stockOption)
+        this.publishStockOptionAddedEvent(command, stock, id);
     }
 
-    private hasStockWithSameConfiguration(stock: Stock, command: AddStockOptionCommand) {
-        return stock.stockOptions?.find(option =>
-            option.color === command.stockOption.color &&
-            option.size === command.stockOption.size
+    private hasStockWithSameConfiguration(stocks: Stock[], command: AddStockOptionCommand) {
+        if (!stocks) {
+            return false;
+        }
+        return stocks.some(stock =>
+            stock.color === command.stockOption.color &&
+            stock.size === command.stockOption.size
         );
     }
 
-    private async findStock(command: AddStockOptionCommand) {
-        const stock = await this.stockRepository.findByProduct(command.productId);
-        if (!stock) {
-            throw new NotFoundException();
-        }
-        if (stock.companyId !== command.companyId) {
-            throw new UnauthorizedException()
-        }
-        return stock;
+    private async findExistingStocks(command: AddStockOptionCommand) {
+        return await this.stockRepository.findByProductAndCompany(
+            command.productId, command.companyId
+        );
     }
 
-    private createStockOption(command: AddStockOptionCommand) {
-        return new StockOption(
-            randomUUID(),
+    private createStock(command: AddStockOptionCommand) {
+        return new Stock(
+            command.companyId,
+            command.productId,
+            undefined,
+            undefined,
             command.stockOption.quantity,
             command.stockOption.color,
             command.stockOption.size
@@ -56,11 +54,13 @@ export class AddStockOptionCommandHandler implements ICommandHandler<AddStockOpt
     }
 
     private publishStockOptionAddedEvent(
-        command: AddStockOptionCommand, stock: Stock, stockOption: StockOption
+        command: AddStockOptionCommand, stock: Stock, stockId: string
     ) {
         this.eventBus.publish(
             new StockOptionAddedEvent(
-                command.companyId, command.productId, stock.id, stockOption, command.createdBy
+                command.companyId, command.productId, {
+                    id: stockId, quantity: stock.quantity, color: stock.color, size: stock.size
+                }, command.createdBy
             )
         )
     }
