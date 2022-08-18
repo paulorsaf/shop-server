@@ -45,7 +45,7 @@ export class CategoryRepository {
       companyId: category.companyId,
       createdBy: category.createdBy,
       name: category.name,
-      createdAt: format(new Date(), 'yyy-MM-dd HH:mm:ss')
+      createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss:SSSS')
     }
     
     return admin.firestore()
@@ -59,7 +59,7 @@ export class CategoryRepository {
   }
 
   async update(category: {id: string, name: string}) {
-    const updatedAt = format(new Date(), 'yyy-MM-dd HH:mm:ss');
+    const updatedAt = format(new Date(), 'yyyy-MM-dd HH:mm:ss:SSSS');
 
     return admin.firestore()
       .collection('categories')

@@ -9,7 +9,7 @@ export class EventRepository {
         return admin.firestore().collection('events').add(
             JSON.parse(JSON.stringify({
                 ...event,
-                timestamp: format(new Date(), 'yyy-MM-dd HH:mm:ss')
+                timestamp: format(new Date(), 'yyyy-MM-dd HH:mm:ss:SSSS')
             }))
         );
     }

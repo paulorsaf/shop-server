@@ -20,7 +20,7 @@ export class ProductRepository {
         const product = snapshot.data();
         return {
           companyId: product.companyId,
-          stock: product.stock || 0
+          totalStock: product.totalStock || 0
         }
       });
   }
@@ -30,7 +30,7 @@ export class ProductRepository {
       .collection('products')
       .doc(update.productId)
       .update({
-        stock: update.amount
+        totalStock: update.amount
       });
   }
 

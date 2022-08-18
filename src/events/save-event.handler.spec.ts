@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SaveEventHandler } from './save-event-event.handler';
 import { EventRepositoryMock } from './../mocks/event-repository.mock';
 import { EventRepository } from './../repositories/event.repository';
+import { format, parse } from 'date-fns';
 
 describe('SaveEventHandler', () => {
 

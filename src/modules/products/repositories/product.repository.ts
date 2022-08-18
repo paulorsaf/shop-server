@@ -46,7 +46,7 @@ export class ProductRepository {
   async save(product: CreateProductDTO & {companyId: string, createdBy: string}): Promise<{id: string}> {
     return admin.firestore()
       .collection('products')
-      .add({...product, createdAt: format(new Date(), 'yyy-MM-dd HH:mm:ss')})
+      .add({...product, createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss:SSSS')})
       .then(snapshot => {
         return {id: snapshot.id}
       })
@@ -55,7 +55,7 @@ export class ProductRepository {
   async update(product: UpdateProductDTO & {companyId: string, updatedBy: string}): Promise<void> {
     const update = {
       ...product,
-      updatedAt: format(new Date(), 'yyy-MM-dd HH:mm:ss')
+      updatedAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss:SSSS')
     }
 
     return admin.firestore()
