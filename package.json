@@ -27,8 +27,6 @@
     "@nestjs/cqrs": "^8.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
-    "@types/busboy": "^1.5.0",
-    "busboy": "^1.6.0",
     "date-fns": "^2.29.1",
     "firebase": "^9.9.0",
     "firebase-admin": "^11.0.0",
@@ -36,7 +34,8 @@
     "firebase-tools": "^11.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "webpack": "^5.74.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
