@@ -47,7 +47,7 @@ export class BannerRepository {
     save(saveBanner: SaveBanner): Promise<string> {
         const banner = {
             ...JSON.parse(JSON.stringify(saveBanner)),
-            createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss:SSSS')
+            createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
         }
 
         return admin.firestore()
@@ -59,7 +59,7 @@ export class BannerRepository {
     update(updateBanner: UpdateBanner) {
         const banner = {
             ...JSON.parse(JSON.stringify(updateBanner)),
-            updatedAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss:SSSS')
+            updatedAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
         }
 
         return admin.firestore()
