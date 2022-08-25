@@ -5,7 +5,7 @@ import { PurchasesController } from './purchases.controller';
 import { User } from '../../authentication/model/user';
 import { AuthenticationModule } from '../../authentication/authentication.module';
 import { QueryBusMock } from '../../mocks/query-bus.mock';
-import { FindPurchasesByUserCompanyQuery } from './queries/find-purchases-by-user-company/find-purchases-by-user-company.query';
+import { FindPurchasesByUserQuery } from './queries/find-purchases-by-company/find-purchases-by-company.query';
 
 describe('PurchasesController', () => {
 
@@ -43,9 +43,8 @@ describe('PurchasesController', () => {
       controller.find(user);
   
       expect(queryBus.executed).toEqual(
-        new FindPurchasesByUserCompanyQuery(
-          "anyCompanyId",
-          "anyUserId"
+        new FindPurchasesByUserQuery(
+          "anyCompanyId"
         )
       );
     });

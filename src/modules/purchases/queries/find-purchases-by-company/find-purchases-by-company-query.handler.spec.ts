@@ -2,22 +2,22 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Purchase } from '../../model/purchase.model';
 import { PurchaseRepository } from '../../repositories/purchase.repository';
-import { FindPurchasesByUserCompanyQueryHandler } from './find-purchases-by-user-company-query.handler';
-import { FindPurchasesByUserCompanyQuery } from './find-purchases-by-user-company.query';
+import { FindPurchasesByUserQueryHandler } from './find-purchases-by-company-query.handler';
+import { FindPurchasesByUserQuery } from './find-purchases-by-company.query';
 
-describe('FindPurchasesByUserCompanyQueryHandler', () => {
+describe('FindPurchasesByUserQueryHandler', () => {
 
-  let handler: FindPurchasesByUserCompanyQueryHandler;
+  let handler: FindPurchasesByUserQueryHandler;
   let purchaseRepository: PurchaseRepositoryMock;
 
-  const command = new FindPurchasesByUserCompanyQuery('anyCompanyId', 'anyUserId');
+  const command = new FindPurchasesByUserQuery('anyCompanyId');
 
   beforeEach(async () => {
     purchaseRepository = new PurchaseRepositoryMock();
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [
-        FindPurchasesByUserCompanyQueryHandler
+        FindPurchasesByUserQueryHandler
       ],
       imports: [
         CqrsModule
@@ -29,7 +29,7 @@ describe('FindPurchasesByUserCompanyQueryHandler', () => {
     .overrideProvider(PurchaseRepository).useValue(purchaseRepository)
     .compile();
 
-    handler = module.get<FindPurchasesByUserCompanyQueryHandler>(FindPurchasesByUserCompanyQueryHandler);
+    handler = module.get<FindPurchasesByUserQueryHandler>(FindPurchasesByUserQueryHandler);
   });
 
   it('given find purchases by user company, then return purchases', async () => {
@@ -46,9 +46,8 @@ describe('FindPurchasesByUserCompanyQueryHandler', () => {
 
     expect(purchaseRepository._foundWith).toEqual(
       new Purchase({
-        companyId: "anyCompanyId",
-        userId: "anyUserId"
-    })
+        companyId: "anyCompanyId"
+      })
     );
   });
 

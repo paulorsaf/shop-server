@@ -3,7 +3,7 @@ import { QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
 import { User } from '../../authentication/model/user';
-import { FindPurchasesByUserCompanyQuery } from './queries/find-purchases-by-user-company/find-purchases-by-user-company.query';
+import { FindPurchasesByUserQuery } from './queries/find-purchases-by-company/find-purchases-by-company.query';
 
 @Controller('purchases')
 export class PurchasesController {
@@ -16,9 +16,8 @@ export class PurchasesController {
   @Get()
   find(@AuthUser() user: User) {
     return this.queryBus.execute(
-      new FindPurchasesByUserCompanyQuery(
-        user.companyId,
-        user.id
+      new FindPurchasesByUserQuery(
+        user.companyId
       )
     )
   }
