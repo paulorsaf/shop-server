@@ -4,6 +4,7 @@ import { BannersModule } from './modules/banners/banners.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductImagesModule } from './modules/product-images/product-images.module';
 import { ProductsModule } from './modules/products/products.module';
+import { PurchasesModule } from './modules/purchases/purchases.module';
 import { StocksModule } from './modules/stocks/stocks.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { EventRepository } from './repositories/event.repository';
@@ -14,6 +15,7 @@ import { EventRepository } from './repositories/event.repository';
     CategoriesModule,
     ProductsModule,
     ProductImagesModule,
+    PurchasesModule,
     StorageModule,
     StocksModule
   ],
