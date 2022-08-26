@@ -1,5 +1,4 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { Purchase } from "../../model/purchase.model";
 import { PurchaseRepository } from "../../repositories/purchase.repository";
 import { FindPurchasesByUserQuery } from "./find-purchases-by-company.query";
 
@@ -11,11 +10,7 @@ export class FindPurchasesByUserQueryHandler implements IQueryHandler<FindPurcha
     ){}
 
     async execute(query: FindPurchasesByUserQuery) {
-        const purchase = new Purchase({
-            companyId: query.companyId
-        });
-
-        return this.purchaseRepository.find(purchase);
+        return this.purchaseRepository.find({companyId: query.companyId});
     }
 
 }

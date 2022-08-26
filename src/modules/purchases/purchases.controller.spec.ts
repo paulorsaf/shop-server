@@ -6,6 +6,7 @@ import { User } from '../../authentication/model/user';
 import { AuthenticationModule } from '../../authentication/authentication.module';
 import { QueryBusMock } from '../../mocks/query-bus.mock';
 import { FindPurchasesByUserQuery } from './queries/find-purchases-by-company/find-purchases-by-company.query';
+import { FindPurchaseByIdAndCompanyQuery } from './queries/find-purchase-by-id-and-company/find-purchase-by-id-and-company.query';
 
 describe('PurchasesController', () => {
 
@@ -39,12 +40,27 @@ describe('PurchasesController', () => {
 
   describe('given find purchases', () => {
 
-    it('then execute find purchases command', () => {
+    it('then execute find purchases query', () => {
       controller.find(user);
   
       expect(queryBus.executed).toEqual(
         new FindPurchasesByUserQuery(
           "anyCompanyId"
+        )
+      );
+    });
+
+  })
+
+  describe('given find purchase by id', () => {
+
+    it('then execute find purchase by id query', () => {
+      controller.findById(user, "anyPurchaseId");
+  
+      expect(queryBus.executed).toEqual(
+        new FindPurchaseByIdAndCompanyQuery(
+          "anyCompanyId",
+          "anyPurchaseId"
         )
       );
     });

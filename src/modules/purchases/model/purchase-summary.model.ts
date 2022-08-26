@@ -1,21 +1,24 @@
 import { Payment, PurchaseProduct, User } from "./purchase.types";
 
-export class Purchase {
+export class PurchaseSummary {
+
+    readonly id: string;
 
     readonly createdAt: string;
     readonly companyId: string;
     readonly payment: Payment;
-    readonly products: PurchaseProduct[];
+    #products: PurchaseProduct[];
     readonly status: string;
     readonly totalAmount: number;
     readonly totalPrice: number;
     readonly user: User;
 
     constructor(params: PurchaseParams){
+        this.id = params.id;
         this.createdAt = params.createdAt;
         this.companyId = params.companyId;
         this.payment = params.payment;
-        this.products = params.products;
+        this.#products = params.products;
         this.status = params.status;
         this.totalAmount = this.getTotalAmount();
         this.totalPrice = this.getTotalPrice();
@@ -24,7 +27,7 @@ export class Purchase {
 
     private getTotalAmount() {
         let total = 0;
-        this.products?.forEach(p => {
+        this.#products?.forEach(p => {
             total += p.amount;
         })
         return total;
@@ -32,7 +35,7 @@ export class Purchase {
 
     private getTotalPrice() {
         let total = 0;
-        this.products?.forEach(p => {
+        this.#products?.forEach(p => {
             const price = p.priceWithDiscount || p.price;
             total += price * p.amount;
         })
@@ -42,6 +45,7 @@ export class Purchase {
 }
 
 type PurchaseParams = {
+    id?: string;
     companyId: string;
     createdAt?: string;
     payment?: Payment;

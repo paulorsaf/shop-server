@@ -1,6 +1,6 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Purchase } from '../../model/purchase.model';
+import { PurchaseSummary } from '../../model/purchase-summary.model';
 import { PurchaseRepository } from '../../repositories/purchase.repository';
 import { FindPurchasesByUserQueryHandler } from './find-purchases-by-company-query.handler';
 import { FindPurchasesByUserQuery } from './find-purchases-by-company.query';
@@ -39,16 +39,6 @@ describe('FindPurchasesByUserQueryHandler', () => {
     const response = await handler.execute(command);
 
     expect(response).toEqual(purchases);
-  });
-
-  it('given find purchases by user company, then find purchases with model', async () => {
-    await handler.execute(command);
-
-    expect(purchaseRepository._foundWith).toEqual(
-      new Purchase({
-        companyId: "anyCompanyId"
-      })
-    );
   });
 
 });
