@@ -4,9 +4,10 @@ export class Purchase {
 
     readonly createdAt: string;
     readonly companyId: string;
+    readonly id: string;
     readonly payment: Payment;
     readonly products: PurchaseProduct[];
-    readonly status: string;
+    private status: string;
     readonly totalAmount: number;
     readonly totalPrice: number;
     readonly user: User;
@@ -14,12 +15,21 @@ export class Purchase {
     constructor(params: PurchaseParams){
         this.createdAt = params.createdAt;
         this.companyId = params.companyId;
+        this.id = params.id;
         this.payment = params.payment;
         this.products = params.products;
         this.status = params.status;
         this.totalAmount = this.getTotalAmount();
         this.totalPrice = this.getTotalPrice();
         this.user = params.user;
+    }
+
+    getStatus() {
+        return this.status;
+    }
+
+    updateStatus(status: string) {
+        this.status = status;
     }
 
     private getTotalAmount() {
@@ -44,6 +54,7 @@ export class Purchase {
 type PurchaseParams = {
     companyId: string;
     createdAt?: string;
+    id?: string;
     payment?: Payment;
     products?: PurchaseProduct[];
     status?: string;

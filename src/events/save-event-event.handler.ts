@@ -18,6 +18,7 @@ import { BannerDetailUpdatedEvent } from "../modules/banners/commands/update-ban
 import { BannerDetailDeletedEvent } from "../modules/banners/commands/delete-banner-detail/events/banner-detail-deleted.event";
 import { ProductStockUpdatedEvent } from "../modules/stocks/commands/update-product-stock/events/product-stock-updated.event";
 import { StockOptionUpdatedEvent } from "../modules/stocks/commands/update-stock-option/events/stock-option-updated.event";
+import { PurchaseStatusUpdatedEvent } from "../modules/purchases/events/purchase-status-updated.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -34,6 +35,7 @@ import { StockOptionUpdatedEvent } from "../modules/stocks/commands/update-stock
     ProductFolderDeletedEvent,
     ProductStockUpdatedEvent,
     ProductUpdatedEvent,
+    PurchaseStatusUpdatedEvent,
     StockOptionAddedEvent,
     StockOptionRemovedEvent,
     StockOptionUpdatedEvent,

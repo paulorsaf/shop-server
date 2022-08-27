@@ -54,6 +54,7 @@ export class PurchaseRepository {
                 return new Purchase({
                     companyId: db.companyId,
                     createdAt: db.createdAt,
+                    id: snapshot.id,
                     payment: db.payment ? {
                         error: db.payment.error,
                         receiptUrl: db.payment.receiptUrl,
@@ -74,6 +75,15 @@ export class PurchaseRepository {
             })
     }
 
+    updateStatus(purchase: Purchase) {
+        return admin.firestore()
+            .collection('purchases')
+            .doc(purchase.id)
+            .update({
+                status: purchase.getStatus()
+            })
+    }
+
 }
 
 type Find = {
@@ -83,4 +93,9 @@ type Find = {
 type FindByIdAndCompany = {
     companyId: string;
     id: string;
+}
+
+type UpdateStatus = {
+    id: string;
+    status: string;
 }
