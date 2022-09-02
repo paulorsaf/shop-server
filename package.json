@@ -27,6 +27,7 @@
     "@nestjs/cqrs": "^8.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
+    "@sendinblue/client": "^3.2.2",
     "date-fns": "^2.29.1",
     "firebase": "^9.9.0",
     "firebase-admin": "^11.0.0",

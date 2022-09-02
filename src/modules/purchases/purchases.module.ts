@@ -6,6 +6,7 @@ import { PurchasesController } from './purchases.controller';
 import { FindPurchaseByIdAndCompanyQueryHandler } from './queries/find-purchase-by-id-and-company/find-purchase-by-id-and-company-query.handler';
 import { FindPurchasesByUserQueryHandler } from './queries/find-purchases-by-company/find-purchases-by-company-query.handler';
 import { PurchaseRepository } from './repositories/purchase.repository';
+import { PurchasesSagas } from './sagas/purchases.saga';
 
 @Module({
   controllers: [
@@ -20,7 +21,9 @@ import { PurchaseRepository } from './repositories/purchase.repository';
 
     FindPurchasesByUserQueryHandler,
     FindPurchaseByIdAndCompanyQueryHandler,
-    UpdatePurchaseStatusCommandHandler
+    UpdatePurchaseStatusCommandHandler,
+
+    PurchasesSagas
   ]
 })
 export class PurchasesModule {}
