@@ -52,6 +52,7 @@ export class PurchaseRepository {
                     return null;
                 }
                 return new Purchase({
+                    address: db.address,
                     companyId: db.companyId,
                     createdAt: db.createdAt,
                     id: snapshot.id,

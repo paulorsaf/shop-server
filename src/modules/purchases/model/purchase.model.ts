@@ -2,6 +2,7 @@ import { Payment, PurchaseProduct, User } from "./purchase.types";
 
 export class Purchase {
 
+    readonly address: any;
     readonly createdAt: string;
     readonly companyId: string;
     readonly id: string;
@@ -13,6 +14,7 @@ export class Purchase {
     readonly user: User;
 
     constructor(params: PurchaseParams){
+        this.address = params.address;
         this.createdAt = params.createdAt;
         this.companyId = params.companyId;
         this.id = params.id;
@@ -52,6 +54,7 @@ export class Purchase {
 }
 
 type PurchaseParams = {
+    address?: any;
     companyId: string;
     createdAt?: string;
     id?: string;
