@@ -21,6 +21,8 @@ import { StockOptionUpdatedEvent } from "../modules/stocks/commands/update-stock
 import { PurchaseStatusUpdatedEvent } from "../modules/purchases/events/purchase-status-updated.event";
 import { PurchaseStatusChangeEmailSentEvent } from "../modules/email/events/purchase-status-change-email-sent.event";
 import { SendPurchaseStatusChangeEmailFailedEvent } from "../modules/email/events/send-purchase-status-change-email-failed.event";
+import { CompanyAddressUpdatedEvent } from "../modules/companies/events/company-address-updated.event";
+import { CompanyUpdatedEvent } from "../modules/companies/events/company-updated.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -29,6 +31,8 @@ import { SendPurchaseStatusChangeEmailFailedEvent } from "../modules/email/event
     CategoryCreatedEvent,
     CategoryUpdatedEvent,
     CategoryDeletedEvent,
+    CompanyUpdatedEvent,
+    CompanyAddressUpdatedEvent,
     ProductCreatedEvent,
     ProductDeletedEvent,
     ProductImageAddedEvent,
