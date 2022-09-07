@@ -7,6 +7,9 @@ import { UpdateCompanyAddressCommand } from './commands/update-company-address/u
 import { Address } from './models/address.model';
 import { FindCompanyByIdQuery } from './queries/find-company-by-id/find-company-by-id.query';
 import { UpdateCompanyCommand } from './commands/update-company/update-company.command';
+import { Base64FileUploadToFileStrategy } from '../../file-upload/strategies/base64-upload-to-file-name.strategy';
+import { Base64UploadToFileName } from '../../file-upload/decorators/base64-upload-to-file-name.decorator';
+import { UpdateCompanyLogoCommand } from './commands/update-company-logo/update-company-logo.command';
 
 @Controller('companies')
 export class CompaniesController {
@@ -39,13 +42,8 @@ export class CompaniesController {
     return this.commandBus.execute(
       new UpdateCompanyCommand(
         id,
-        {
-          name
-        },
-        {
-          companyId: id,
-          id: user.id
-        }
+        { name },
+        { companyId: user.companyId, id: user.id }
       )
     );
   }
@@ -61,10 +59,23 @@ export class CompaniesController {
       new UpdateCompanyAddressCommand(
         id,
         address,
-        {
-          companyId: user.companyId,
-          id: user.id
-        }
+        { companyId: user.companyId, id: user.id }
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy, Base64FileUploadToFileStrategy)
+  @Patch(':id/logos')
+  updateLogo(
+    @AuthUser() user: User,
+    @Param('id') id: string,
+    @Base64UploadToFileName() filePath: string
+  ) {
+    return this.commandBus.execute(
+      new UpdateCompanyLogoCommand(
+        id,
+        filePath,
+        { companyId: user.companyId, id: user.id }
       )
     );
   }

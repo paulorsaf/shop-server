@@ -22,9 +22,8 @@ export const createNestServer = async (expressInstance) => {
     }
   );
   
-  app.enableCors({
-    origin: '*'
-  })
+  app.enableCors({origin: '*'});
+  app.use(express.json({ limit: '1mb' }));
 
   return app.init();
 };

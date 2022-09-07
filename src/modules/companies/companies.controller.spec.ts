@@ -8,6 +8,7 @@ import { QueryBusMock } from '../../mocks/query-bus.mock';
 import { FindCompanyByIdQuery } from './queries/find-company-by-id/find-company-by-id.query';
 import { UpdateCompanyAddressCommand } from './commands/update-company-address/update-company-address.command';
 import { UpdateCompanyCommand } from './commands/update-company/update-company.command';
+import { UpdateCompanyLogoCommand } from './commands/update-company-logo/update-company-logo.command';
 
 describe('CompaniesController', () => {
 
@@ -60,11 +61,11 @@ describe('CompaniesController', () => {
   describe('given update company', () => {
 
     it('then execute update company command', () => {
-      controller.update(user, "anyCompanyId", "anyName");
+      controller.update(user, "anyId", "anyName");
   
       expect(commandBus.executed).toEqual(
         new UpdateCompanyCommand(
-          "anyCompanyId",
+          "anyId",
           {name: "anyName"},
           {
             companyId: "anyCompanyId",
@@ -81,15 +82,31 @@ describe('CompaniesController', () => {
     it('then execute update company address command', () => {
       const address = {id: "anyAddress"} as any;
 
-      controller.updateAddress(user, "anyCompanyId", address);
+      controller.updateAddress(user, "anyId", address);
   
       expect(commandBus.executed).toEqual(
         new UpdateCompanyAddressCommand(
-          "anyCompanyId",
+          "anyId",
           address,
           {
             companyId: "anyCompanyId",
             id: "anyUserId"
+          }
+        )
+      );
+    });
+
+  })
+
+  describe('given update company logo', () => {
+
+    it('then execute update company logo command', () => {
+      controller.updateLogo(user, "anyId", "anyFileName");
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateCompanyLogoCommand(
+          "anyId", "anyFileName", {
+            companyId: "anyCompanyId", id: "anyUserId"
           }
         )
       );

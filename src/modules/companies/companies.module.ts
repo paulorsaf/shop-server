@@ -6,6 +6,8 @@ import { FindCompanyByIdQueryHandler } from './queries/find-company-by-id/find-c
 import { CompanyRepository } from './repositories/company.repository';
 import { UpdateCompanyAddressCommandHandler } from './commands/update-company-address/update-company-address-command.handler';
 import { UpdateCompanyCommandHandler } from './commands/update-company/update-company-command.handler';
+import { UpdateCompanyLogoCommandHandler } from './commands/update-company-logo/update-company-logo-command.handler';
+import { StorageRepository } from './repositories/storage.repository';
 
 @Module({
   controllers: [
@@ -17,9 +19,11 @@ import { UpdateCompanyCommandHandler } from './commands/update-company/update-co
   ],
   providers: [
     CompanyRepository,
+    StorageRepository,
 
     UpdateCompanyCommandHandler,
     UpdateCompanyAddressCommandHandler,
+    UpdateCompanyLogoCommandHandler,
 
     FindCompanyByIdQueryHandler
   ]

@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as admin from 'firebase-admin';
+import { json } from 'express';
 
 async function bootstrap() {
   admin.initializeApp({
@@ -12,9 +13,8 @@ async function bootstrap() {
     logger: ['error', 'warn', 'debug']
   });
 
-  app.enableCors({
-    origin: '*'
-  })
+  app.enableCors({origin: '*'});
+  app.use(json({ limit: '1mb' }));
 
   await app.listen(3000);
 }

@@ -2,6 +2,7 @@ import * as admin from 'firebase-admin';
 import { Injectable } from "@nestjs/common";
 import { Company } from "../models/company.model";
 import { Address } from '../models/address.model';
+import { Image } from '../models/image.model';
 
 @Injectable()
 export class CompanyRepository {
@@ -39,6 +40,13 @@ export class CompanyRepository {
             .collection('companies')
             .doc(companyId)
             .update({address})
+    }
+
+    updateLogo(companyId: string, logo: Image) {
+        return admin.firestore()
+            .collection('companies')
+            .doc(companyId)
+            .update({logo})
     }
 
 }
