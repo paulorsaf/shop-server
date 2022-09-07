@@ -5,6 +5,7 @@ export class UpdateProductDTO {
         public readonly categoryId: string,
         public readonly price: number,
         public readonly priceWithDiscount: number,
-        public readonly description: string
+        public readonly description: string,
+        public readonly weight: number
     ){}
 }

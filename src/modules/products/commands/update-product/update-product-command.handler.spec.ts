@@ -16,7 +16,7 @@ describe('UpdateProductCommandHandler', () => {
   let eventBus: EventBusMock;
 
   const productDto = new UpdateProductDTO(
-    'anyProductId', 'anyName', 'anyCategoryId', 10, 8, 'anyDescription'
+    'anyProductId', 'anyName', 'anyCategoryId', 10, 8, 'anyDescription', 1
   )
   const command = new UpdateProductCommand(
     productDto, 'anyCompanyId', 'anyUserId'

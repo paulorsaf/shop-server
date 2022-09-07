@@ -15,7 +15,7 @@ describe('CreateProductCommandHandler', () => {
   let eventBus: EventBusMock;
 
   const productDto = new CreateProductDTO(
-    'anyName', 'anyCategoryId', 10, 8
+    'anyName', 'anyCategoryId', 10, 8, 1
   )
   const command = new CreateProductCommand(
     productDto, 'anyCompanyId', 'anyUserId'

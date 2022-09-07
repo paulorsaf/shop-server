@@ -73,7 +73,7 @@ describe('ProductsController', () => {
 
   describe('given save product', () => {
 
-    const product = new CreateProductDTO("anyName", "anyCategoryId", 10, 5);
+    const product = new CreateProductDTO("anyName", "anyCategoryId", 10, 5, 1);
 
     it('then execute save product command', () => {
       controller.save(user, product);
@@ -90,7 +90,7 @@ describe('ProductsController', () => {
   describe('given update product', () => {
 
     const product = new UpdateProductDTO(
-      'anyProductId', "anyName", "anyCategoryId", 10, 5, 'anyDescription'
+      'anyProductId', "anyName", "anyCategoryId", 10, 5, 'anyDescription', 1
     );
 
     it('then execute update product command', () => {
