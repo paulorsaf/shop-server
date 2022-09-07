@@ -22,6 +22,7 @@ export class CompanyRepository {
                     address: db.address,
                     email: db.email,
                     id: snapshot.id,
+                    logo: db.logo,
                     name: db.name,
                     pixKey: db.pixKey
                 })
