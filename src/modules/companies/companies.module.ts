@@ -8,6 +8,7 @@ import { UpdateCompanyAddressCommandHandler } from './commands/update-company-ad
 import { UpdateCompanyCommandHandler } from './commands/update-company/update-company-command.handler';
 import { UpdateCompanyLogoCommandHandler } from './commands/update-company-logo/update-company-logo-command.handler';
 import { StorageRepository } from './repositories/storage.repository';
+import { UpdateCompanyAboutUsCommandHandler } from './commands/update-company-about-us/update-company-about-us-command.handler';
 
 @Module({
   controllers: [
@@ -22,6 +23,7 @@ import { StorageRepository } from './repositories/storage.repository';
     StorageRepository,
 
     UpdateCompanyCommandHandler,
+    UpdateCompanyAboutUsCommandHandler,
     UpdateCompanyAddressCommandHandler,
     UpdateCompanyLogoCommandHandler,
 

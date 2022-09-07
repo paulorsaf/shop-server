@@ -9,6 +9,7 @@ import { FindCompanyByIdQuery } from './queries/find-company-by-id/find-company-
 import { UpdateCompanyAddressCommand } from './commands/update-company-address/update-company-address.command';
 import { UpdateCompanyCommand } from './commands/update-company/update-company.command';
 import { UpdateCompanyLogoCommand } from './commands/update-company-logo/update-company-logo.command';
+import { UpdateCompanyAboutUsCommand } from './commands/update-company-about-us/update-company-about-us.command';
 
 describe('CompaniesController', () => {
 
@@ -76,6 +77,25 @@ describe('CompaniesController', () => {
     });
 
   });
+
+  describe('given update company about us', () => {
+
+    it('then execute update company about us command', () => {
+      controller.updateAboutUs(user, "anyId", "anyHtml");
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateCompanyAboutUsCommand(
+          "anyId",
+          "anyHtml",
+          {
+            companyId: "anyCompanyId",
+            id: "anyUserId"
+          }
+        )
+      );
+    });
+
+  })
 
   describe('given update company address', () => {
 

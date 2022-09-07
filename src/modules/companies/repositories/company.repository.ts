@@ -36,6 +36,13 @@ export class CompanyRepository {
             .update({...update})
     }
 
+    updateAboutUs(companyId: string, html: string) {
+        return admin.firestore()
+            .collection('companies')
+            .doc(companyId)
+            .update({aboutUs: html})
+    }
+
     updateAddress(companyId: string, address: Address) {
         return admin.firestore()
             .collection('companies')

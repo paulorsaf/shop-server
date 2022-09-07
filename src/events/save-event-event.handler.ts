@@ -24,6 +24,7 @@ import { SendPurchaseStatusChangeEmailFailedEvent } from "../modules/email/event
 import { CompanyAddressUpdatedEvent } from "../modules/companies/events/company-address-updated.event";
 import { CompanyUpdatedEvent } from "../modules/companies/events/company-updated.event";
 import { CompanyLogoUpdatedEvent } from "../modules/companies/events/company-logo-updated.event";
+import { CompanyAboutUsUpdatedEvent } from "../modules/companies/events/company-about-us-updated.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -33,6 +34,7 @@ import { CompanyLogoUpdatedEvent } from "../modules/companies/events/company-log
     CategoryUpdatedEvent,
     CategoryDeletedEvent,
     CompanyUpdatedEvent,
+    CompanyAboutUsUpdatedEvent,
     CompanyAddressUpdatedEvent,
     CompanyLogoUpdatedEvent,
     ProductCreatedEvent,
