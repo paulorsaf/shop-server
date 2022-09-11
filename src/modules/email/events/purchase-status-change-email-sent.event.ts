@@ -1,9 +1,14 @@
 export class PurchaseStatusChangeEmailSentEvent {
 
     constructor(
-        private readonly companyId: string,
-        private readonly purchaseId: string,
-        private readonly status: string
+        public readonly companyId: string,
+        public readonly purchaseId: string,
+        public readonly status: Status
     ){}
 
+}
+
+type Status = {
+    reason: string;
+    status: string;
 }

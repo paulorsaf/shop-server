@@ -17,12 +17,14 @@ export class UpdatePurchaseStatusCommandHandler implements ICommandHandler<Updat
             companyId: command.companyId, id: command.purchaseId
         });
         if (!purchase) {
-            throw new NotFoundException("Compra nao encontrada");
+            throw new NotFoundException("Compra não encontrada");
         }
 
-        purchase.updateStatus(command.status);
-
-        await this.purchaseRepository.updateStatus(purchase);
+        await this.purchaseRepository.updateStatus({
+            id: purchase.id,
+            status: command.status.status,
+            reason: command.status.reason
+        });
 
         this.publishPurchaseStatusUpdatedEvent(command);
     }

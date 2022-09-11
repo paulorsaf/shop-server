@@ -18,6 +18,7 @@ export class PurchaseRepository {
                         name: companyDb.name
                     }),
                     payment: purchaseDb.payment,
+                    price: purchaseDb.price,
                     products: purchaseDb.products.map(p =>
                         new PurchaseProduct({
                             amount: p.amount,
@@ -30,6 +31,7 @@ export class PurchaseRepository {
                             }) : null
                         })
                     ),
+                    reason: purchaseDb.reason,
                     status: purchaseDb.status,
                     user: {
                         email: purchaseDb.user.email

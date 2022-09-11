@@ -41,7 +41,7 @@ export class PurchasesController {
   updateStatus(
     @AuthUser() user: User,
     @Param('id') purchaseId: string,
-    @Body('status') status: string
+    @Body() status: {status: string, reason: string}
   ) {
     return this.commandBus.execute(
       new UpdatePurchaseStatusCommand(

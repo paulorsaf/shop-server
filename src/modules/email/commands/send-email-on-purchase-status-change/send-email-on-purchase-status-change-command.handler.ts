@@ -9,7 +9,7 @@ import { SendPurchaseStatusChangeEmailFailedEvent } from "../../events/send-purc
 @CommandHandler(SendEmailOnPurchaseStatusChangeCommand)
 export class SendEmailOnPurchaseStatusChangeCommandHandler implements ICommandHandler<SendEmailOnPurchaseStatusChangeCommand> {
 
-    private validEmailStatuses = ["PAID", "SORTING_OUT", "READY", "DELIVERYING"];
+    private validEmailStatuses = ["PAID", "SORTING_OUT", "READY", "DELIVERYING", "CANCELLED"];
 
     constructor(
         private eventBus: EventBus,
@@ -22,7 +22,7 @@ export class SendEmailOnPurchaseStatusChangeCommandHandler implements ICommandHa
             companyId: command.companyId, purchaseId: command.purchaseId
         })
         if (!purchase) {
-            throw new NotFoundException("Compra nao encontrada");
+            throw new NotFoundException("Compra não encontrada");
         }
         if (!this.validEmailStatuses.includes(purchase.status)) {
             return;
@@ -43,7 +43,7 @@ export class SendEmailOnPurchaseStatusChangeCommandHandler implements ICommandHa
             new PurchaseStatusChangeEmailSentEvent(
                 command.companyId,
                 command.purchaseId,
-                command.purchaseStatus
+                command.status
             )
         )
     }
@@ -55,7 +55,7 @@ export class SendEmailOnPurchaseStatusChangeCommandHandler implements ICommandHa
             new SendPurchaseStatusChangeEmailFailedEvent(
                 command.companyId,
                 command.purchaseId,
-                command.purchaseStatus,
+                command.status,
                 error
             )
         )

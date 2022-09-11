@@ -16,8 +16,9 @@ describe('SendEmailOnPurchaseStatusChangeCommandHandler', () => {
   let emailRepository: EmailRepositoryMock;
   let purchaseRepository: PurchaseRepositoryMock;
 
+  const status = {status: "anyStatus", reason: "anyReason"};
   const command = new SendEmailOnPurchaseStatusChangeCommand(
-    'anyCompanyId', 'anyPurchaseId', 'anyStatus'
+    'anyCompanyId', 'anyPurchaseId', status
   );
 
   beforeEach(async () => {
@@ -92,6 +93,14 @@ describe('SendEmailOnPurchaseStatusChangeCommandHandler', () => {
       expect(emailRepository._isSent).toBeTruthy();
     })
 
+    it('when status is CANCELLED, then send status change email to client', async () => {
+      purchaseRepository._response = {id: 'anyPurchaseId', status: "CANCELLED"};
+
+      await handler.execute(command);
+
+      expect(emailRepository._isSent).toBeTruthy();
+    })
+
     it('when email sent, then publish purchase status change email sent event', async () => {
       await handler.execute(command);
 
@@ -99,7 +108,7 @@ describe('SendEmailOnPurchaseStatusChangeCommandHandler', () => {
         new PurchaseStatusChangeEmailSentEvent(
           "anyCompanyId",
           "anyPurchaseId",
-          "anyStatus"
+          status
         )
       );
     })
@@ -114,7 +123,7 @@ describe('SendEmailOnPurchaseStatusChangeCommandHandler', () => {
         new SendPurchaseStatusChangeEmailFailedEvent(
           "anyCompanyId",
           "anyPurchaseId",
-          "anyStatus",
+          status,
           error
         )
       );

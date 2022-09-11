@@ -71,13 +71,15 @@ describe('PurchasesController', () => {
   describe('given update purchase status', () => {
 
     it('then execute update purchase status command', () => {
-      controller.updateStatus(user, "anyPurchaseId", "anyStatus");
+      const status = {status: "anyStatus", reason: "anyReason"};
+
+      controller.updateStatus(user, "anyPurchaseId", status);
   
       expect(commandBus.executed).toEqual(
         new UpdatePurchaseStatusCommand(
           "anyCompanyId",
           "anyPurchaseId",
-          "anyStatus",
+          status,
           "anyUserId"
         )
       );

@@ -74,6 +74,12 @@ export class EmailRepository {
         if (purchase.status === "DELIVERYING") {
             return "Sua compra está a caminho e em breve chegará até a sua casa.";
         }
+        if (purchase.status === "CANCELLED") {
+            return `
+                Sua compra foi cancelada.<br/>
+                ${purchase.reason ? "Motivo: " + purchase.reason : ""}
+            `;
+        }
     }
 
     private getSubject(purchase: Purchase) {
@@ -88,6 +94,9 @@ export class EmailRepository {
         }
         if (purchase.status === "DELIVERYING") {
             return "Sua compra está a caminho";
+        }
+        if (purchase.status === "CANCELLED") {
+            return "Sua compra foi cancelada";
         }
     }
 
@@ -112,11 +121,31 @@ export class EmailRepository {
                         </div>`
                     ).join('')}
                     <br/>
+                    ${
+                        purchase.price?.delivery ?
+                        `
+                        <div>
+                            Taxa de entrega:
+                            por R$ ${purchase.price.delivery.toFixed(2)}
+                        </div>
+                        `
+                        : ""
+                    }
+                    ${
+                        purchase.price?.paymentFee ?
+                        `
+                        <div>
+                            Taxa do cartão de crédito:
+                            por R$ ${purchase.price.paymentFee.toFixed(2)}
+                        </div>
+                        `
+                        : ""
+                    }
                     <b>
                         <div>
                             Total:
                             ${purchase.totalAmount} ${purchase.totalAmount === 1 ? "produto" : "produtos"}
-                            por R$ ${purchase.totalPrice.toFixed(2)}
+                            por R$ ${purchase.price.totalWithPaymentFee.toFixed(2)}
                         </div>
                     </b>
                 </fieldset>
@@ -140,6 +169,46 @@ export class EmailRepository {
                 <fieldset>
                     <legend style="font-weigth:600">Dados do pagamento:</legend>
                     Tipo de pagamento: ${this.getPaymentDescription(purchase)}<br/>
+
+                    ${
+                        purchase.price ? 
+                        `
+                        <table style="border:none;border-spacing:0;margin:10px 0;">
+                            <tr>
+                                <td style="border:none">Produtos:</td>
+                                <td style="border:none" align="right">R$ ${purchase.price?.products?.toFixed(2)}</td>
+                            </tr>
+                            ${
+                                purchase.address ?
+                                `
+                                <tr>
+                                    <td style="border:none">Taxa de entrega:</td>
+                                    <td style="border:none" align="right">R$ ${purchase.price?.delivery?.toFixed(2)}</td>
+                                </tr>
+                                ` : ""
+                            }
+                            ${
+                                purchase.payment.type === 'CREDIT_CARD' ?
+                                `
+                                <tr>
+                                    <td style="border:none">Taxa do Cartão de crédito:</td>
+                                    <td style="border:none" align="right">R$ ${purchase.price?.paymentFee?.toFixed(2)}</td>
+                                </tr>
+                                ` : ""
+                            }
+                            <tr>
+                                <td style="border:none">Total:</td>
+                                <td style="border:none" align="right">R$ ${purchase.price?.totalWithPaymentFee?.toFixed(2)}</td>
+                            </tr>
+                        </table>
+                        ` : ""
+                    }
+                    ${purchase.payment.type === "CREDIT_CARD" && purchase.payment.card ?
+                        `<div>Bandeira: ${purchase.payment.card.brand}</div>
+                         <div>Número: **** **** **** ${purchase.payment.card.last4}</div>
+                         <div>Expiração: ${purchase.payment.card.exp_month}/${purchase.payment.card.exp_year}</div>`
+                        : ''
+                    }
                     ${purchase.payment.receiptUrl ?
                         `<a href="${purchase.payment.receiptUrl}" target="_blank">Ver recibo</a><br/>`
                         : ''
@@ -151,6 +220,9 @@ export class EmailRepository {
     private getPaymentDescription(purchase: Purchase) {
         if (purchase.payment.type === "MONEY") {
             return "Dinheiro";
+        }
+        if (purchase.payment.type === "CREDIT_CARD") {
+            return "Cartão de crédito";
         }
         return purchase.payment.type;
     }

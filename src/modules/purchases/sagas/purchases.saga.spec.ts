@@ -27,8 +27,11 @@ describe('PurchasesSagas', () => {
     const event = new PurchaseStatusUpdatedEvent(
       'anyCompanyId',
       'anyPurchaseId',
-      'anyStatus',
-      'anyUserId'
+      {
+        reason: "anyReason",
+        status: "anyStatus"
+      },
+      "anyUserId"
     );
 
     sagas.purchaseStatusUpdated(of(event)).subscribe(response => {

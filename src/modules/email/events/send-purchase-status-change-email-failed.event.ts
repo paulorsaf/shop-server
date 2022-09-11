@@ -5,8 +5,13 @@ export class SendPurchaseStatusChangeEmailFailedEvent {
     constructor(
         private readonly companyId: string,
         private readonly purchaseId: string,
-        private readonly status: string,
+        private readonly status: Status,
         private readonly error: any
     ){}
 
+}
+
+type Status = {
+    reason: string;
+    status: string;
 }

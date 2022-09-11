@@ -14,8 +14,9 @@ describe('UpdatePurchaseStatusCommandHandler', () => {
   let purchase: PurchaseMock;
   let purchaseRepository: PurchaseRepositoryMock;
 
+  const status = {status: "anyStatus", reason: "anyReason"}
   const command = new UpdatePurchaseStatusCommand(
-    'anyCompanyId', 'anyPurchaseId', 'anyStatus', 'anyUserId'
+    'anyCompanyId', 'anyPurchaseId', status, 'anyUserId'
   );
 
   beforeEach(async () => {
@@ -47,13 +48,7 @@ describe('UpdatePurchaseStatusCommandHandler', () => {
       purchaseRepository._response = purchase;
     })
 
-    it('then update purchase status', async () => {
-      await handler.execute(command);
-  
-      expect(purchase._isStatusUpdated).toBeTruthy();
-    });
-
-    it('when purchase status updated, then save updated status', async () => {
+    it('when purchase status updated, then update status', async () => {
       await handler.execute(command);
   
       expect(purchaseRepository._isStatusUpdated).toBeTruthy();
@@ -66,7 +61,7 @@ describe('UpdatePurchaseStatusCommandHandler', () => {
         new PurchaseStatusUpdatedEvent(
           "anyCompanyId",
           "anyPurchaseId",
-          "anyStatus",
+          status,
           "anyUserId"
         )
       );

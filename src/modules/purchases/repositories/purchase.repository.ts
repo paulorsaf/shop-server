@@ -18,17 +18,14 @@ export class PurchaseRepository {
                         companyId: db.companyId,
                         createdAt: db.createdAt,
                         id: s.id,
-                        payment: db.payment ? {
-                            error: db.payment.error,
-                            receiptUrl: db.payment.receiptUrl,
-                            type: db.payment.type
-                        } : null,
+                        payment: db.payment,
                         products: db.products.map(p => ({
                             amount: p.amount,
                             price: p.price,
                             priceWithDiscount: p.priceWithDiscount
                         })),
                         status: db.status,
+                        totalWithPaymentFee: db.price?.totalWithPaymentFee || 0,
                         user: {
                             email: db.user.email,
                             id: db.user.id
@@ -56,11 +53,8 @@ export class PurchaseRepository {
                     companyId: db.companyId,
                     createdAt: db.createdAt,
                     id: snapshot.id,
-                    payment: db.payment ? {
-                        error: db.payment.error,
-                        receiptUrl: db.payment.receiptUrl,
-                        type: db.payment.type
-                    } : null,
+                    payment: db.payment,
+                    price: db.price,
                     products: db.products.map(p => ({
                         amount: p.amount,
                         name: p.name,
@@ -76,13 +70,14 @@ export class PurchaseRepository {
             })
     }
 
-    updateStatus(purchase: Purchase) {
+    updateStatus(purchase: UpdateStatus) {
         return admin.firestore()
             .collection('purchases')
             .doc(purchase.id)
-            .update({
-                status: purchase.getStatus()
-            })
+            .update(JSON.parse(JSON.stringify({
+                reason: purchase.reason,
+                status: purchase.status
+            })))
     }
 
 }
@@ -99,4 +94,5 @@ type FindByIdAndCompany = {
 type UpdateStatus = {
     id: string;
     status: string;
+    reason?: string;
 }

@@ -10,7 +10,7 @@ export class PurchaseSummary {
     #products: PurchaseProduct[];
     readonly status: string;
     readonly totalAmount: number;
-    readonly totalPrice: number;
+    readonly totalWithPaymentFee: number;
     readonly user: User;
 
     constructor(params: PurchaseParams){
@@ -21,7 +21,7 @@ export class PurchaseSummary {
         this.#products = params.products;
         this.status = params.status;
         this.totalAmount = this.getTotalAmount();
-        this.totalPrice = this.getTotalPrice();
+        this.totalWithPaymentFee = params.totalWithPaymentFee;
         this.user = params.user;
     }
 
@@ -29,15 +29,6 @@ export class PurchaseSummary {
         let total = 0;
         this.#products?.forEach(p => {
             total += p.amount;
-        })
-        return total;
-    }
-
-    private getTotalPrice() {
-        let total = 0;
-        this.#products?.forEach(p => {
-            const price = p.priceWithDiscount || p.price;
-            total += price * p.amount;
         })
         return total;
     }
@@ -51,5 +42,6 @@ type PurchaseParams = {
     payment?: Payment;
     products?: PurchaseProduct[];
     status?: string;
+    totalWithPaymentFee?: number;
     user?: User;
 }
