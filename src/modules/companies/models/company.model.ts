@@ -8,6 +8,7 @@ export class Company {
     readonly id: string;
     readonly logo: Image;
     readonly name: string;
+    readonly payment: Payment;
     readonly pixKey: string;
 
     constructor(params: CompanyParams){
@@ -17,6 +18,7 @@ export class Company {
         this.id = params.id;
         this.logo = params.logo;
         this.name = params.name;
+        this.payment = params.payment;
         this.pixKey = params.pixKey;
     }
 
@@ -29,10 +31,23 @@ type CompanyParams = {
     id?: string;
     logo?: Image;
     name?: string;
+    payment?: Payment;
     pixKey?: string;
 }
 
 type Image = {
     fileName: string;
     imageUrl: string;
+}
+
+type Payment = {
+    creditCard: {
+        fee: {
+            percentage: number;
+            value: number;
+        },
+        flags: string[]
+    },
+    money: boolean;
+    pixKey: string;
 }
