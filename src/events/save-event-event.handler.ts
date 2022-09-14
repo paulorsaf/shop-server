@@ -25,6 +25,7 @@ import { CompanyAddressUpdatedEvent } from "../modules/companies/events/company-
 import { CompanyUpdatedEvent } from "../modules/companies/events/company-updated.event";
 import { CompanyLogoUpdatedEvent } from "../modules/companies/events/company-logo-updated.event";
 import { CompanyAboutUsUpdatedEvent } from "../modules/companies/events/company-about-us-updated.event";
+import { CompanyPaymentUpdatedEvent } from "../modules/companies/events/company-payment-updated.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -37,6 +38,7 @@ import { CompanyAboutUsUpdatedEvent } from "../modules/companies/events/company-
     CompanyAboutUsUpdatedEvent,
     CompanyAddressUpdatedEvent,
     CompanyLogoUpdatedEvent,
+    CompanyPaymentUpdatedEvent,
     ProductCreatedEvent,
     ProductDeletedEvent,
     ProductImageAddedEvent,

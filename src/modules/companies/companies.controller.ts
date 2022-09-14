@@ -11,6 +11,8 @@ import { Base64FileUploadToFileStrategy } from '../../file-upload/strategies/bas
 import { Base64UploadToFileName } from '../../file-upload/decorators/base64-upload-to-file-name.decorator';
 import { UpdateCompanyLogoCommand } from './commands/update-company-logo/update-company-logo.command';
 import { UpdateCompanyAboutUsCommand } from './commands/update-company-about-us/update-company-about-us.command';
+import { PaymentDTO } from './dtos/payment.dto';
+import { UpdateCompanyPaymentCommand } from './commands/update-company-payment/update-company-payment.command';
 
 @Controller('companies')
 export class CompaniesController {
@@ -93,6 +95,29 @@ export class CompaniesController {
         id,
         filePath,
         { companyId: user.companyId, id: user.id }
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Patch(':id/payments')
+  updatePayment(
+    @AuthUser() user: User,
+    @Param('id') id: string,
+    @Body() payment: PaymentDTO
+  ) {
+    return this.commandBus.execute(
+      new UpdateCompanyPaymentCommand(
+        id,
+        {
+          creditCard: payment.creditCard,
+          money: payment.money,
+          pixKey: payment.pixKey
+        },
+        {
+          companyId: user.companyId,
+          id: user.id
+        }
       )
     );
   }

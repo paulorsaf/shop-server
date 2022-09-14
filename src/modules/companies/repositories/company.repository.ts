@@ -3,6 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { Company } from "../models/company.model";
 import { Address } from '../models/address.model';
 import { Image } from '../models/image.model';
+import { Payment } from '../models/payment.model';
 
 @Injectable()
 export class CompanyRepository {
@@ -57,6 +58,13 @@ export class CompanyRepository {
             .collection('companies')
             .doc(companyId)
             .update({logo})
+    }
+
+    updatePayment(companyId: string, payment: Payment) {
+        return admin.firestore()
+            .collection('companies')
+            .doc(companyId)
+            .update({payment})
     }
 
 }

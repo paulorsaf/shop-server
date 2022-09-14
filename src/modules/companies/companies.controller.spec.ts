@@ -10,6 +10,7 @@ import { UpdateCompanyAddressCommand } from './commands/update-company-address/u
 import { UpdateCompanyCommand } from './commands/update-company/update-company.command';
 import { UpdateCompanyLogoCommand } from './commands/update-company-logo/update-company-logo.command';
 import { UpdateCompanyAboutUsCommand } from './commands/update-company-about-us/update-company-about-us.command';
+import { UpdateCompanyPaymentCommand } from './commands/update-company-payment/update-company-payment.command';
 
 describe('CompaniesController', () => {
 
@@ -127,6 +128,30 @@ describe('CompaniesController', () => {
         new UpdateCompanyLogoCommand(
           "anyId", "anyFileName", {
             companyId: "anyCompanyId", id: "anyUserId"
+          }
+        )
+      );
+    });
+
+  })
+
+  describe('given update company payment', () => {
+
+    it('then execute update company payment command', () => {
+      const payment = {
+        creditCard: "anyCreditCard", money: "anyMoney", pixKey: "anyPixKey"
+      } as any;
+      controller.updatePayment(user, "anyId", payment);
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateCompanyPaymentCommand(
+          "anyId", {
+            creditCard: payment.creditCard,
+            money: payment.money,
+            pixKey: payment.pixKey
+          }, {
+            companyId: "anyCompanyId",
+            id: "anyUserId"
           }
         )
       );
