@@ -15,6 +15,7 @@ export class PurchaseRepository {
                 return snapshot.docs.map(s => {
                     const db = s.data();
                     return new PurchaseSummary({
+                        address: db.address,
                         companyId: db.companyId,
                         createdAt: db.createdAt,
                         id: s.id,

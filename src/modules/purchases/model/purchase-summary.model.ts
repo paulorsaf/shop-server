@@ -4,6 +4,7 @@ export class PurchaseSummary {
 
     readonly id: string;
 
+    readonly address: any;
     readonly createdAt: string;
     readonly companyId: string;
     readonly payment: Payment;
@@ -15,6 +16,7 @@ export class PurchaseSummary {
 
     constructor(params: PurchaseParams){
         this.id = params.id;
+        this.address = params.address;
         this.createdAt = params.createdAt;
         this.companyId = params.companyId;
         this.payment = params.payment;
@@ -37,6 +39,7 @@ export class PurchaseSummary {
 
 type PurchaseParams = {
     id?: string;
+    address?: any;
     companyId: string;
     createdAt?: string;
     payment?: Payment;
