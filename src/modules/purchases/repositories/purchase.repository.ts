@@ -76,7 +76,7 @@ export class PurchaseRepository {
             .collection('purchases')
             .doc(purchase.id)
             .update(JSON.parse(JSON.stringify({
-                reason: purchase.reason,
+                reason: purchase.reason || "",
                 status: purchase.status
             })))
     }
