@@ -7,6 +7,7 @@ import { CompaniesModule } from './modules/companies/companies.module';
 import { EmailModule } from './modules/email/email.module';
 import { ProductImagesModule } from './modules/product-images/product-images.module';
 import { ProductsModule } from './modules/products/products.module';
+import { PurchaseSummaryModule } from './modules/purchase-summaries/purchase-summary.module';
 import { PurchasesModule } from './modules/purchases/purchases.module';
 import { StocksModule } from './modules/stocks/stocks.module';
 import { StorageModule } from './modules/storage/storage.module';
@@ -22,6 +23,7 @@ import { EventRepository } from './repositories/event.repository';
     ProductsModule,
     ProductImagesModule,
     PurchasesModule,
+    PurchaseSummaryModule,
     StorageModule,
     StocksModule
   ],
