@@ -6,7 +6,9 @@ export type Payment = {
 }
 
 export type PurchaseProduct = {
+    id: string;
     amount: number;
+    name: string;
     price: number;
     priceWithDiscount: number;
 }

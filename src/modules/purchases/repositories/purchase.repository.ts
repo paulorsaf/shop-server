@@ -56,7 +56,9 @@ export class PurchaseRepository {
                     id: snapshot.id,
                     payment: db.payment,
                     price: db.price,
+                    productNotes: db.productNotes,
                     products: db.products.map(p => ({
+                        id: p.id,
                         amount: p.amount,
                         name: p.name,
                         price: p.price,

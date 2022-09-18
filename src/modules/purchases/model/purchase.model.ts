@@ -8,6 +8,7 @@ export class Purchase {
     readonly id: string;
     readonly payment: Payment;
     readonly price: Price;
+    readonly productNotes: ProductNotes[];
     readonly products: PurchaseProduct[];
     readonly totalAmount: number;
     readonly totalPrice: number;
@@ -22,6 +23,7 @@ export class Purchase {
         this.id = params.id;
         this.payment = params.payment;
         this.price = params.price;
+        this.productNotes = params.productNotes;
         this.products = params.products;
         this.status = params.status;
         this.totalAmount = this.getTotalAmount();
@@ -53,6 +55,7 @@ type PurchaseParams = {
     id?: string;
     payment?: Payment;
     price?: Price;
+    productNotes?: ProductNotes[];
     products?: PurchaseProduct[];
     status?: string;
     user?: User;
@@ -64,4 +67,9 @@ type Price = {
     paymentFee: number;
     total: number;
     totalWithPaymentFee: number;
+}
+
+type ProductNotes = {
+    notes: string;
+    productId: string;
 }
