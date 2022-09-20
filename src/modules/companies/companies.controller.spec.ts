@@ -63,12 +63,13 @@ describe('CompaniesController', () => {
   describe('given update company', () => {
 
     it('then execute update company command', () => {
-      controller.update(user, "anyId", "anyName");
+      let details = {name: "anyName"} as any;
+      controller.update(user, "anyId", details);
   
       expect(commandBus.executed).toEqual(
         new UpdateCompanyCommand(
           "anyId",
-          {name: "anyName"},
+          details,
           {
             companyId: "anyCompanyId",
             id: "anyUserId"

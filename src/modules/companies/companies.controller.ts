@@ -13,6 +13,7 @@ import { UpdateCompanyLogoCommand } from './commands/update-company-logo/update-
 import { UpdateCompanyAboutUsCommand } from './commands/update-company-about-us/update-company-about-us.command';
 import { PaymentDTO } from './dtos/payment.dto';
 import { UpdateCompanyPaymentCommand } from './commands/update-company-payment/update-company-payment.command';
+import { CompanyDetailsDTO } from './dtos/company-details.dto';
 
 @Controller('companies')
 export class CompaniesController {
@@ -40,12 +41,12 @@ export class CompaniesController {
   update(
     @AuthUser() user: User,
     @Param('id') id: string,
-    @Body('name') name: string
+    @Body() companyDetails: CompanyDetailsDTO
   ) {
     return this.commandBus.execute(
       new UpdateCompanyCommand(
         id,
-        { name },
+        companyDetails,
         { companyId: user.companyId, id: user.id }
       )
     );

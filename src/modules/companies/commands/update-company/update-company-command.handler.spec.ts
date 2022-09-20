@@ -12,11 +12,10 @@ describe('UpdateCompanyCommandHandler', () => {
   let handler: UpdateCompanyCommandHandler;
   let eventBus: EventBusMock;
 
+  const details = {name: "anyName"} as any;
   const command = new UpdateCompanyCommand(
     'anyCompanyId', 
-    {
-      name: "anyName"
-    },
+    details,
     {
       companyId: "anyCompanyId",
       id: "anyUserId"

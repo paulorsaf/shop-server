@@ -4,6 +4,7 @@ import { Company } from "../models/company.model";
 import { Address } from '../models/address.model';
 import { Image } from '../models/image.model';
 import { Payment } from '../models/payment.model';
+import { CompanyDetailsDTO } from '../dtos/company-details.dto';
 
 @Injectable()
 export class CompanyRepository {
@@ -32,7 +33,7 @@ export class CompanyRepository {
             })
     }
 
-    update(companyId: string, update: UpdateCompany) {
+    update(companyId: string, update: CompanyDetailsDTO) {
         return admin.firestore()
             .collection('companies')
             .doc(companyId)
@@ -67,8 +68,4 @@ export class CompanyRepository {
             .update({payment})
     }
 
-}
-
-type UpdateCompany = {
-    name: string;
 }
