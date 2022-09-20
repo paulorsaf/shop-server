@@ -51,7 +51,7 @@ export class EmailRepository {
     }
 
     private async getTemplateContent(template: string){
-        const file = `${path.resolve(__dirname)}/templates/${template}`;
+        const file = `${process.cwd()}/src/modules/email/repositories/templates/${template}`;
         return await fs.readFileSync(file, 'utf8');
     }
 
