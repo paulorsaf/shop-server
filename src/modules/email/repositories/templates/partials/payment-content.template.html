@@ -1,0 +1,40 @@
+<div class="card" style="border-radius: 5px;border: 1px solid gray;margin-bottom: 20px;">
+    <div class="card_title" style="font-weight: 600;border-bottom: 1px solid lightgray;padding: 10px;">Dados do pagamento:</div>
+    <div class="card_body" style="padding: 10px;">
+        Tipo de pagamento: {{paymentType purchase.payment.type}}<br/>
+
+        {{#if purchase.price}}
+            <table style="border:none;border-spacing:0;margin:10px 0;">
+                <tr>
+                    <td style="border:none">Produtos:</td>
+                    <td style="border:none" align="right">R$ {{toFixed purchase.price.products}}</td>
+                </tr>
+                {{#if purchase.price.delivery}}
+                    <tr>
+                        <td style="border:none">Taxa de entrega:</td>
+                        <td style="border:none" align="right">R$ {{toFixed purchase.price.delivery}}</td>
+                    </tr>
+                {{/if}}
+                {{#if purchase.price.paymentFee}}
+                    <tr>
+                        <td style="border:none">Taxa do Cartão de crédito:</td>
+                        <td style="border:none" align="right">R$ {{toFixed purchase.price.paymentFee}}</td>
+                    </tr>
+                {{/if}}
+                <tr>
+                    <td style="border:none">Total:</td>
+                    <td style="border:none" align="right">R$ {{toFixed purchase.price.totalWithPaymentFee}}</td>
+                </tr>
+            </table>
+        {{/if}}
+        {{#if purchase.payment.card}}
+            <div>Bandeira: {{purchase.payment.card.brand}}</div>
+            <div>Número: **** **** **** {{purchase.payment.card.last4}}</div>
+            <div>Expiração: {{purchase.payment.card.exp_month}}/{{purchase.payment.card.exp_year}}</div>
+            <br/>
+        {{/if}}
+        {{#if purchase.payment.receiptUrl}}
+            <a href="{{purchase.payment.receiptUrl}}" target="_blank">Ver recibo</a><br/>
+        {{/if}}
+    </div>
+</div>

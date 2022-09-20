@@ -1,0 +1,40 @@
+{{#ifEquals purchase.status "PAID"}}
+    Confirmamos o pagamento da sua compra.<br/>
+    Em breve iniciaremos a separação dos seus produtos.
+{{/ifEquals}}
+
+{{#ifEquals purchase.status "SORTING_OUT"}}
+    Estamos separando a sua compra.<br/>
+    Em breve ela estará pronta para
+    {{log this}}
+    {{#if purchase.address}}
+        entrega.
+    {{else}}
+        você buscar na loja.
+    {{/if}}
+{{/ifEquals}}
+
+{{#ifEquals purchase.status "READY"}}
+    Sua compra está pronta.<br/>
+    {{#if purchase.address}}
+        Em breve você receberá os seus produtos.
+    {{else}}
+        Você já pode buscar os seus produtos na loja.
+    {{/if}}
+{{/ifEquals}}
+
+{{#ifEquals purchase.status "DELIVERYING"}}
+    Sua compra está a caminho e em breve chegará até a sua casa.
+{{/ifEquals}}
+
+{{#ifEquals purchase.status "CANCELLED"}}
+    Sua compra foi cancelada.<br/>
+    {{#if purchase.reason}}
+        Motivo: {{purchase.reason}}
+    {{/if}}
+{{/ifEquals}}
+
+<br/><br/>
+{{> purchasesContent }}
+{{> addressContent }}
+{{> paymentContent }}

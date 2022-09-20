@@ -1,0 +1,16 @@
+<div class="card" style="border-radius: 5px;border: 1px solid gray;margin-bottom: 20px;">
+    <div class="card_title" style="font-weight: 600;border-bottom: 1px solid lightgray;padding: 10px;">Endereço da entrega:</div>
+    <div class="card_body" style="padding: 10px;">
+        {{#if purchase.address}}
+            Rua: {{purchase.address.street}}<br/>
+            Número: {{purchase.address.number}}<br/>
+            Bairro: {{purchase.address.neighborhood}}<br/>
+            CEP: {{purchase.address.zipCode}}<br/>
+            Complemento: {{purchase.address.complement}}<br/>
+            Cidade: {{purchase.address.city}}<br/>
+            Estado: {{purchase.address.state}}
+        {{else}}
+            Busca na loja
+        {{/if}}
+    </div>
+</div>
