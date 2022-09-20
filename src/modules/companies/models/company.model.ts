@@ -9,7 +9,10 @@ export class Company {
     readonly logo: Image;
     readonly name: string;
     readonly payment: Payment;
-    readonly pixKey: string;
+    readonly facebook: string;
+    readonly instagram: string;
+    readonly website: string;
+    readonly whatsapp: string;
 
     constructor(params: CompanyParams){
         this.aboutUs = params.aboutUs;
@@ -19,7 +22,10 @@ export class Company {
         this.logo = params.logo;
         this.name = params.name;
         this.payment = params.payment;
-        this.pixKey = params.pixKey;
+        this.facebook = params.facebook;
+        this.instagram = params.instagram;
+        this.website = params.website;
+        this.whatsapp = params.whatsapp;
     }
 
 }
@@ -32,7 +38,10 @@ type CompanyParams = {
     logo?: Image;
     name?: string;
     payment?: Payment;
-    pixKey?: string;
+    facebook?: string;
+    instagram?: string;
+    website?: string;
+    whatsapp?: string;
 }
 
 type Image = {

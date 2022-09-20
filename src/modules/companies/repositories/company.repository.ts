@@ -28,7 +28,10 @@ export class CompanyRepository {
                     logo: db.logo,
                     name: db.name,
                     payment: db.payment,
-                    pixKey: db.pixKey
+                    facebook: db.facebook,
+                    instagram: db.instagram,
+                    website: db.website,
+                    whatsapp: db.whatsapp
                 })
             })
     }
