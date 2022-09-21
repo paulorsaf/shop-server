@@ -3,6 +3,7 @@ import { SaveEventHandler } from './events/save-event-event.handler';
 import { AddressModule } from './modules/address/address.module';
 import { BannersModule } from './modules/banners/banners.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { ClientsModule } from './modules/clients/clients.module';
 import { CompaniesModule } from './modules/companies/companies.module';
 import { EmailModule } from './modules/email/email.module';
 import { ProductImagesModule } from './modules/product-images/product-images.module';
@@ -18,6 +19,7 @@ import { EventRepository } from './repositories/event.repository';
     AddressModule,
     BannersModule,
     CategoriesModule,
+    ClientsModule,
     CompaniesModule,
     EmailModule,
     ProductsModule,
