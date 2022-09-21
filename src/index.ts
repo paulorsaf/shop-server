@@ -24,6 +24,7 @@ export const createNestServer = async (expressInstance) => {
   
   app.enableCors({origin: '*'});
   app.use(express.json({ limit: '1mb' }));
+  process.env.TZ = "America/Sao_Paulo";
 
   return app.init();
 };

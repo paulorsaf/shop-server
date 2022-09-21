@@ -15,6 +15,7 @@ async function bootstrap() {
 
   app.enableCors({origin: '*'});
   app.use(json({ limit: '1mb' }));
+  process.env.TZ = "America/Sao_Paulo";
 
   await app.listen(3000);
 }
