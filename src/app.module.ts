@@ -5,6 +5,7 @@ import { BannersModule } from './modules/banners/banners.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ClientsModule } from './modules/clients/clients.module';
 import { CompaniesModule } from './modules/companies/companies.module';
+import { CupomsModule } from './modules/cupoms/cupoms.module';
 import { EmailModule } from './modules/email/email.module';
 import { ProductImagesModule } from './modules/product-images/product-images.module';
 import { ProductsModule } from './modules/products/products.module';
@@ -21,6 +22,7 @@ import { EventRepository } from './repositories/event.repository';
     CategoriesModule,
     ClientsModule,
     CompaniesModule,
+    CupomsModule,
     EmailModule,
     ProductsModule,
     ProductImagesModule,
