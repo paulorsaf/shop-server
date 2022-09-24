@@ -59,6 +59,7 @@ describe('CupomsController', () => {
       const createCupomDTO: CreateCupomDTO = {
         cupom: "anyCupomId",
         amountLeft: 10,
+        discount: 15,
         expireDate: "anyExpireDate"
       }
 

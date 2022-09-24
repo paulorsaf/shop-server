@@ -12,7 +12,7 @@ describe('CreateCupomCommandHandler', () => {
   let eventBus: EventBusMock;
 
   const query = new CreateCupomCommand('anyCompanyId', {
-    cupom: "anyCupom", amountLeft: 10, expireDate: "anyExpireDate"
+    cupom: "anyCupom", amountLeft: 10, expireDate: "anyExpireDate", discount: 15
   }, "anyUserId");
   let cupomRepository: CupomRepositoryMock;
 
@@ -60,6 +60,7 @@ describe('CreateCupomCommandHandler', () => {
             amountLeft: 10,
             companyId: "anyCompanyId",
             cupom: "ANYCUPOM",
+            discount: 15,
             expireDate: "anyExpireDate",
             id: "anyCupomId",
           },

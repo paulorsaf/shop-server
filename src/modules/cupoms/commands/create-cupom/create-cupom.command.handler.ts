@@ -25,6 +25,7 @@ export class CreateCupomCommandHandler implements ICommandHandler<CreateCupomCom
             amountLeft: command.cupom.amountLeft,
             companyId: command.companyId,
             cupom: command.cupom.cupom.toUpperCase(),
+            discount: command.cupom.discount,
             expireDate: command.cupom.expireDate
         }
         return cupom;

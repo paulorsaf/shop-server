@@ -20,6 +20,7 @@ export class CupomRepository {
         return admin.firestore()
             .collection('cupoms')
             .where('companyId', '==', companyId)
+            .orderBy('createdAt', 'desc')
             .get()
             .then(snapshot => {
                 if (snapshot.empty) {
@@ -30,6 +31,7 @@ export class CupomRepository {
                     return {
                         amountLeft: data.amountLeft,
                         cupom: data.cupom,
+                        discount: data.discount,
                         expireDate: data.expireDate,
                         id: d.id
                     } as Cupom;
