@@ -15,6 +15,12 @@
                         <td style="border:none" align="right">R$ {{toFixed purchase.price.delivery}}</td>
                     </tr>
                 {{/if}}
+                {{#if purchase.price.discount}}
+                    <tr>
+                        <td style="border:none">Desconto:</td>
+                        <td style="border:none" align="right">- R$ {{toFixed purchase.price.discount}}</td>
+                    </tr>
+                {{/if}}
                 {{#if purchase.price.paymentFee}}
                     <tr>
                         <td style="border:none">Taxa do Cartão de crédito:</td>
