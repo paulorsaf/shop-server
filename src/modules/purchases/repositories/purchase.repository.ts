@@ -10,6 +10,7 @@ export class PurchaseRepository {
         return admin.firestore()
             .collection('purchases')
             .where('companyId', '==', query.companyId)
+            .orderBy('date', 'desc')
             .get()
             .then(snapshot => {
                 return snapshot.docs.map(s => {
