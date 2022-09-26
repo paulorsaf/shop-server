@@ -5,6 +5,7 @@ import { CreateCupomCommand } from './create-cupom.command';
 import { CupomRepository } from '../../repositories/cupom.repository';
 import { EventBusMock } from '../../../../mocks/event-bus.mock';
 import { CupomCreatedEvent } from '../../events/cupom-created.event';
+import { BadRequestException } from '@nestjs/common';
 
 describe('CreateCupomCommandHandler', () => {
 
@@ -38,9 +39,10 @@ describe('CreateCupomCommandHandler', () => {
     handler = module.get<CreateCupomCommandHandler>(CreateCupomCommandHandler);
   });
 
-  describe('given execute command with success', () => {
+  describe('given cupom', () => {
 
     beforeEach(() => {
+      cupomRepository._findResponse = null;
       cupomRepository._response = "anyCupomId";
     })
 
@@ -69,6 +71,12 @@ describe('CreateCupomCommandHandler', () => {
       );
     })
 
+    it('when cupom already exists, then return bad request exception error', async () => {
+      cupomRepository._findResponse = {id: "anyCupomId"};
+
+      await expect(handler.execute(query)).rejects.toThrowError(BadRequestException);
+    })
+
   })
 
 });
@@ -76,8 +84,12 @@ describe('CreateCupomCommandHandler', () => {
 class CupomRepositoryMock {
   _created = false;
   _response;
+  _findResponse;
   create() {
     this._created = true;
     return this._response;
+  }
+  findByCupom() {
+    return this._findResponse;
   }
 }

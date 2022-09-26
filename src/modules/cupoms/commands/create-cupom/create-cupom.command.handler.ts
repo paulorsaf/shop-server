@@ -1,3 +1,4 @@
+import { BadRequestException } from "@nestjs/common";
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { CupomCreatedEvent } from "../../events/cupom-created.event";
 import { Cupom } from "../../models/cupom.model";
@@ -13,6 +14,13 @@ export class CreateCupomCommandHandler implements ICommandHandler<CreateCupomCom
     ){}
 
     async execute(command: CreateCupomCommand) {
+        const savedCupom = await this.cupomRepository.findByCupom({
+            companyId: command.companyId, cupom: command.cupom.cupom?.toUpperCase()
+        })
+        if (savedCupom) {
+            throw new BadRequestException('Cupom já existe');
+        }
+
         const cupom: Cupom = this.createCupomModel(command);
 
         const id = await this.cupomRepository.create(cupom);
