@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Param, UploadedFile, Delete, UseInterceptors } from '@nestjs/common';
+import { Controller, UseGuards, Post, Param, Delete, Req } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Base64UploadToFileName } from '../../file-upload/decorators/base64-upload-to-file-name.decorator';
 import { Base64FileUploadToFileStrategy } from '../../file-upload/strategies/base64-upload-to-file-name.strategy';
@@ -7,10 +7,8 @@ import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy
 import { User } from '../../authentication/model/user';
 import { AddProductImageCommand } from './commands/add-product-image/add-product-image.command';
 import { DeleteProductImageCommand } from './commands/delete-product-image/delete-product-image.command';
-import { FileInterceptor } from '@nestjs/platform-express';
-import * as fs from 'fs';
-import * as os from 'os';
-import { randomUUID } from 'crypto';
+import { Request } from 'express';
+import * as multiparty from 'multiparty';
 
 @Controller('products/:productId/images')
 export class ProductImagesController {
@@ -34,18 +32,21 @@ export class ProductImagesController {
   }
 
   @UseGuards(JwtAdminStrategy)
-  @UseInterceptors(FileInterceptor('file'))
   @Post('test')
   addNew(
     @AuthUser() user: User,
-    @Param('productId') productId: string,
-    @UploadedFile() file: Express.Multer.File
+    @Req() request: Request
   ) {
-    return this.commandBus.execute(
-      new AddProductImageCommand(
-        user.companyId, productId, file.path, user.id
-      )
-    )
+    var form = new multiparty.Form();
+    form.parse(request, (err, fields, formData) => {
+      if (err){ 
+        console.log('### error', err);
+      } else {
+        console.log('### success', formData?.file?.length || 0);
+        console.log('### success', JSON.stringify(formData?.file));
+      }
+    });
+    return null;
   }
   
   @UseGuards(JwtAdminStrategy)
