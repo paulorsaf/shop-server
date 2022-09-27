@@ -37,16 +37,18 @@ export class ProductImagesController {
     @AuthUser() user: User,
     @Req() request: Request
   ) {
-    var form = new multiparty.Form();
-    form.parse(request, (err, fields, formData) => {
-      if (err){ 
-        console.log('### error', err);
-      } else {
-        console.log('### success', formData?.file?.length || 0);
-        console.log('### success', JSON.stringify(formData?.file));
-      }
-    });
-    return null;
+    return new Promise(resolve => {
+      var form = new multiparty.Form();
+      form.parse(request, (err, fields, formData) => {
+        if (err){ 
+          console.log('### error', err);
+        } else {
+          console.log('### success', formData?.file?.length || 0);
+          console.log('### success', JSON.stringify(formData?.file));
+        }
+        resolve({});
+      });
+    }).then(() => console.log('### finished'))
   }
   
   @UseGuards(JwtAdminStrategy)
