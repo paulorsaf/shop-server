@@ -28,6 +28,8 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
     "@sendinblue/client": "^3.2.2",
+    "@types/busboy": "^1.5.0",
+    "busboy": "^1.6.0",
     "correios-brasil": "^3.0.0",
     "date-fns": "^2.29.1",
     "firebase": "^9.9.0",

@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, UseGuards, Post, Param, Delete, Req } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Base64UploadToFileName } from '../../file-upload/decorators/base64-upload-to-file-name.decorator';
 import { Base64FileUploadToFileStrategy } from '../../file-upload/strategies/base64-upload-to-file-name.strategy';
@@ -7,7 +7,11 @@ import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy
 import { User } from '../../authentication/model/user';
 import { AddProductImageCommand } from './commands/add-product-image/add-product-image.command';
 import { DeleteProductImageCommand } from './commands/delete-product-image/delete-product-image.command';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Request } from 'express';
+import * as Busboy from 'busboy';
+import * as os from 'os';
+import * as path from 'path';
+import * as fs from 'fs';
 
 @Controller('products/:productId/images')
 export class ProductImagesController {
@@ -32,18 +36,60 @@ export class ProductImagesController {
 
   @UseGuards(JwtAdminStrategy)
   @Post('test')
-  @UseInterceptors(
-    FileInterceptor("file", {
-      limits: {
-        files: 1
-      },
-    })
-  )
   addNew(
     @AuthUser() user: User,
-    @UploadedFile() file: Express.Multer.File,
+    @Param('productId') productId: string,
+    @Req() request: Request
   ) {
-    return {file, user};
+    return new Promise((resolve, reject) => {
+      console.log('### starting bus boy')
+      const bb = Busboy({
+        headers: request.headers
+      });
+  
+      let fbCollTicketData: any;
+      bb.on('file', (name, file, info) => {
+        console.log("### Execution started, file Block");
+        const { filename } = info;
+        const filepath = path.join(os.tmpdir(), `${filename}`);
+        const fstream = fs.createWriteStream(filepath);
+        file.pipe(fstream);
+        console.log("### Execution Ended, file Block");
+
+        this.commandBus.execute(
+          new AddProductImageCommand(
+            user.companyId, productId, filepath, user.id
+          )
+        )
+        .then(() => {
+          console.log('### success')
+          resolve(null)
+        })
+        .catch(error => {
+          console.log('### error')
+          reject(error)
+        });
+      });
+      bb.on('field', (name, val, info) => {
+        console.log("### Execution started, field Block");
+        //console.log('Field [' + fieldname + ']: value: ' + val);
+        console.log(`### Field [${name}]: value: %j`, val);
+        if (name == 'data' && val) {
+          fbCollTicketData = <any>JSON.parse(val);
+        }
+        console.log("### Execution Ended, field Block");
+      });
+      bb.on('error', (e) => {
+        console.log("### Execution started, error Block");
+        console.log(e);
+        console.log("### Execution Ended, error Block");
+        reject(e);
+      });
+      bb.on('close', () => {
+        console.log('### Done parsing form!');
+      });
+      request.pipe(bb);
+    })
   }
   
   @UseGuards(JwtAdminStrategy)
