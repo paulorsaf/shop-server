@@ -1,5 +1,7 @@
-import { Module } from '@nestjs/common';
+import { HttpException, HttpStatus, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
+import { MulterModule } from '@nestjs/platform-express';
+import { extname } from 'path';
 import { AuthenticationModule } from '../../authentication/authentication.module';
 import { EventRepository } from '../../repositories/event.repository';
 import { AddProductImageCommandHandler } from './commands/add-product-image/add-product-image-command.handler';
@@ -10,13 +12,26 @@ import { ProductRepository } from './repositories/product.repository';
 import { StorageRepository } from './repositories/storage.repository';
 import { ProductImageSagas } from './sagas/product-image.saga';
 
+const imageFilter = function (req, file, cb) {
+  // accept image only
+  if (!file.originalname.match(/.(jpg|jpeg.webp|png)$/)) {
+    cb(new HttpException(`Tipo de arquivo ${extname(file.originalname)} não é válido.`, HttpStatus.BAD_REQUEST), false);
+  }
+  cb(null, true);
+};
+
 @Module({
   controllers: [
     ProductImagesController
   ],
   imports: [
     CqrsModule,
-    AuthenticationModule
+    AuthenticationModule,
+    MulterModule.registerAsync({
+      useFactory: () => ({
+        fileFilter: imageFilter
+      }),
+    }),
   ],
   providers: [
     EventRepository,
