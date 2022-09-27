@@ -18,7 +18,8 @@ export const createNestServer = async (expressInstance) => {
     new ExpressAdapter(expressInstance),
     {
       cors: false,
-      logger: ['error', 'warn', 'debug']
+      logger: ['error', 'warn', 'debug'],
+      rawBody: true
     }
   );
   

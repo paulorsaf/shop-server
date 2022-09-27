@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Param, Delete, Req } from '@nestjs/common';
+import { Controller, UseGuards, Post, Param, Delete, Req, RawBodyRequest } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { Base64UploadToFileName } from '../../file-upload/decorators/base64-upload-to-file-name.decorator';
 import { Base64FileUploadToFileStrategy } from '../../file-upload/strategies/base64-upload-to-file-name.strategy';
@@ -39,7 +39,7 @@ export class ProductImagesController {
   addNew(
     @AuthUser() user: User,
     @Param('productId') productId: string,
-    @Req() request: Request
+    @Req() request: RawBodyRequest<Request>
   ) {
     return new Promise((resolve, reject) => {
       console.log('### starting bus boy')
@@ -88,7 +88,8 @@ export class ProductImagesController {
       bb.on('close', () => {
         console.log('### Done parsing form!');
       });
-      request.pipe(bb);
+      console.log('### raw body', request.rawBody);
+      bb.end(request.rawBody);
     })
   }
   
