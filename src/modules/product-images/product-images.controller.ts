@@ -39,13 +39,11 @@ export class ProductImagesController {
   addNew(
     @AuthUser() user: User,
     @Param('productId') productId: string,
-    @UploadedFile() file
+    @UploadedFile() file: Express.Multer.File
   ) {
-    const fileName = `${os.tmpdir()}/${randomUUID()}-${file.originalname}`;
-    fs.writeFileSync(fileName, file.buffer);
     return this.commandBus.execute(
       new AddProductImageCommand(
-        user.companyId, productId, fileName, user.id
+        user.companyId, productId, file.path, user.id
       )
     )
   }

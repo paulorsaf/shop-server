@@ -11,6 +11,7 @@ import { ProductImageRepository } from './repositories/product-image.repository'
 import { ProductRepository } from './repositories/product.repository';
 import { StorageRepository } from './repositories/storage.repository';
 import { ProductImageSagas } from './sagas/product-image.saga';
+import * as os from 'os';
 
 const imageFilter = function (req, file, cb) {
   // accept image only
@@ -29,6 +30,7 @@ const imageFilter = function (req, file, cb) {
     AuthenticationModule,
     MulterModule.registerAsync({
       useFactory: () => ({
+        dest: os.tmpdir(),
         fileFilter: imageFilter
       }),
     }),
