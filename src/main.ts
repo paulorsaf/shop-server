@@ -10,12 +10,12 @@ async function bootstrap() {
   })
 
   const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'warn', 'debug'],
-    rawBody: true
+    logger: ['error', 'warn', 'debug']
   });
 
   app.enableCors({origin: '*'});
   app.use(json({ limit: '1mb' }));
+  
   process.env.TZ = "America/Sao_Paulo";
 
   await app.listen(3000);

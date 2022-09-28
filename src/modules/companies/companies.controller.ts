@@ -7,13 +7,13 @@ import { UpdateCompanyAddressCommand } from './commands/update-company-address/u
 import { Address } from './models/address.model';
 import { FindCompanyByIdQuery } from './queries/find-company-by-id/find-company-by-id.query';
 import { UpdateCompanyCommand } from './commands/update-company/update-company.command';
-import { Base64FileUploadToFileStrategy } from '../../file-upload/strategies/base64-upload-to-file-name.strategy';
-import { Base64UploadToFileName } from '../../file-upload/decorators/base64-upload-to-file-name.decorator';
 import { UpdateCompanyLogoCommand } from './commands/update-company-logo/update-company-logo.command';
 import { UpdateCompanyAboutUsCommand } from './commands/update-company-about-us/update-company-about-us.command';
 import { PaymentDTO } from './dtos/payment.dto';
 import { UpdateCompanyPaymentCommand } from './commands/update-company-payment/update-company-payment.command';
 import { CompanyDetailsDTO } from './dtos/company-details.dto';
+import { MultipartUploadToFilePathStrategy } from '../../file-upload/strategies/multipart-upload-to-file-path.strategy';
+import { MultipartUploadToFilePath } from '../../file-upload/decorators/multipart-upload-to-file-path.decorator';
 
 @Controller('companies')
 export class CompaniesController {
@@ -84,12 +84,12 @@ export class CompaniesController {
     );
   }
 
-  @UseGuards(JwtAdminStrategy, Base64FileUploadToFileStrategy)
+  @UseGuards(JwtAdminStrategy, MultipartUploadToFilePathStrategy)
   @Patch(':id/logos')
   updateLogo(
     @AuthUser() user: User,
     @Param('id') id: string,
-    @Base64UploadToFileName() filePath: string
+    @MultipartUploadToFilePath() filePath: string
   ) {
     return this.commandBus.execute(
       new UpdateCompanyLogoCommand(
