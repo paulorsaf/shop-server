@@ -48,7 +48,7 @@ describe('ProductsController', () => {
   describe('given find products', () => {
 
     it('then execute find product command', () => {
-      controller.find(user, 1);
+      controller.find(user, "1");
   
       expect(queryBus.executed).toEqual(
         new FindProductsByCompanyQuery(user.companyId, 1)
