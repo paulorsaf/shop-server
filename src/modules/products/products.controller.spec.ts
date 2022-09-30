@@ -48,10 +48,10 @@ describe('ProductsController', () => {
   describe('given find products', () => {
 
     it('then execute find product command', () => {
-      controller.find(user);
+      controller.find(user, 1);
   
       expect(queryBus.executed).toEqual(
-        new FindProductsByCompanyQuery(user.companyId)
+        new FindProductsByCompanyQuery(user.companyId, 1)
       );
     });
 
@@ -73,7 +73,7 @@ describe('ProductsController', () => {
 
   describe('given save product', () => {
 
-    const product = new CreateProductDTO("anyName", "anyCategoryId", 10, 5, 1);
+    const product = new CreateProductDTO("anyName", "anyCategoryId", 10, 5, 1, "anyUnit");
 
     it('then execute save product command', () => {
       controller.save(user, product);

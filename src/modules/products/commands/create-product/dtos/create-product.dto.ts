@@ -4,6 +4,7 @@ export class CreateProductDTO {
         public readonly categoryId: string,
         public readonly price: number,
         public readonly priceWithDiscount: number,
-        public readonly weight: number
+        public readonly weight: number,
+        public readonly unit: string
     ){}
 }

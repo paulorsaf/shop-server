@@ -11,11 +11,13 @@ export class ProductRepository {
   constructor(
   ) {}
 
-  async findByCompany(companyId: string) {
+  async findByCompany(param: FindByCompany) {
     return admin.firestore()
       .collection('products')
-      .where('companyId', '==', companyId)
+      .where('companyId', '==', param.companyId)
       .orderBy('name', 'asc')
+      .offset(param.page * 30)
+      .limit(30)
       .get()
       .then(snapshot =>
         snapshot.docs.map(d => <Product> {
@@ -65,4 +67,9 @@ export class ProductRepository {
       .then(() => Promise.resolve())
   }
 
+}
+
+type FindByCompany = {
+  companyId: string,
+  page: number
 }

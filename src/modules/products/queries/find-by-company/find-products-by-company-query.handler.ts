@@ -11,7 +11,9 @@ export class FindProductsByCompanyQueryHandler implements IQueryHandler<FindProd
     ){}
 
     async execute(query: FindProductsByCompanyQuery): Promise<Product[]> {
-        return this.productRepository.findByCompany(query.companyId);
+        return this.productRepository.findByCompany({
+            companyId: query.companyId, page: query.page
+        });
     }
 
 }

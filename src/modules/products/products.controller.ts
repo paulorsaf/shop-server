@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Post, Param, Body, Patch, Delete } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Param, Body, Patch, Delete, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
@@ -21,9 +21,12 @@ export class ProductsController {
 
   @UseGuards(JwtAdminStrategy)
   @Get()
-  find(@AuthUser() user: User) {
+  find(@AuthUser() user: User, @Query('page') page: string = "0") {
     return this.queryBus.execute(
-      new FindProductsByCompanyQuery(user.companyId)
+      new FindProductsByCompanyQuery(
+        user.companyId,
+        parseInt(page)
+      )
     );
   }
 
