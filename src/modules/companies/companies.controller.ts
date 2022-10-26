@@ -24,6 +24,19 @@ export class CompaniesController {
   ) {}
 
   @UseGuards(JwtAdminStrategy)
+  @Get('users')
+  findByUser(@AuthUser() user: User) {
+    return this.queryBus.execute(
+      new FindCompanyByIdQuery(
+        user.companyId, {
+          companyId: user.companyId,
+          id: user.id
+        }
+      )
+    )
+  }
+
+  @UseGuards(JwtAdminStrategy)
   @Get(':id')
   findById(@AuthUser() user: User, @Param('id') id: string) {
     return this.queryBus.execute(

@@ -43,9 +43,26 @@ describe('CompaniesController', () => {
     controller = module.get<CompaniesController>(CompaniesController);
   });
 
+  describe('given find company by user', () => {
+
+    it('then execute find company by id query', () => {
+      controller.findById(user, "anyName");
+  
+      expect(queryBus.executed).toEqual(
+        new FindCompanyByIdQuery(
+          "anyCompanyId", {
+            companyId: "anyCompanyId",
+            id: "anyUserId"
+          }
+        )
+      );
+    });
+
+  })
+
   describe('given find company by id', () => {
 
-    it('then execute create category query', () => {
+    it('then execute find company by id query', () => {
       controller.findById(user, "anyName");
   
       expect(queryBus.executed).toEqual(
