@@ -11,6 +11,11 @@ import { RemoveStockOptionCommandHandler } from './commands/remove-stock-option/
 import { RemoveStockByProductCommandHandler } from './commands/remove-stock-by-product/remove-stock-by-product-command.handler';
 import { UpdateStockOptionCommandHandler } from './commands/update-stock-option/update-stock-option-command.handler';
 import { UpdateProductStockCommandHandler } from './commands/update-product-stock/update-product-stock-command.handler';
+import { HttpModule } from '@nestjs/axios';
+import { RiccoSaoLuisCompanyStockRepository } from './commands/update-stock-by-company/repositories/ricco-sao-luis-company-stock.repository';
+import { CompanyStockFactory } from './commands/update-stock-by-company/factories/company-stock.factory';
+import { UpdateStockByCompanyCommandHandler } from './commands/update-stock-by-company/update-stock-by-company-command.handler';
+import { ProductStockRepository } from './commands/update-stock-by-company/repositories/product-stock.repository';
 
 @Module({
   controllers: [
@@ -18,11 +23,15 @@ import { UpdateProductStockCommandHandler } from './commands/update-product-stoc
   ],
   imports: [
     CqrsModule,
-    AuthenticationModule
+    AuthenticationModule,
+    HttpModule
   ],
   providers: [
-    StockRepository,
+    CompanyStockFactory,
     ProductRepository,
+    ProductStockRepository,
+    RiccoSaoLuisCompanyStockRepository,
+    StockRepository,
 
     FindStockByProductQueryHandler,
 
@@ -32,6 +41,8 @@ import { UpdateProductStockCommandHandler } from './commands/update-product-stoc
     
     RemoveStockByProductCommandHandler,
     UpdateProductStockCommandHandler,
+
+    UpdateStockByCompanyCommandHandler,
 
     StockOptionSagas
   ]

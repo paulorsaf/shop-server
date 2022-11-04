@@ -27,6 +27,7 @@ import { CompanyLogoUpdatedEvent } from "../modules/companies/events/company-log
 import { CompanyAboutUsUpdatedEvent } from "../modules/companies/events/company-about-us-updated.event";
 import { CompanyPaymentUpdatedEvent } from "../modules/companies/events/company-payment-updated.event";
 import { CupomCreatedEvent } from "../modules/cupoms/events/cupom-created.event";
+import { CompanyTotalStockUpdatedEvent } from "../modules/stocks/events/company-total-stock-updated.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -54,6 +55,7 @@ import { CupomCreatedEvent } from "../modules/cupoms/events/cupom-created.event"
     StockOptionRemovedEvent,
     StockOptionUpdatedEvent,
     StockRemovedEvent,
+    CompanyTotalStockUpdatedEvent,
 
     PurchaseStatusChangeEmailSentEvent,
     SendPurchaseStatusChangeEmailFailedEvent

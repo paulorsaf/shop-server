@@ -10,6 +10,7 @@ import { StockOptionDTO } from './dtos/stock-option-dto';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
 import { RemoveStockOptionCommand } from './commands/remove-stock-option/remove-stock-option.command';
 import { UpdateStockOptionCommand } from './commands/update-stock-option/update-stock-option.command';
+import { UpdateStockByCompanyCommand } from './commands/update-stock-by-company/update-stock-by-company.command';
 
 describe('StocksController', () => {
 
@@ -96,6 +97,18 @@ describe('StocksController', () => {
         new UpdateStockOptionCommand(
           user.companyId, "anyProductId", "anyStockId", stockOptionDTO, user.id
         )
+      );
+    });
+
+  })
+
+  describe('given update stock', () => {
+
+    it('then execute update stock by company command', () => {
+      controller.updateStocks(user);
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateStockByCompanyCommand(user.companyId, user.id)
       );
     });
 

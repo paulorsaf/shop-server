@@ -23,6 +23,7 @@ export class CompanyRepository {
                 return new Company({
                     aboutUs: db.aboutUs,
                     address: db.address,
+                    canUpdateStock: db.canUpdateStock,
                     email: db.email,
                     id: snapshot.id,
                     logo: db.logo,

@@ -5,11 +5,12 @@ import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy
 import { User } from '../../authentication/model/user';
 import { AddStockOptionCommand } from './commands/add-stock-option/add-stock-option.command';
 import { RemoveStockOptionCommand } from './commands/remove-stock-option/remove-stock-option.command';
+import { UpdateStockByCompanyCommand } from './commands/update-stock-by-company/update-stock-by-company.command';
 import { UpdateStockOptionCommand } from './commands/update-stock-option/update-stock-option.command';
 import { StockOptionDTO } from './dtos/stock-option-dto';
 import { FindStockByProductQuery } from './queries/find-stock-by-product/find-stock-by-product.query';
 
-@Controller('products/:productId/stocks')
+@Controller()
 export class StocksController {
   
   constructor(
@@ -18,7 +19,17 @@ export class StocksController {
   ) {}
 
   @UseGuards(JwtAdminStrategy)
-  @Get()
+  @Patch('stocks')
+  updateStocks(@AuthUser() user: User) {
+    return this.commandBus.execute(
+      new UpdateStockByCompanyCommand(
+        user.companyId, user.id
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Get('products/:productId/stocks')
   find(@AuthUser() user: User, @Param('productId') productId: string) {
     return this.queryBus.execute(
       new FindStockByProductQuery(user.companyId, productId)
@@ -26,7 +37,7 @@ export class StocksController {
   }
 
   @UseGuards(JwtAdminStrategy)
-  @Post()
+  @Post('products/:productId/stocks')
   create(
     @AuthUser() user: User,
     @Param('productId') productId: string,
@@ -40,7 +51,7 @@ export class StocksController {
   }
 
   @UseGuards(JwtAdminStrategy)
-  @Patch(':stockId')
+  @Patch('products/:productId/stocks/:stockId')
   update(
     @AuthUser() user: User,
     @Param('productId') productId: string,
@@ -55,7 +66,7 @@ export class StocksController {
   }
 
   @UseGuards(JwtAdminStrategy)
-  @Delete(':stockId')
+  @Delete('products/:productId/stocks/:stockId')
   delete(
     @AuthUser() user: User,
     @Param('productId') productId: string,

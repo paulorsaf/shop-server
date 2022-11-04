@@ -4,6 +4,7 @@ export class Company {
     
     readonly aboutUs: string;
     readonly address: Address;
+    readonly canUpdateStock: boolean;
     readonly email: string;
     readonly id: string;
     readonly logo: Image;
@@ -17,6 +18,7 @@ export class Company {
     constructor(params: CompanyParams){
         this.aboutUs = params.aboutUs;
         this.address = params.address;
+        this.canUpdateStock = params.canUpdateStock;
         this.email = params.email;
         this.id = params.id;
         this.logo = params.logo;
@@ -33,6 +35,7 @@ export class Company {
 type CompanyParams = {
     aboutUs?: string;
     address?: Address;
+    canUpdateStock?: boolean;
     email?: string;
     id?: string;
     logo?: Image;
