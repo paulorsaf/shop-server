@@ -16,6 +16,7 @@ import { RiccoSaoLuisCompanyStockRepository } from './commands/update-stock-by-c
 import { CompanyStockFactory } from './commands/update-stock-by-company/factories/company-stock.factory';
 import { UpdateStockByCompanyCommandHandler } from './commands/update-stock-by-company/update-stock-by-company-command.handler';
 import { ProductStockRepository } from './commands/update-stock-by-company/repositories/product-stock.repository';
+import { RiccoImperatrizCompanyStockRepository } from './commands/update-stock-by-company/repositories/ricco-imperatriz-company-stock.repository';
 
 @Module({
   controllers: [
@@ -30,6 +31,7 @@ import { ProductStockRepository } from './commands/update-stock-by-company/repos
     CompanyStockFactory,
     ProductRepository,
     ProductStockRepository,
+    RiccoImperatrizCompanyStockRepository,
     RiccoSaoLuisCompanyStockRepository,
     StockRepository,
 

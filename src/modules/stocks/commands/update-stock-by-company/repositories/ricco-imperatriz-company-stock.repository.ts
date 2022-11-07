@@ -6,9 +6,9 @@ import * as xml2js from 'xml2js';
 import { catchError, firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class RiccoSaoLuisCompanyStockRepository implements CompanyStockInterface {
+export class RiccoImperatrizCompanyStockRepository implements CompanyStockInterface {
 
-  #url = process.env.COMPANY_STOCK_RICCO_SAO_LUIS;
+  #url = process.env.COMPANY_STOCK_RICCO_IMPERATRIZ;
 
   constructor(
     private readonly httpService: HttpService
