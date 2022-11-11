@@ -125,6 +125,7 @@ export class CompaniesController {
         id,
         {
           creditCard: payment.creditCard,
+          isPaymentAfterPurchase: payment.isPaymentAfterPurchase,
           money: payment.money,
           pixKey: payment.pixKey
         },

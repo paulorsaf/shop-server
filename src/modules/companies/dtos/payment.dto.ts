@@ -1,5 +1,6 @@
 export type PaymentDTO = {
     creditCard: CreditCardPaymentDTO;
+    isPaymentAfterPurchase: boolean;
     money: boolean;
     pixKey: string;
 }
