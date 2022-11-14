@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { Purchase } from "../model/purchase.model";
 import * as SendingBlue from "@sendinblue/client";
 import * as fs from 'fs';
-import * as path from 'path';
 import * as handlebars from 'handlebars';
 
 @Injectable()
@@ -104,6 +103,9 @@ export class EmailRepository {
         }
         if (purchase.status === "CANCELLED") {
             return "Sua compra foi cancelada";
+        }
+        if (purchase.status === "WAITING_PAYMENT") {
+            return "Você já pode pagar a sua compra";
         }
     }
 

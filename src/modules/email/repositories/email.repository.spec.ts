@@ -99,96 +99,92 @@ xdescribe('EmailRepository', () => {
     repository = module.get<EmailRepository>(EmailRepository);
   });
 
-  describe('given client', () => {
+  describe('given payment is paid', () => {
 
-    describe('when payment is paid', () => {
-
-      beforeEach(() => {
-        purchase.status = "PAID";
-      })
-  
-      it('then send status change email paid', async () => {
-        const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
-        
-        const file = `${path.resolve(__dirname)}/templates/results/status-change-email/paid.html`;
-        await fs.writeFileSync(file, html, 'utf8');
-    
-        expect(false).toBeTruthy();
-      })
-  
+    beforeEach(() => {
+      purchase.status = "PAID";
     })
 
-    describe('when payment is sorting out', () => {
-
-      beforeEach(() => {
-        purchase.status = "SORTING_OUT";
-      })
+    it('then send status change email paid', async () => {
+      const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
+      
+      const file = `${path.resolve(__dirname)}/templates/results/status-change-email/paid.html`;
+      await fs.writeFileSync(file, html, 'utf8');
   
-      it('and has address, then send status change email sorting out with address', async () => {
-        const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
-        
-        const file = `${path.resolve(__dirname)}/templates/results/status-change-email/sorting-out-with-address.html`;
-        await fs.writeFileSync(file, html, 'utf8');
-    
-        expect(false).toBeTruthy();
-      })
-  
-      it('and doesnt have address, then send status change email sorting out without address', async () => {
-        purchase.address = null;
-
-        const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
-        
-        const file = `${path.resolve(__dirname)}/templates/results/status-change-email/sorting-out-without-address.html`;
-        await fs.writeFileSync(file, html, 'utf8');
-    
-        expect(false).toBeTruthy();
-      })
-  
+      expect(false).toBeTruthy();
     })
 
-    describe('when payment is ready', () => {
+  })
 
-      beforeEach(() => {
-        purchase.status = "READY";
-      })
-  
-      it('and has address, then send status change email ready with address', async () => {
-        const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
-        
-        const file = `${path.resolve(__dirname)}/templates/results/status-change-email/ready-with-address.html`;
-        await fs.writeFileSync(file, html, 'utf8');
-    
-        expect(false).toBeTruthy();
-      })
-  
-      it('and doesnt have address, then send status change email ready without address', async () => {
-        purchase.address = null;
-        
-        const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
-        
-        const file = `${path.resolve(__dirname)}/templates/results/status-change-email/ready-without-address.html`;
-        await fs.writeFileSync(file, html, 'utf8');
-    
-        expect(false).toBeTruthy();
-      })
-  
+  describe('given payment is sorting out', () => {
+
+    beforeEach(() => {
+      purchase.status = "SORTING_OUT";
     })
 
-    describe('when payment is deliverying', () => {
+    it('and has address, then send status change email sorting out with address', async () => {
+      const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
+      
+      const file = `${path.resolve(__dirname)}/templates/results/status-change-email/sorting-out-with-address.html`;
+      await fs.writeFileSync(file, html, 'utf8');
+  
+      expect(false).toBeTruthy();
+    })
 
-      beforeEach(() => {
-        purchase.status = "DELIVERYING";
-      })
+    it('and doesnt have address, then send status change email sorting out without address', async () => {
+      purchase.address = null;
+
+      const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
+      
+      const file = `${path.resolve(__dirname)}/templates/results/status-change-email/sorting-out-without-address.html`;
+      await fs.writeFileSync(file, html, 'utf8');
   
-      it('then send status change email deliverying', async () => {
-        const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
-        
-        const file = `${path.resolve(__dirname)}/templates/results/status-change-email/deliverying.html`;
-        await fs.writeFileSync(file, html, 'utf8');
-    
-        expect(false).toBeTruthy();
-      })
+      expect(false).toBeTruthy();
+    })
+
+  })
+
+  describe('when payment is ready', () => {
+
+    beforeEach(() => {
+      purchase.status = "READY";
+    })
+
+    it('and has address, then send status change email ready with address', async () => {
+      const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
+      
+      const file = `${path.resolve(__dirname)}/templates/results/status-change-email/ready-with-address.html`;
+      await fs.writeFileSync(file, html, 'utf8');
   
+      expect(false).toBeTruthy();
+    })
+
+    it('and doesnt have address, then send status change email ready without address', async () => {
+      purchase.address = null;
+      
+      const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
+      
+      const file = `${path.resolve(__dirname)}/templates/results/status-change-email/ready-without-address.html`;
+      await fs.writeFileSync(file, html, 'utf8');
+  
+      expect(false).toBeTruthy();
+    })
+
+  })
+
+  describe('when payment is deliverying', () => {
+
+    beforeEach(() => {
+      purchase.status = "DELIVERYING";
+    })
+
+    it('then send status change email deliverying', async () => {
+      const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
+      
+      const file = `${path.resolve(__dirname)}/templates/results/status-change-email/deliverying.html`;
+      await fs.writeFileSync(file, html, 'utf8');
+  
+      expect(false).toBeTruthy();
     })
 
   })
@@ -199,7 +195,7 @@ xdescribe('EmailRepository', () => {
       purchase.status = "CANCELLED";
     })
 
-    it('and has readony, then send status change email cancelled with reason', async () => {
+    it('and has readonly, then send status change email cancelled with reason', async () => {
       purchase.reason = "any reason informed by the user";
 
       const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
@@ -216,6 +212,23 @@ xdescribe('EmailRepository', () => {
       const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
       
       const file = `${path.resolve(__dirname)}/templates/results/status-change-email/cancelled-without-reason.html`;
+      await fs.writeFileSync(file, html, 'utf8');
+  
+      expect(false).toBeTruthy();
+    })
+
+  })
+
+  describe('given payment is waiting for payment', () => {
+
+    beforeEach(() => {
+      purchase.status = "WAITING_PAYMENT";
+    })
+
+    it('then send waiting for payment email', async () => {
+      const html = await repository.getStatusChangeEmailForClientHtmlClientContent(purchase);
+      
+      const file = `${path.resolve(__dirname)}/templates/results/status-change-email/waiting-payment.html`;
       await fs.writeFileSync(file, html, 'utf8');
   
       expect(false).toBeTruthy();

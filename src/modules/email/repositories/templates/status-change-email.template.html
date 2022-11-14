@@ -34,6 +34,10 @@
     {{/if}}
 {{/ifEquals}}
 
+{{#ifEquals purchase.status "WAITING_PAYMENT"}}
+    Sua compra está separada e agora você já pode escolher o modo de pagamento.
+{{/ifEquals}}
+
 <br/><br/>
 {{> purchasesContent }}
 {{> addressContent }}
