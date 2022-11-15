@@ -17,7 +17,7 @@ describe('UpdateCompanyPaymentCommandHandler', () => {
     creditCard: {id: "anyCreditCard"} as any,
     money: true,
     pixKey: "anyPixKey"
-  };
+  } as any;
   const command = new UpdateCompanyPaymentCommand(
     'anyCompanyId', payment, {companyId: "anyCompanyId", id: "anyUserId"}
   );

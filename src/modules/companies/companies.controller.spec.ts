@@ -167,7 +167,7 @@ describe('CompaniesController', () => {
             creditCard: payment.creditCard,
             money: payment.money,
             pixKey: payment.pixKey
-          }, {
+          } as any, {
             companyId: "anyCompanyId",
             id: "anyUserId"
           }
