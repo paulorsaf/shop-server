@@ -1,5 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
+import { SoapModule } from 'nestjs-soap';
 import { RiccoImperatrizCompanyStockRepository } from '../repositories/ricco-imperatriz-company-stock.repository';
 import { RiccoSaoLuisCompanyStockRepository } from '../repositories/ricco-sao-luis-company-stock.repository';
 import { CompanyStockFactory } from './company-stock.factory';
@@ -11,7 +12,11 @@ describe('CompanyStockFactory', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                HttpModule
+                HttpModule,
+                SoapModule.register({
+                    clientName: 'RICCO_SAO_LUIS_STOCK',
+                    uri: "any"
+                })
             ],
             providers: [
                 CompanyStockFactory,
