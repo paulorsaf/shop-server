@@ -1,38 +1,37 @@
-import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CompanyStockProduct } from '../models/company-product-stock.model';
 import { CompanyStockInterface } from './company-stock.interface';
-import * as xml2js from 'xml2js';
-import { catchError, firstValueFrom } from 'rxjs';
+import { Client } from 'nestjs-soap';
 
 @Injectable()
 export class RiccoSaoLuisCompanyStockRepository implements CompanyStockInterface {
 
-  #url = process.env.COMPANY_STOCK_RICCO_SAO_LUIS;
-
   constructor(
-    private readonly httpService: HttpService
+    @Inject('RICCO_SAO_LUIS_STOCK') private readonly soapClient: Client
   ){}
 
   async findAll(): Promise<CompanyStockProduct[]> {
     return new Promise(async (resolve, reject) => {
-      const { data } = await firstValueFrom(
-        this.httpService.get(this.#url).pipe(
-          catchError(() => {
-            throw 'An error happened!';
-          })
-        )
-      )
-      
-      xml2js.parseStringPromise(data).then(json => {
-        const values = JSON.parse(json.string._) as Response[];
-        resolve(values.map(v => ({
+      if (!this.soapClient.wsdl.xmlnsInEnvelope.includes(":tem")) {
+        this.soapClient.wsdl.xmlnsInEnvelope += ' xmlns:tem="http://tempuri.org/"';
+      }
+
+      this.soapClient.CadastroProdutoApp({
+        'tem:loja': 1
+      }, (err, res) => {
+        if (err) {
+          resolve([]);
+          return;
+        }
+        const values = JSON.parse(res.CadastroProdutoAppResult);
+        const response = values.map(v => ({
           isPromotion: v.promocao ? true : false,
           price: v.preco1,
           productInternalId: v.codigo.toString(),
           totalStock: v.saldo
-        })));
-      }).catch(error => reject(error));
+        }));
+        resolve(response);
+      });
     })
   }
 

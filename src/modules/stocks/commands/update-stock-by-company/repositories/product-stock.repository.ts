@@ -11,18 +11,19 @@ export class ProductStockRepository {
     return this.findProductByInternalId(update).then(snapshot => {
       if (!snapshot.empty) {
         snapshot.docs.forEach(doc => {
-          this.updateProduct(doc.id, update);
+          const data = doc.data();
+          this.updateProduct(doc.id, update, data.weight);
           this.updateStock(doc.id, update);
         })
       }
     })
   }
 
-  private updateProduct(productId: string, update: UpdateProductStock) {
+  private updateProduct(productId: string, update: UpdateProductStock, productWeight: number) {
     return admin.firestore()
       .collection('products')
       .doc(productId)
-      .update(this.createUpdateModel(update));
+      .update(this.createUpdateModel(update, productWeight));
   }
 
   private updateStock(productId: string, update: UpdateProductStock) {
@@ -39,15 +40,15 @@ export class ProductStockRepository {
       })
   }
 
-  private createUpdateModel(update: UpdateProductStock) {
+  private createUpdateModel(update: UpdateProductStock, productWeight: number) {
     const response: any = {
       totalStock: update.totalStock
     };
 
     if (update.isPromotion) {
-      response.priceWithDiscount = update.price;
+      response.priceWithDiscount = update.price * (productWeight || 1);
     } else {
-      response.price = update.price;
+      response.price = update.price * (productWeight || 1);
       response.priceWithDiscount = null;
     }
     return response;

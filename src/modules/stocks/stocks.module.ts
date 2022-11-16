@@ -17,6 +17,8 @@ import { CompanyStockFactory } from './commands/update-stock-by-company/factorie
 import { UpdateStockByCompanyCommandHandler } from './commands/update-stock-by-company/update-stock-by-company-command.handler';
 import { ProductStockRepository } from './commands/update-stock-by-company/repositories/product-stock.repository';
 import { RiccoImperatrizCompanyStockRepository } from './commands/update-stock-by-company/repositories/ricco-imperatriz-company-stock.repository';
+import { SoapModule } from 'nestjs-soap';
+import { getEnvProperty } from 'src/utils/env.utils';
 
 @Module({
   controllers: [
@@ -25,7 +27,13 @@ import { RiccoImperatrizCompanyStockRepository } from './commands/update-stock-b
   imports: [
     CqrsModule,
     AuthenticationModule,
-    HttpModule
+    HttpModule,
+    SoapModule.register(
+      {
+        clientName: 'RICCO_SAO_LUIS_STOCK',
+        uri: getEnvProperty('_COMPANY_STOCK_RICCO_SAO_LUIS')
+      }
+    )
   ],
   providers: [
     CompanyStockFactory,
