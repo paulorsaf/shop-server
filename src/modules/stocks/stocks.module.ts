@@ -31,7 +31,7 @@ import { getEnvProperty } from 'src/utils/env.utils';
     SoapModule.register(
       {
         clientName: 'RICCO_SAO_LUIS_STOCK',
-        uri: getEnvProperty('_COMPANY_STOCK_RICCO_SAO_LUIS')
+        uri: getEnvProperty('COMPANY_STOCK_RICCO_SAO_LUIS')
       }
     )
   ],

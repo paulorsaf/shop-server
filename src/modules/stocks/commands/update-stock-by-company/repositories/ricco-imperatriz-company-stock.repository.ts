@@ -4,11 +4,12 @@ import { CompanyStockProduct } from '../models/company-product-stock.model';
 import { CompanyStockInterface } from './company-stock.interface';
 import * as xml2js from 'xml2js';
 import { catchError, firstValueFrom } from 'rxjs';
+import { getEnvProperty } from '../../../../../utils/env.utils';
 
 @Injectable()
 export class RiccoImperatrizCompanyStockRepository implements CompanyStockInterface {
 
-  #url = process.env.COMPANY_STOCK_RICCO_IMPERATRIZ;
+  #url = getEnvProperty('COMPANY_STOCK_RICCO_IMPERATRIZ');
 
   constructor(
     private readonly httpService: HttpService
