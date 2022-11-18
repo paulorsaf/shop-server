@@ -25,6 +25,7 @@ export class CompanyRepository {
                     address: db.address,
                     canUpdateStock: db.canUpdateStock,
                     email: db.email,
+                    hasToSendPurchaseToOwnSystem: db.hasToSendPurchaseToOwnSystem,
                     id: snapshot.id,
                     logo: db.logo,
                     name: db.name,

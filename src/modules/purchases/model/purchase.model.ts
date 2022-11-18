@@ -5,6 +5,7 @@ export class Purchase {
     readonly address: any;
     readonly createdAt: string;
     readonly companyId: string;
+    readonly hasBeenSentToSystem: boolean;
     readonly id: string;
     readonly payment: Payment;
     readonly price: Price;
@@ -20,6 +21,7 @@ export class Purchase {
         this.address = params.address;
         this.createdAt = params.createdAt;
         this.companyId = params.companyId;
+        this.hasBeenSentToSystem = params.hasBeenSentToSystem;
         this.id = params.id;
         this.payment = params.payment;
         this.price = params.price;
@@ -52,6 +54,7 @@ type PurchaseParams = {
     address?: any;
     companyId: string;
     createdAt?: string;
+    hasBeenSentToSystem?: boolean;
     id?: string;
     payment?: Payment;
     price?: Price;

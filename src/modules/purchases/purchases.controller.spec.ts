@@ -8,6 +8,7 @@ import { QueryBusMock } from '../../mocks/query-bus.mock';
 import { FindPurchasesByUserQuery } from './queries/find-purchases-by-company/find-purchases-by-company.query';
 import { FindPurchaseByIdAndCompanyQuery } from './queries/find-purchase-by-id-and-company/find-purchase-by-id-and-company.query';
 import { UpdatePurchaseStatusCommand } from './commands/update-purchase-status/update-purchase-status.command';
+import { SendPurchaseToSystemCommand } from './commands/send-purchase-to-system/send-purchase-to-system.command';
 
 describe('PurchasesController', () => {
 
@@ -80,6 +81,22 @@ describe('PurchasesController', () => {
           "anyCompanyId",
           "anyPurchaseId",
           status,
+          "anyUserId"
+        )
+      );
+    });
+
+  })
+
+  describe('given send purchase to system', () => {
+
+    it('then execute send purchase to system command', () => {
+      controller.sendToSystem(user, "anyPurchaseId");
+  
+      expect(commandBus.executed).toEqual(
+        new SendPurchaseToSystemCommand(
+          "anyCompanyId",
+          "anyPurchaseId",
           "anyUserId"
         )
       );

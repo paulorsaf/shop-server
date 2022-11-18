@@ -54,6 +54,7 @@ export class PurchaseRepository {
                     address: db.address,
                     companyId: db.companyId,
                     createdAt: db.createdAt,
+                    hasBeenSentToSystem: db.hasBeenSentToSystem,
                     id: snapshot.id,
                     payment: db.payment,
                     price: db.price,

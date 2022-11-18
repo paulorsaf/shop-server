@@ -1,8 +1,9 @@
-import { Controller, UseGuards, Get, Param, Patch, Body } from '@nestjs/common';
+import { Controller, UseGuards, Get, Param, Patch, Body, Post } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
 import { User } from '../../authentication/model/user';
+import { SendPurchaseToSystemCommand } from './commands/send-purchase-to-system/send-purchase-to-system.command';
 import { UpdatePurchaseStatusCommand } from './commands/update-purchase-status/update-purchase-status.command';
 import { FindPurchaseByIdAndCompanyQuery } from './queries/find-purchase-by-id-and-company/find-purchase-by-id-and-company.query';
 import { FindPurchasesByUserQuery } from './queries/find-purchases-by-company/find-purchases-by-company.query';
@@ -51,6 +52,21 @@ export class PurchasesController {
         user.id
       )
     )
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Post(':id/system')
+  sendToSystem(
+    @AuthUser() user: User,
+    @Param('id') purchaseId: string
+  ) {
+    return this.commandBus.execute(
+      new SendPurchaseToSystemCommand(
+        user.companyId,
+        purchaseId,
+        user.id
+      )
+    );
   }
 
 }

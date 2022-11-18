@@ -6,6 +6,7 @@ export class Company {
     readonly address: Address;
     readonly canUpdateStock: boolean;
     readonly email: string;
+    readonly hasToSendPurchaseToOwnSystem: boolean;
     readonly id: string;
     readonly logo: Image;
     readonly name: string;
@@ -20,6 +21,7 @@ export class Company {
         this.address = params.address;
         this.canUpdateStock = params.canUpdateStock;
         this.email = params.email;
+        this.hasToSendPurchaseToOwnSystem = params.hasToSendPurchaseToOwnSystem;
         this.id = params.id;
         this.logo = params.logo;
         this.name = params.name;
@@ -37,6 +39,7 @@ type CompanyParams = {
     address?: Address;
     canUpdateStock?: boolean;
     email?: string;
+    hasToSendPurchaseToOwnSystem?: boolean;
     id?: string;
     logo?: Image;
     name?: string;
