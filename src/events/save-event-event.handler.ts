@@ -28,6 +28,7 @@ import { CompanyAboutUsUpdatedEvent } from "../modules/companies/events/company-
 import { CompanyPaymentUpdatedEvent } from "../modules/companies/events/company-payment-updated.event";
 import { CupomCreatedEvent } from "../modules/cupoms/events/cupom-created.event";
 import { CompanyTotalStockUpdatedEvent } from "../modules/stocks/events/company-total-stock-updated.event";
+import { PurchaseSentToSystemEvent } from "../modules/purchases/events/purchase-sent-to-system.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -58,7 +59,8 @@ import { CompanyTotalStockUpdatedEvent } from "../modules/stocks/events/company-
     CompanyTotalStockUpdatedEvent,
 
     PurchaseStatusChangeEmailSentEvent,
-    SendPurchaseStatusChangeEmailFailedEvent
+    SendPurchaseStatusChangeEmailFailedEvent,
+    PurchaseSentToSystemEvent
 )
 export class SaveEventHandler implements IEventHandler<any> {
 

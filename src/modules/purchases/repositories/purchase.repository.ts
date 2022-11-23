@@ -64,7 +64,8 @@ export class PurchaseRepository {
                         amount: p.amount,
                         name: p.name,
                         price: p.price,
-                        priceWithDiscount: p.priceWithDiscount
+                        priceWithDiscount: p.priceWithDiscount,
+                        productInternalId: p.productInternalId
                     })),
                     status: db.status,
                     user: {
@@ -72,6 +73,16 @@ export class PurchaseRepository {
                         id: db.user.id
                     }
                 })
+            })
+    }
+
+    setAsSentToSystem(purchaseId: string, dataSentToInternalSystem: any) {
+        return admin.firestore()
+            .collection('purchases')
+            .doc(purchaseId)
+            .update({
+                dataSentToInternalSystem: JSON.parse(JSON.stringify(dataSentToInternalSystem)),
+                hasBeenSentToSystem: true
             })
     }
 

@@ -17,11 +17,10 @@ export class RiccoImperatrizCompanyStockRepository implements CompanyStockInterf
 
   async findAll(): Promise<CompanyStockProduct[]> {
     return new Promise(async (resolve, reject) => {
+      const callUrl = `${this.#url}/CadastroProdutoApp?loja=1&codigo=&nome=&codigoBarra=`
       const { data } = await firstValueFrom(
-        this.httpService.get(this.#url).pipe(
-          catchError(() => {
-            throw 'An error happened!';
-          })
+        this.httpService.get(callUrl).pipe(
+          catchError(() => {throw 'An error happened!'})
         )
       )
       
