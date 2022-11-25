@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { SoapModule } from 'nestjs-soap';
@@ -20,6 +21,7 @@ import { PurchasesSagas } from './sagas/purchases.saga';
     PurchasesController
   ],
   imports: [
+    HttpModule,
     CqrsModule,
     AuthenticationModule,
     SoapModule.register(

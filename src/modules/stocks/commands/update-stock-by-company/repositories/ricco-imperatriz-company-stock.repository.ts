@@ -20,7 +20,7 @@ export class RiccoImperatrizCompanyStockRepository implements CompanyStockInterf
       const callUrl = `${this.#url}/CadastroProdutoApp?loja=1&codigo=&nome=&codigoBarra=`
       const { data } = await firstValueFrom(
         this.httpService.get(callUrl).pipe(
-          catchError(() => {throw 'An error happened!'})
+          catchError(() => {throw 'Erro ao recuperar estoque'})
         )
       )
       

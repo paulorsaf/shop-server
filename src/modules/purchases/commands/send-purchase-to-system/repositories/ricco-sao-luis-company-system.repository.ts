@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Client } from 'nestjs-soap';
 import { CompanySystemInterface } from './company-system.interface';
 import { Purchase } from './../../../model/purchase.model';
