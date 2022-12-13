@@ -43,6 +43,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "shop-purchase-price": "^1.0.0",
     "webpack": "^5.74.0",
     "xml2js": "^0.4.23"
   },
