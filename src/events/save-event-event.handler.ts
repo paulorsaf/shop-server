@@ -29,6 +29,8 @@ import { CompanyPaymentUpdatedEvent } from "../modules/companies/events/company-
 import { CupomCreatedEvent } from "../modules/cupoms/events/cupom-created.event";
 import { CompanyTotalStockUpdatedEvent } from "../modules/stocks/events/company-total-stock-updated.event";
 import { PurchaseSentToSystemEvent } from "../modules/purchases/events/purchase-sent-to-system.event";
+import { PurchaseProductQuantityEditedEvent } from "../modules/purchases/events/purchase-product-quantity-edited.event";
+import { CompanyCityDeliveryPriceUpdatedEvent } from "../modules/companies/events/company-city-delivery-price-updated.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -52,11 +54,13 @@ import { PurchaseSentToSystemEvent } from "../modules/purchases/events/purchase-
     ProductStockUpdatedEvent,
     ProductUpdatedEvent,
     PurchaseStatusUpdatedEvent,
+    PurchaseProductQuantityEditedEvent,
     StockOptionAddedEvent,
     StockOptionRemovedEvent,
     StockOptionUpdatedEvent,
     StockRemovedEvent,
     CompanyTotalStockUpdatedEvent,
+    CompanyCityDeliveryPriceUpdatedEvent,
 
     PurchaseStatusChangeEmailSentEvent,
     SendPurchaseStatusChangeEmailFailedEvent,

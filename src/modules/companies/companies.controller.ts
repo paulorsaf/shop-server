@@ -14,6 +14,7 @@ import { UpdateCompanyPaymentCommand } from './commands/update-company-payment/u
 import { CompanyDetailsDTO } from './dtos/company-details.dto';
 import { MultipartUploadToFilePathStrategy } from '../../file-upload/strategies/multipart-upload-to-file-path.strategy';
 import { MultipartUploadToFilePath } from '../../file-upload/decorators/multipart-upload-to-file-path.decorator';
+import { UpdateCompanyDeliveryPriceCommand } from './commands/update-company-delivery-price/update-company-delivery-price.command';
 
 @Controller('companies')
 export class CompaniesController {
@@ -133,6 +134,21 @@ export class CompaniesController {
           companyId: user.companyId,
           id: user.id
         }
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Patch(':id/deliveryprices')
+  updateDeliveryPrice(
+    @AuthUser() user: User,
+    @Body() body: {price: number}
+  ) {
+    return this.commandBus.execute(
+      new UpdateCompanyDeliveryPriceCommand(
+        user.companyId,
+        body.price,
+        user.id
       )
     );
   }

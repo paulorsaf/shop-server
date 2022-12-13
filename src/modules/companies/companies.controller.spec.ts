@@ -11,6 +11,7 @@ import { UpdateCompanyCommand } from './commands/update-company/update-company.c
 import { UpdateCompanyLogoCommand } from './commands/update-company-logo/update-company-logo.command';
 import { UpdateCompanyAboutUsCommand } from './commands/update-company-about-us/update-company-about-us.command';
 import { UpdateCompanyPaymentCommand } from './commands/update-company-payment/update-company-payment.command';
+import { UpdateCompanyDeliveryPriceCommand } from './commands/update-company-delivery-price/update-company-delivery-price.command';
 
 describe('CompaniesController', () => {
 
@@ -171,6 +172,20 @@ describe('CompaniesController', () => {
             companyId: "anyCompanyId",
             id: "anyUserId"
           }
+        )
+      );
+    });
+
+  })
+
+  describe('given update delivery price', () => {
+
+    it('then execute update delivery price command', () => {
+      controller.updateDeliveryPrice(user, {price: 10});
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateCompanyDeliveryPriceCommand(
+          "anyCompanyId", 10, "anyUserId"
         )
       );
     });

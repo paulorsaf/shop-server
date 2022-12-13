@@ -4,6 +4,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { SoapModule } from 'nestjs-soap';
 import { getEnvProperty } from 'src/utils/env.utils';
 import { AuthenticationModule } from '../../authentication/authentication.module';
+import { EditPurchaseProductQuantityCommandHandler } from './commands/edit-purchase-product/edit-purchase-product-quantity.command.handler';
 import { CompanySystemFactory } from './commands/send-purchase-to-system/factories/company-system.factory';
 import { RiccoImperatrizCompanySystemRepository } from './commands/send-purchase-to-system/repositories/ricco-imperatriz-company-system.repository';
 import { RiccoSaoLuisCompanySystemRepository } from './commands/send-purchase-to-system/repositories/ricco-sao-luis-company-system.repository';
@@ -38,6 +39,7 @@ import { PurchasesSagas } from './sagas/purchases.saga';
     RiccoSaoLuisCompanySystemRepository,
     UserRepository,
 
+    EditPurchaseProductQuantityCommandHandler,
     FindPurchasesByUserQueryHandler,
     FindPurchaseByIdAndCompanyQueryHandler,
     SendPurchaseToSystemCommandHandler,

@@ -10,6 +10,7 @@ import { UpdateCompanyLogoCommandHandler } from './commands/update-company-logo/
 import { StorageRepository } from './repositories/storage.repository';
 import { UpdateCompanyAboutUsCommandHandler } from './commands/update-company-about-us/update-company-about-us-command.handler';
 import { UpdateCompanyPaymentCommandHandler } from './commands/update-company-payment/update-company-payment-command.handler';
+import { UpdateCompanyDeliveryPriceCommandHandler } from './commands/update-company-delivery-price/update-company-delivery-price.command.handler';
 
 @Module({
   controllers: [
@@ -28,6 +29,7 @@ import { UpdateCompanyPaymentCommandHandler } from './commands/update-company-pa
     UpdateCompanyAddressCommandHandler,
     UpdateCompanyLogoCommandHandler,
     UpdateCompanyPaymentCommandHandler,
+    UpdateCompanyDeliveryPriceCommandHandler,
 
     FindCompanyByIdQueryHandler
   ]

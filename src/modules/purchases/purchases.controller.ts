@@ -3,6 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
 import { User } from '../../authentication/model/user';
+import { EditPurchaseProductQuantityCommand } from './commands/edit-purchase-product/edit-purchase-product-quantity.command';
 import { SendPurchaseToSystemCommand } from './commands/send-purchase-to-system/send-purchase-to-system.command';
 import { UpdatePurchaseStatusCommand } from './commands/update-purchase-status/update-purchase-status.command';
 import { FindPurchaseByIdAndCompanyQuery } from './queries/find-purchase-by-id-and-company/find-purchase-by-id-and-company.query';
@@ -65,6 +66,27 @@ export class PurchasesController {
         user.companyId,
         purchaseId,
         user.id
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Post(':id/products/:productId/stocks/:stockId')
+  editPurchaseProduct(
+    @AuthUser() user: User,
+    @Param('id') purchaseId: string,
+    @Param('productId') productId: string,
+    @Param('stockId') stockId: string,
+    @Body('value') value: number
+  ) {
+    return this.commandBus.execute(
+      new EditPurchaseProductQuantityCommand(
+        user.companyId,
+        user.id,
+        purchaseId,
+        productId,
+        stockId,
+        value
       )
     );
   }

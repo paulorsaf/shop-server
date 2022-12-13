@@ -2,6 +2,9 @@ import * as admin from 'firebase-admin';
 import { Injectable } from "@nestjs/common";
 import { PurchaseSummary } from "../model/purchase-summary.model";
 import { Purchase } from '../model/purchase.model';
+import { PurchaseProduct } from '../model/purchase.types';
+import { PurchasePrice } from 'shop-purchase-price';
+import { Company } from '../../companies/models/company.model';
 
 @Injectable()
 export class PurchaseRepository {
@@ -59,14 +62,7 @@ export class PurchaseRepository {
                     payment: db.payment,
                     price: db.price,
                     productNotes: db.productNotes,
-                    products: db.products.map(p => ({
-                        id: p.id,
-                        amount: p.amount,
-                        name: p.name,
-                        price: p.price,
-                        priceWithDiscount: p.priceWithDiscount,
-                        productInternalId: p.productInternalId
-                    })),
+                    products: db.products,
                     status: db.status,
                     user: {
                         email: db.user.email,
@@ -86,6 +82,43 @@ export class PurchaseRepository {
             })
     }
 
+    updateProductAmount(update: UpdateProductAmount) {
+        return admin.firestore()
+            .collection('purchases')
+            .doc(update.purchase.id)
+            .update({
+                products: admin.firestore.FieldValue.arrayRemove(update.purchaseProduct)
+            }).then(() => {
+                return admin.firestore()
+                    .collection('purchases')
+                    .doc(update.purchase.id)
+                    .update({
+                        products: admin.firestore.FieldValue.arrayUnion({
+                            ...update.purchaseProduct,
+                            amount: update.amount
+                        })
+                    })
+            })
+    }
+
+    updatePurchasePrice(purchase: Purchase) {
+        return admin.firestore()
+            .collection('companies')
+            .doc(purchase.companyId)
+            .get()
+            .then(async snapshot => {
+                if (snapshot.exists) {
+                    const company = snapshot.data() as Company;
+                    const discount = await this.findDiscount(purchase);
+                    const price = await this.calculatePurchasePrice(purchase, company, discount);
+                    return admin.firestore()
+                        .collection('purchases')
+                        .doc(purchase.id)
+                        .update({price});
+                }
+            });
+    }
+
     updateStatus(purchase: UpdateStatus) {
         return admin.firestore()
             .collection('purchases')
@@ -94,6 +127,46 @@ export class PurchaseRepository {
                 reason: purchase.reason || "",
                 status: purchase.status
             })))
+    }
+
+    private findDiscount(purchase: Purchase) {
+        if (!purchase.payment?.cupom) {
+            return 0;
+        }
+        return admin.firestore()
+            .collection('cupoms')
+            .where('companyId', '==', purchase.companyId)
+            .where('cupom', '==', purchase.payment.cupom)
+            .get()
+            .then(async snapshot => {
+                if (snapshot.empty) {
+                    return 0;
+                }
+                const cupom = snapshot.docs[0].data() as {discount: number};
+                return cupom.discount;
+            });
+    }
+
+    private async calculatePurchasePrice(purchase: Purchase, company: Company, discount: number) {
+        return await new PurchasePrice({
+            addresses: {
+                destination: purchase.address?.zipCode,
+                origin: company.address.zipCode
+            },
+            discount,
+            innerCityDeliveryPrice: company.cityDeliveryPrice,
+            originCityName: company.address.city,
+            paymentFee: {
+                percentage: company.payment?.creditCard?.fee?.percentage || 0,
+                value: company.payment?.creditCard?.fee?.value || 0
+            },
+            products: purchase.products.map(p => ({
+                amount: p.amount,
+                price: p.price,
+                priceWithDiscount: p.priceWithDiscount,
+                weight: p.weight
+            }))
+        }).calculatePrice();
     }
 
 }
@@ -105,6 +178,12 @@ type Find = {
 type FindByIdAndCompany = {
     companyId: string;
     id: string;
+}
+
+type UpdateProductAmount = {
+    amount: number;
+    purchaseProduct: PurchaseProduct;
+    purchase: Purchase;
 }
 
 type UpdateStatus = {
