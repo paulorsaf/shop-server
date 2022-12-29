@@ -9,6 +9,9 @@ describe('CompanyStockFactory', () => {
 
     let factory: CompanyStockFactory;
 
+    let riccoImperatrizCompanyStockRepositosMock = {id: 1};
+    let riccoSaoLuisCompanyStockRepositosMock = {id: 2};
+
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
@@ -24,6 +27,8 @@ describe('CompanyStockFactory', () => {
                 RiccoSaoLuisCompanyStockRepository
             ]
         })
+        .overrideProvider(RiccoImperatrizCompanyStockRepository).useValue(riccoImperatrizCompanyStockRepositosMock)
+        .overrideProvider(RiccoSaoLuisCompanyStockRepository).useValue(riccoSaoLuisCompanyStockRepositosMock)
         .compile();
 
         factory = module.get<CompanyStockFactory>(CompanyStockFactory);
@@ -31,12 +36,12 @@ describe('CompanyStockFactory', () => {
 
     it('given company is ricco sao luis, then return ricco sao luis', async () => {
         expect(factory.createStock('ZHcTZOE3HqGilGhNcgUR'))
-            .toBeInstanceOf(RiccoSaoLuisCompanyStockRepository);
+            .toEqual(riccoSaoLuisCompanyStockRepositosMock);
     });
 
     it('given company is ricco imperatriz, then return ricco imperatriz', async () => {
         expect(factory.createStock('yYRhNlwkCAWSBztRo887'))
-            .toBeInstanceOf(RiccoImperatrizCompanyStockRepository);
+            .toEqual(riccoImperatrizCompanyStockRepositosMock);
     });
 
     it('given company is not found, then return null', async () => {
