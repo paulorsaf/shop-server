@@ -130,6 +130,24 @@ export class PurchaseRepository {
             })))
     }
 
+    cancelPurchaseProduct(cancel: CancelPurchaseProduct) {
+        return admin.firestore()
+            .collection('purchases')
+            .doc(cancel.purchase.id)
+            .update({
+                products: admin.firestore.FieldValue.arrayRemove(cancel.purchaseProduct)
+            }).then(() => {
+                return admin.firestore()
+                    .collection('purchases')
+                    .doc(cancel.purchase.id)
+                    .update({
+                        productsCancelled: admin.firestore.FieldValue.arrayUnion(
+                            cancel.purchaseProduct
+                        )
+                    })
+            })
+    }
+
     private findDiscount(purchase: Purchase) {
         if (!purchase.payment?.cupom) {
             return 0;
@@ -183,6 +201,11 @@ type FindByIdAndCompany = {
 
 type UpdateProductAmount = {
     amount: number;
+    purchaseProduct: PurchaseProduct;
+    purchase: Purchase;
+}
+
+type CancelPurchaseProduct = {
     purchaseProduct: PurchaseProduct;
     purchase: Purchase;
 }

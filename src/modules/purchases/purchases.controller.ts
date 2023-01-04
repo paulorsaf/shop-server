@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Param, Patch, Body, Post } from '@nestjs/common';
+import { Controller, UseGuards, Get, Param, Patch, Body, Post, Delete } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
@@ -93,7 +93,7 @@ export class PurchasesController {
   }
 
   @UseGuards(JwtAdminStrategy)
-  @Post(':id/products/:productId/stocks/:stockId')
+  @Delete(':id/products/:productId/stocks/:stockId')
   cancelPurchaseProduct(
     @AuthUser() user: User,
     @Param('id') purchaseId: string,

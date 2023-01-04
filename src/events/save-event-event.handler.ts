@@ -31,6 +31,7 @@ import { CompanyTotalStockUpdatedEvent } from "../modules/stocks/events/company-
 import { PurchaseSentToSystemEvent } from "../modules/purchases/events/purchase-sent-to-system.event";
 import { PurchaseProductQuantityEditedEvent } from "../modules/purchases/events/purchase-product-quantity-edited.event";
 import { CompanyCityDeliveryPriceUpdatedEvent } from "../modules/companies/events/company-city-delivery-price-updated.event";
+import { PurchaseProductCancelledEvent } from "../modules/purchases/events/purchase-product-cancelled.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -64,7 +65,8 @@ import { CompanyCityDeliveryPriceUpdatedEvent } from "../modules/companies/event
 
     PurchaseStatusChangeEmailSentEvent,
     SendPurchaseStatusChangeEmailFailedEvent,
-    PurchaseSentToSystemEvent
+    PurchaseSentToSystemEvent,
+    PurchaseProductCancelledEvent
 )
 export class SaveEventHandler implements IEventHandler<any> {
 
