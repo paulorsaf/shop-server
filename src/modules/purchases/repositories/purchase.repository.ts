@@ -111,6 +111,7 @@ export class PurchaseRepository {
                     const company = snapshot.data() as Company;
                     const discount = await this.findDiscount(purchase);
                     const price = await this.calculatePurchasePrice(purchase, company, discount);
+
                     return admin.firestore()
                         .collection('purchases')
                         .doc(purchase.id)
@@ -156,10 +157,10 @@ export class PurchaseRepository {
             discount,
             innerCityDeliveryPrice: company.cityDeliveryPrice,
             originCityName: company.address.city,
-            paymentFee: {
+            paymentFee: purchase.payment?.type === 'CREDIT_CARD' ? {
                 percentage: company.payment?.creditCard?.fee?.percentage || 0,
                 value: company.payment?.creditCard?.fee?.value || 0
-            },
+            } : null,
             products: purchase.products.map(p => ({
                 amount: p.amount,
                 price: p.price,
