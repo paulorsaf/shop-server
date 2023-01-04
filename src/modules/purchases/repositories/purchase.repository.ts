@@ -63,6 +63,7 @@ export class PurchaseRepository {
                     price: db.price,
                     productNotes: db.productNotes,
                     products: db.products,
+                    productsCancelled: db.productsCancelled,
                     status: db.status,
                     user: {
                         email: db.user.email,
