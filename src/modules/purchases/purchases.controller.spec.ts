@@ -10,6 +10,7 @@ import { FindPurchaseByIdAndCompanyQuery } from './queries/find-purchase-by-id-a
 import { UpdatePurchaseStatusCommand } from './commands/update-purchase-status/update-purchase-status.command';
 import { SendPurchaseToSystemCommand } from './commands/send-purchase-to-system/send-purchase-to-system.command';
 import { EditPurchaseProductQuantityCommand } from './commands/edit-purchase-product/edit-purchase-product-quantity.command';
+import { CancelPurchaseProductCommand } from './commands/cancel-purchase-product/cancel-purchase-product.command';
 
 describe('PurchasesController', () => {
 
@@ -118,6 +119,24 @@ describe('PurchasesController', () => {
           "anyProductId",
           "anyStockId",
           10
+        )
+      );
+    });
+
+  })
+
+  describe('given cancel purchase product', () => {
+
+    it('then execute cancel purchase product command', () => {
+      controller.cancelPurchaseProduct(user, "anyPurchaseId", "anyProductId", "anyStockId");
+  
+      expect(commandBus.executed).toEqual(
+        new CancelPurchaseProductCommand(
+          "anyCompanyId",
+          "anyUserId",
+          "anyPurchaseId",
+          "anyProductId",
+          "anyStockId"
         )
       );
     });

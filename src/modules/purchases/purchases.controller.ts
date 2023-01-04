@@ -3,6 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
 import { User } from '../../authentication/model/user';
+import { CancelPurchaseProductCommand } from './commands/cancel-purchase-product/cancel-purchase-product.command';
 import { EditPurchaseProductQuantityCommand } from './commands/edit-purchase-product/edit-purchase-product-quantity.command';
 import { SendPurchaseToSystemCommand } from './commands/send-purchase-to-system/send-purchase-to-system.command';
 import { UpdatePurchaseStatusCommand } from './commands/update-purchase-status/update-purchase-status.command';
@@ -87,6 +88,25 @@ export class PurchasesController {
         productId,
         stockId,
         value
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Post(':id/products/:productId/stocks/:stockId')
+  cancelPurchaseProduct(
+    @AuthUser() user: User,
+    @Param('id') purchaseId: string,
+    @Param('productId') productId: string,
+    @Param('stockId') stockId: string
+  ) {
+    return this.commandBus.execute(
+      new CancelPurchaseProductCommand(
+        user.companyId,
+        user.id,
+        purchaseId,
+        productId,
+        stockId
       )
     );
   }
