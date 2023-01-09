@@ -45,7 +45,7 @@ export class PurchaseRepository {
             .collection('purchases')
             .doc(query.id)
             .get()
-            .then(snapshot => {
+            .then(async snapshot => {
                 if (!snapshot.exists) {
                     return null;
                 }
@@ -67,10 +67,24 @@ export class PurchaseRepository {
                     status: db.status,
                     user: {
                         email: db.user.email,
-                        id: db.user.id
+                        id: db.user.id,
+                        name: await this.findUserName(db.user.id)
                     }
                 })
             })
+    }
+
+    private async findUserName(userId: string): Promise<string> {
+        return admin.firestore()
+            .collection('users')
+            .doc(userId)
+            .get()
+            .then(snapshot => {
+                if (snapshot.exists) {
+                    return snapshot.data().name;
+                }
+                return "";
+            });
     }
 
     setAsSentToSystem(purchaseId: string, dataSentToInternalSystem: any) {

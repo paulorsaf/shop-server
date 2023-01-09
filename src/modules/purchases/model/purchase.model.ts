@@ -14,7 +14,7 @@ export class Purchase {
     readonly productsCancelled: PurchaseProduct[];
     readonly totalAmount: number;
     readonly totalPrice: number;
-    readonly user: User;
+    readonly user: UserPurchase;
 
     private status: string;
 
@@ -64,7 +64,7 @@ type PurchaseParams = {
     products?: PurchaseProduct[];
     productsCancelled?: PurchaseProduct[];
     status?: string;
-    user?: User;
+    user?: UserPurchase;
 }
 
 type Price = {
@@ -79,3 +79,5 @@ type ProductNotes = {
     notes: string;
     productId: string;
 }
+
+type UserPurchase = {name: string} & User;
