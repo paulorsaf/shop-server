@@ -73,6 +73,37 @@ export class PurchaseRepository {
                 })
             })
     }
+    
+    findById(id: string): Promise<Purchase> {
+        return admin.firestore()
+            .collection('purchases')
+            .doc(id)
+            .get()
+            .then(async snapshot => {
+                if (!snapshot.exists) {
+                    return null;
+                }
+                const db = snapshot.data();
+                return new Purchase({
+                    address: db.address,
+                    companyId: db.companyId,
+                    createdAt: db.createdAt,
+                    hasBeenSentToSystem: db.hasBeenSentToSystem,
+                    id: snapshot.id,
+                    payment: db.payment,
+                    price: db.price,
+                    productNotes: db.productNotes,
+                    products: db.products,
+                    productsCancelled: db.productsCancelled,
+                    status: db.status,
+                    user: {
+                        email: db.user.email,
+                        id: db.user.id,
+                        name: await this.findUserName(db.user.id)
+                    }
+                })
+            })
+    }
 
     private async findUserName(userId: string): Promise<string> {
         return admin.firestore()
