@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Param, Patch, Body, Post, Delete } from '@nestjs/common';
+import { Controller, UseGuards, Get, Param, Patch, Body, Post, Delete, Render } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
@@ -8,6 +8,7 @@ import { EditPurchaseProductQuantityCommand } from './commands/edit-purchase-pro
 import { SendPurchaseToSystemCommand } from './commands/send-purchase-to-system/send-purchase-to-system.command';
 import { UpdatePurchaseStatusCommand } from './commands/update-purchase-status/update-purchase-status.command';
 import { FindPurchaseByIdAndCompanyQuery } from './queries/find-purchase-by-id-and-company/find-purchase-by-id-and-company.query';
+import { FindPurchaseByIdQuery } from './queries/find-purchase-by-id/find-purchase-by-id.query';
 import { FindPurchasesByUserQuery } from './queries/find-purchases-by-company/find-purchases-by-company.query';
 
 @Controller('purchases')
@@ -34,6 +35,16 @@ export class PurchasesController {
     return this.queryBus.execute(
       new FindPurchaseByIdAndCompanyQuery(
         user.companyId,
+        id
+      )
+    )
+  }
+
+  @Get(':id/print')
+  @Render('index')
+  print(@Param('id') id: string) {
+    return this.queryBus.execute(
+      new FindPurchaseByIdQuery(
         id
       )
     )

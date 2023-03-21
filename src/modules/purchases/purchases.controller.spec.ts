@@ -11,6 +11,7 @@ import { UpdatePurchaseStatusCommand } from './commands/update-purchase-status/u
 import { SendPurchaseToSystemCommand } from './commands/send-purchase-to-system/send-purchase-to-system.command';
 import { EditPurchaseProductQuantityCommand } from './commands/edit-purchase-product/edit-purchase-product-quantity.command';
 import { CancelPurchaseProductCommand } from './commands/cancel-purchase-product/cancel-purchase-product.command';
+import { FindPurchaseByIdQuery } from './queries/find-purchase-by-id/find-purchase-by-id.query';
 
 describe('PurchasesController', () => {
 
@@ -56,14 +57,28 @@ describe('PurchasesController', () => {
 
   })
 
-  describe('given find purchase by id', () => {
+  describe('given find purchase by id and company id', () => {
 
-    it('then execute find purchase by id query', () => {
+    it('then execute find purchase by id and company query', () => {
       controller.findById(user, "anyPurchaseId");
   
       expect(queryBus.executed).toEqual(
         new FindPurchaseByIdAndCompanyQuery(
           "anyCompanyId",
+          "anyPurchaseId"
+        )
+      );
+    });
+
+  })
+
+  describe('given find purchase by', () => {
+
+    it('then execute find purchase by id query', () => {
+      controller.print("anyPurchaseId");
+  
+      expect(queryBus.executed).toEqual(
+        new FindPurchaseByIdQuery(
           "anyPurchaseId"
         )
       );
