@@ -1,9 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { ExpressAdapter } from '@nestjs/platform-express';
+import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import * as express from 'express';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { join } from 'path';
 
 const server = express();
 
@@ -13,7 +14,7 @@ export const createNestServer = async (expressInstance) => {
     storageBucket: 'gs://shop-354211.appspot.com'
   })
 
-  const app = await NestFactory.create(
+  const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(expressInstance),
     {
@@ -25,6 +26,9 @@ export const createNestServer = async (expressInstance) => {
   
   app.enableCors({origin: '*'});
   app.use(express.json({ limit: '1mb' }));
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');
+
   process.env.TZ = "America/Sao_Paulo";
 
   return app.init();
