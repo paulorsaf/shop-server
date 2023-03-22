@@ -18,7 +18,7 @@ async function bootstrap() {
   app.enableCors({origin: '*'});
   app.use(json({ limit: '1mb' }));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('hbs');
+  app.setViewEngine('ejs');
   
   process.env.TZ = "America/Sao_Paulo";
 
