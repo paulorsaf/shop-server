@@ -1,20 +1,24 @@
 steps:
-    - name: node
-      entrypoint: npm
-      args: ['install', --legacy-peer-deps]
-    - name: node
-      entrypoint: npm
-      args: ['run', 'build']
-    - name: node
-      entrypoint: npm
-      args: ['test']
-    # - name: node
-    #   entrypoint: npm
-    #   args: ['run', 'test:e2e']
-    - name: 'gcr.io/cloud-builders/gcloud'
-      args:
-      - functions
-      - deploy
-      - shop-admin-server
-      - --memory=256MB
-      - --region=southamerica-east1
+  - name: 'gcr.io/${_FIREBASE_PROJECT_ID}/firebase'
+    args: ['use', '${_FIREBASE_PROJECT_ID}', '--token', '${_FIREBASE_TOKEN}']
+  - name: 'gcr.io/${_FIREBASE_PROJECT_ID}/firebase'
+    args: ['target:apply', 'hosting', 'shop-admin-9df87', 'shop-admin-9df87', '--token', '${_FIREBASE_TOKEN}']
+  - name: node
+    entrypoint: npm
+    args: ['install', --legacy-peer-deps]
+  - name: node
+    entrypoint: npm
+    args: ['run', 'build']
+  - name: node
+    entrypoint: npm
+    args: ['test']
+  # - name: node
+  #   entrypoint: npm
+  #   args: ['run', 'test:e2e']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+    - functions
+    - deploy
+    - shop-admin-server
+    - --memory=256MB
+    - --region=southamerica-east1
