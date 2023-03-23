@@ -1,7 +1,7 @@
 steps:
   - name: node
     entrypoint: npm
-    args: ['install', '--registry', 'https://registry.npmjs.org']
+    args: ['ci']
   - name: node
     entrypoint: npm
     args: ['run', 'build']
