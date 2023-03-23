@@ -12,7 +12,6 @@ describe('CompanySystemFactory', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                HttpModule,
                 SoapModule.register({
                     clientName: 'RICCO_SAO_LUIS_STOCK',
                     uri: "any"
@@ -24,6 +23,7 @@ describe('CompanySystemFactory', () => {
                 RiccoSaoLuisCompanySystemRepository
             ]
         })
+        .overrideProvider(RiccoImperatrizCompanySystemRepository).useValue("RiccoImperatrizCompanySystemRepository")
         .compile();
 
         factory = module.get<CompanySystemFactory>(CompanySystemFactory);
@@ -36,7 +36,7 @@ describe('CompanySystemFactory', () => {
 
     it('given company is ricco imperatriz, then return ricco imperatriz', async () => {
         expect(factory.createSystem('yYRhNlwkCAWSBztRo887'))
-            .toBeInstanceOf(RiccoImperatrizCompanySystemRepository);
+            .toEqual("RiccoImperatrizCompanySystemRepository");
     });
 
     it('given company is not found, then return null', async () => {

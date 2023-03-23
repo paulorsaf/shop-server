@@ -52,7 +52,7 @@ describe('AddProductImageCommandHandler', () => {
 
     handler = module.get<AddProductImageCommandHandler>(AddProductImageCommandHandler);
 
-    jest.spyOn(crypto, 'randomUUID').mockReturnValue('anyImageId');
+    jest.spyOn(crypto, 'randomUUID').mockReturnValue('anyImageId' as any);
   });
 
   it('given product doesnt exist, then throw not found exception', async () => {

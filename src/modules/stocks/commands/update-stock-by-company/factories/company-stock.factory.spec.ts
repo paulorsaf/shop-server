@@ -15,7 +15,6 @@ describe('CompanyStockFactory', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
-                HttpModule,
                 SoapModule.register({
                     clientName: 'RICCO_SAO_LUIS_STOCK',
                     uri: "any"

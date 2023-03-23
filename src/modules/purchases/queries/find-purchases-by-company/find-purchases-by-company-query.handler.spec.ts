@@ -1,6 +1,5 @@
 import { CqrsModule } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { PurchaseSummary } from '../../model/purchase-summary.model';
 import { PurchaseRepository } from '../../repositories/purchase.repository';
 import { FindPurchasesByUserQueryHandler } from './find-purchases-by-company-query.handler';
 import { FindPurchasesByUserQuery } from './find-purchases-by-company.query';

@@ -10,6 +10,7 @@
     "sourceMap": true,
     "outDir": "./",
     "baseUrl": "./",
+    "allowJs": true,
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,

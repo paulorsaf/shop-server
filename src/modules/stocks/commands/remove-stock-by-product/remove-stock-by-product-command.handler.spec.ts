@@ -42,7 +42,7 @@ describe('RemoveStockByProductCommandHandler', () => {
 
     stockRepository.response = {id: "anyProductId"};
 
-    jest.spyOn(crypto, 'randomUUID').mockReturnValue('anyId');
+    jest.spyOn(crypto, 'randomUUID').mockReturnValue('anyId' as any);
   });
 
   it('given product stock not found, then throw not found exception', async () => {
