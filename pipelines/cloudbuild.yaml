@@ -1,20 +1,22 @@
 steps:
-    - name: node
-      entrypoint: npm
-      args: ['install', --legacy-peer-deps]
-    - name: node
-      entrypoint: npm
-      args: ['run', 'build']
-    - name: node
-      entrypoint: npm
-      args: ['test']
-    # - name: node
-    #   entrypoint: npm
-    #   args: ['run', 'test:e2e']
-    - name: 'gcr.io/cloud-builders/gcloud'
-      args:
-      - functions
-      - deploy
-      - shop-admin-server
-      - --memory=256MB
-      - --region=southamerica-east1
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', './dockerfiles']
+  - name: node
+    entrypoint: npm
+    args: ['install', --legacy-peer-deps]
+  - name: node
+    entrypoint: npm
+    args: ['run', 'build']
+  - name: node
+    entrypoint: npm
+    args: ['test']
+  # - name: node
+  #   entrypoint: npm
+  #   args: ['run', 'test:e2e']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+    - functions
+    - deploy
+    - shop-admin-server
+    - --memory=256MB
+    - --region=southamerica-east1
