@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      * {
+        font-family: 'Courier New', Courier, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    Pedido <%= id %><br/>
+    <%= user.name %><br/>
+    <% if (address) { %>
+      Entrega à domicilio<br/>
+    <% } else { %>
+      Busca na loja<br/>
+    <% } %>
+    <br/>
+
+    <% products.forEach(p => { %>
+      <%= p.amount %>x <%= p.name %>
+      <% if (p.weight) { %>
+        (<%= p.amount * p.weight %> <%= p.unit %>)
+      <% } %>
+      <% productNotes.forEach(n => { %>
+        <% if (p.id === n.productId) { %>
+          <br/> - <%= n.notes %>
+        <% } %>
+      <% }) %>
+      <br/>
+    <% }) %>
+  </body>
+</html>
