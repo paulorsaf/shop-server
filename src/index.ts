@@ -26,7 +26,7 @@ export const createNestServer = async (expressInstance) => {
   
   app.enableCors({origin: '*'});
   app.use(express.json({ limit: '1mb' }));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setBaseViewsDir(join(__dirname, 'views'));
   app.setViewEngine('ejs');
 
   process.env.TZ = "America/Sao_Paulo";
