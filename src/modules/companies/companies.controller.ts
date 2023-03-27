@@ -164,7 +164,10 @@ export class CompaniesController {
       new UpdateCompanyServiceTaxCommand(
         user.companyId,
         body.serviceTax,
-        user.id
+        {
+          companyId: user.companyId,
+          id: user.id
+        }
       )
     );
   }

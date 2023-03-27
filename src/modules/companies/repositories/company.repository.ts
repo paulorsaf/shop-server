@@ -81,4 +81,11 @@ export class CompanyRepository {
             .update({payment})
     }
 
+    updateServiceTax(companyId: string, serviceTax: number) {
+        return admin.firestore()
+            .collection('companies')
+            .doc(companyId)
+            .update({serviceTax})
+    }
+
 }

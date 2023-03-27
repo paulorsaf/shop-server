@@ -200,7 +200,7 @@ describe('CompaniesController', () => {
   
       expect(commandBus.executed).toEqual(
         new UpdateCompanyServiceTaxCommand(
-          "anyCompanyId", 10, "anyUserId"
+          "anyCompanyId", 10, {companyId: "anyCompanyId", id: "anyUserId"}
         )
       );
     });

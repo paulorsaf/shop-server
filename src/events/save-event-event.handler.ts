@@ -32,6 +32,7 @@ import { PurchaseSentToSystemEvent } from "../modules/purchases/events/purchase-
 import { PurchaseProductQuantityEditedEvent } from "../modules/purchases/events/purchase-product-quantity-edited.event";
 import { CompanyCityDeliveryPriceUpdatedEvent } from "../modules/companies/events/company-city-delivery-price-updated.event";
 import { PurchaseProductCancelledEvent } from "../modules/purchases/events/purchase-product-cancelled.event";
+import { CompanyServiceTaxUpdatedEvent } from "../modules/companies/events/company-service-tax-updated.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -40,11 +41,14 @@ import { PurchaseProductCancelledEvent } from "../modules/purchases/events/purch
     CategoryCreatedEvent,
     CategoryUpdatedEvent,
     CategoryDeletedEvent,
+
     CompanyUpdatedEvent,
     CompanyAboutUsUpdatedEvent,
     CompanyAddressUpdatedEvent,
     CompanyLogoUpdatedEvent,
     CompanyPaymentUpdatedEvent,
+    CompanyServiceTaxUpdatedEvent,
+
     CupomCreatedEvent,
     ProductCreatedEvent,
     ProductDeletedEvent,
