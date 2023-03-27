@@ -14,6 +14,7 @@ export class Company {
     readonly payment: Payment;
     readonly facebook: string;
     readonly instagram: string;
+    readonly serviceTax: number;
     readonly website: string;
     readonly whatsapp: string;
 
@@ -30,6 +31,7 @@ export class Company {
         this.payment = params.payment;
         this.facebook = params.facebook;
         this.instagram = params.instagram;
+        this.serviceTax = params.serviceTax;
         this.website = params.website;
         this.whatsapp = params.whatsapp;
     }
@@ -49,6 +51,7 @@ type CompanyParams = {
     payment?: Payment;
     facebook?: string;
     instagram?: string;
+    serviceTax?: number;
     website?: string;
     whatsapp?: string;
 }

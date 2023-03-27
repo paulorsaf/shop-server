@@ -33,6 +33,7 @@ export class CompanyRepository {
                     payment: db.payment,
                     facebook: db.facebook,
                     instagram: db.instagram,
+                    serviceTax: db.serviceTax,
                     website: db.website,
                     whatsapp: db.whatsapp
                 })
