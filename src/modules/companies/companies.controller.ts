@@ -15,6 +15,7 @@ import { CompanyDetailsDTO } from './dtos/company-details.dto';
 import { MultipartUploadToFilePathStrategy } from '../../file-upload/strategies/multipart-upload-to-file-path.strategy';
 import { MultipartUploadToFilePath } from '../../file-upload/decorators/multipart-upload-to-file-path.decorator';
 import { UpdateCompanyDeliveryPriceCommand } from './commands/update-company-delivery-price/update-company-delivery-price.command';
+import { UpdateCompanyServiceTaxCommand } from './commands/update-company-service-tax/update-company-service-tax.command';
 
 @Controller('companies')
 export class CompaniesController {
@@ -148,6 +149,21 @@ export class CompaniesController {
       new UpdateCompanyDeliveryPriceCommand(
         user.companyId,
         body.price,
+        user.id
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Patch(':id/service-taxes')
+  updateServiceTax(
+    @AuthUser() user: User,
+    @Body() body: {serviceTax: number}
+  ) {
+    return this.commandBus.execute(
+      new UpdateCompanyServiceTaxCommand(
+        user.companyId,
+        body.serviceTax,
         user.id
       )
     );

@@ -12,6 +12,7 @@ import { UpdateCompanyLogoCommand } from './commands/update-company-logo/update-
 import { UpdateCompanyAboutUsCommand } from './commands/update-company-about-us/update-company-about-us.command';
 import { UpdateCompanyPaymentCommand } from './commands/update-company-payment/update-company-payment.command';
 import { UpdateCompanyDeliveryPriceCommand } from './commands/update-company-delivery-price/update-company-delivery-price.command';
+import { UpdateCompanyServiceTaxCommand } from './commands/update-company-service-tax/update-company-service-tax.command';
 
 describe('CompaniesController', () => {
 
@@ -185,6 +186,20 @@ describe('CompaniesController', () => {
   
       expect(commandBus.executed).toEqual(
         new UpdateCompanyDeliveryPriceCommand(
+          "anyCompanyId", 10, "anyUserId"
+        )
+      );
+    });
+
+  })
+
+  describe('given update service tax', () => {
+
+    it('then execute update service tax command', () => {
+      controller.updateServiceTax(user, {serviceTax: 10});
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateCompanyServiceTaxCommand(
           "anyCompanyId", 10, "anyUserId"
         )
       );
