@@ -32,7 +32,7 @@
     "@sendinblue/client": "^3.2.2",
     "@types/busboy": "^1.5.0",
     "busboy": "^1.6.0",
-    "correios-brasil": "^3.0.0",
+    "correios-brasil": "^3.0.4",
     "cpx": "^1.5.0",
     "date-fns": "^2.29.1",
     "dotenv": "^16.0.3",
@@ -46,7 +46,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "shop-purchase-price": "^1.0.0",
+    "shop-purchase-price": "^1.0.2",
     "webpack": "^5.74.0",
     "xml2js": "^0.4.23"
   },
