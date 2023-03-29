@@ -230,7 +230,8 @@ export class PurchaseRepository {
                 price: p.price,
                 priceWithDiscount: p.priceWithDiscount,
                 weight: p.weight
-            }))
+            })),
+            serviceFee: company.serviceTax
         }).calculatePrice();
     }
 
