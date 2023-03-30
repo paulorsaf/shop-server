@@ -27,6 +27,12 @@
                         <td style="border:none" align="right">R$ {{toFixed purchase.price.paymentFee}}</td>
                     </tr>
                 {{/if}}
+                {{#if purchase.price.serviceFee}}
+                    <tr>
+                        <td style="border:none">Taxa de serviço:</td>
+                        <td style="border:none" align="right">R$ {{toFixed purchase.price.serviceFee}}</td>
+                    </tr>
+                {{/if}}
                 <tr>
                     <td style="border:none">Total:</td>
                     <td style="border:none" align="right">R$ {{toFixed purchase.price.totalWithPaymentFee}}</td>
