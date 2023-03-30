@@ -9,7 +9,9 @@ import { SendPurchaseStatusChangeEmailFailedEvent } from "../../events/send-purc
 @CommandHandler(SendEmailOnPurchaseStatusChangeCommand)
 export class SendEmailOnPurchaseStatusChangeCommandHandler implements ICommandHandler<SendEmailOnPurchaseStatusChangeCommand> {
 
-    private validEmailStatuses = ["PAID", "SORTING_OUT", "READY", "DELIVERYING", "CANCELLED"];
+    private validEmailStatuses = [
+        "WAITING_PAYMENT", "PAID", "SORTING_OUT", "READY", "DELIVERYING", "CANCELLED"
+    ];
 
     constructor(
         private eventBus: EventBus,
