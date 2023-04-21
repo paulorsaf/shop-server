@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://GestorService.com.br/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://GestorService.com.br/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://GestorService.com.br/">
+      <s:element name="BuscaCadastroFornecedor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cnpj" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroFornecedorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaCadastroFornecedorResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroGrupo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroGrupoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaCadastroGrupoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroSGrupo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroSGrupoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaCadastroSGrupoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroProduto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoBarra" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="compactar" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="pDias" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="loja" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroProdutoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaCadastroProdutoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaTabPcoFilial">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loja" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="produto" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaTabPcoFilialResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaTabPcoFilialResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaVenda">
+        <s:complexType />
+      </s:element>
+      <s:element name="BuscaVendaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaVendaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GravaVenda">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XMLDados" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GravaVendaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GravaVendaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CadastroProdutoApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoBarra" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loja" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CadastroProdutoAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CadastroProdutoAppResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VendaApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="json" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VendaAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VendaAppResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="BuscaCadastroFornecedorSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroFornecedor" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroFornecedorSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroFornecedorResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroGrupoSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroGrupo" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroGrupoSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroGrupoResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroSGrupoSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroSGrupo" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroSGrupoSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroSGrupoResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroProdutoSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroProduto" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroProdutoSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroProdutoResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaTabPcoFilialSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaTabPcoFilial" />
+  </wsdl:message>
+  <wsdl:message name="BuscaTabPcoFilialSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaTabPcoFilialResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaVendaSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaVenda" />
+  </wsdl:message>
+  <wsdl:message name="BuscaVendaSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaVendaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GravaVendaSoapIn">
+    <wsdl:part name="parameters" element="tns:GravaVenda" />
+  </wsdl:message>
+  <wsdl:message name="GravaVendaSoapOut">
+    <wsdl:part name="parameters" element="tns:GravaVendaResponse" />
+  </wsdl:message>
+  <wsdl:message name="CadastroProdutoAppSoapIn">
+    <wsdl:part name="parameters" element="tns:CadastroProdutoApp" />
+  </wsdl:message>
+  <wsdl:message name="CadastroProdutoAppSoapOut">
+    <wsdl:part name="parameters" element="tns:CadastroProdutoAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="VendaAppSoapIn">
+    <wsdl:part name="parameters" element="tns:VendaApp" />
+  </wsdl:message>
+  <wsdl:message name="VendaAppSoapOut">
+    <wsdl:part name="parameters" element="tns:VendaAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroFornecedorHttpGetIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+    <wsdl:part name="cnpj" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroFornecedorHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroGrupoHttpGetIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroGrupoHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroSGrupoHttpGetIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroSGrupoHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroProdutoHttpGetIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+    <wsdl:part name="codigoBarra" type="s:string" />
+    <wsdl:part name="compactar" type="s:string" />
+    <wsdl:part name="pDias" type="s:string" />
+    <wsdl:part name="loja" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroProdutoHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaTabPcoFilialHttpGetIn">
+    <wsdl:part name="loja" type="s:string" />
+    <wsdl:part name="produto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaTabPcoFilialHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaVendaHttpGetIn" />
+  <wsdl:message name="BuscaVendaHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GravaVendaHttpGetIn">
+    <wsdl:part name="XMLDados" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GravaVendaHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CadastroProdutoAppHttpGetIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+    <wsdl:part name="codigoBarra" type="s:string" />
+    <wsdl:part name="loja" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CadastroProdutoAppHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="VendaAppHttpGetIn">
+    <wsdl:part name="json" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="VendaAppHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroFornecedorHttpPostIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+    <wsdl:part name="cnpj" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroFornecedorHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroGrupoHttpPostIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroGrupoHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroSGrupoHttpPostIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroSGrupoHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroProdutoHttpPostIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+    <wsdl:part name="codigoBarra" type="s:string" />
+    <wsdl:part name="compactar" type="s:string" />
+    <wsdl:part name="pDias" type="s:string" />
+    <wsdl:part name="loja" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroProdutoHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaTabPcoFilialHttpPostIn">
+    <wsdl:part name="loja" type="s:string" />
+    <wsdl:part name="produto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaTabPcoFilialHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscaVendaHttpPostIn" />
+  <wsdl:message name="BuscaVendaHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GravaVendaHttpPostIn">
+    <wsdl:part name="XMLDados" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GravaVendaHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CadastroProdutoAppHttpPostIn">
+    <wsdl:part name="codigo" type="s:string" />
+    <wsdl:part name="nome" type="s:string" />
+    <wsdl:part name="codigoBarra" type="s:string" />
+    <wsdl:part name="loja" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CadastroProdutoAppHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="VendaAppHttpPostIn">
+    <wsdl:part name="json" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="VendaAppHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="GestorServiceSoap">
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <wsdl:input message="tns:BuscaCadastroFornecedorSoapIn" />
+      <wsdl:output message="tns:BuscaCadastroFornecedorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <wsdl:input message="tns:BuscaCadastroGrupoSoapIn" />
+      <wsdl:output message="tns:BuscaCadastroGrupoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <wsdl:input message="tns:BuscaCadastroSGrupoSoapIn" />
+      <wsdl:output message="tns:BuscaCadastroSGrupoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <wsdl:input message="tns:BuscaCadastroProdutoSoapIn" />
+      <wsdl:output message="tns:BuscaCadastroProdutoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <wsdl:input message="tns:BuscaTabPcoFilialSoapIn" />
+      <wsdl:output message="tns:BuscaTabPcoFilialSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <wsdl:input message="tns:BuscaVendaSoapIn" />
+      <wsdl:output message="tns:BuscaVendaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <wsdl:input message="tns:GravaVendaSoapIn" />
+      <wsdl:output message="tns:GravaVendaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <wsdl:input message="tns:CadastroProdutoAppSoapIn" />
+      <wsdl:output message="tns:CadastroProdutoAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <wsdl:input message="tns:VendaAppSoapIn" />
+      <wsdl:output message="tns:VendaAppSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="GestorServiceHttpGet">
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <wsdl:input message="tns:BuscaCadastroFornecedorHttpGetIn" />
+      <wsdl:output message="tns:BuscaCadastroFornecedorHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <wsdl:input message="tns:BuscaCadastroGrupoHttpGetIn" />
+      <wsdl:output message="tns:BuscaCadastroGrupoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <wsdl:input message="tns:BuscaCadastroSGrupoHttpGetIn" />
+      <wsdl:output message="tns:BuscaCadastroSGrupoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <wsdl:input message="tns:BuscaCadastroProdutoHttpGetIn" />
+      <wsdl:output message="tns:BuscaCadastroProdutoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <wsdl:input message="tns:BuscaTabPcoFilialHttpGetIn" />
+      <wsdl:output message="tns:BuscaTabPcoFilialHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <wsdl:input message="tns:BuscaVendaHttpGetIn" />
+      <wsdl:output message="tns:BuscaVendaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <wsdl:input message="tns:GravaVendaHttpGetIn" />
+      <wsdl:output message="tns:GravaVendaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <wsdl:input message="tns:CadastroProdutoAppHttpGetIn" />
+      <wsdl:output message="tns:CadastroProdutoAppHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <wsdl:input message="tns:VendaAppHttpGetIn" />
+      <wsdl:output message="tns:VendaAppHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="GestorServiceHttpPost">
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <wsdl:input message="tns:BuscaCadastroFornecedorHttpPostIn" />
+      <wsdl:output message="tns:BuscaCadastroFornecedorHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <wsdl:input message="tns:BuscaCadastroGrupoHttpPostIn" />
+      <wsdl:output message="tns:BuscaCadastroGrupoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <wsdl:input message="tns:BuscaCadastroSGrupoHttpPostIn" />
+      <wsdl:output message="tns:BuscaCadastroSGrupoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <wsdl:input message="tns:BuscaCadastroProdutoHttpPostIn" />
+      <wsdl:output message="tns:BuscaCadastroProdutoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <wsdl:input message="tns:BuscaTabPcoFilialHttpPostIn" />
+      <wsdl:output message="tns:BuscaTabPcoFilialHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <wsdl:input message="tns:BuscaVendaHttpPostIn" />
+      <wsdl:output message="tns:BuscaVendaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <wsdl:input message="tns:GravaVendaHttpPostIn" />
+      <wsdl:output message="tns:GravaVendaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <wsdl:input message="tns:CadastroProdutoAppHttpPostIn" />
+      <wsdl:output message="tns:CadastroProdutoAppHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <wsdl:input message="tns:VendaAppHttpPostIn" />
+      <wsdl:output message="tns:VendaAppHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GestorServiceSoap" type="tns:GestorServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <soap:operation soapAction="http://GestorService.com.br/BuscaCadastroFornecedor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <soap:operation soapAction="http://GestorService.com.br/BuscaCadastroGrupo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <soap:operation soapAction="http://GestorService.com.br/BuscaCadastroSGrupo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <soap:operation soapAction="http://GestorService.com.br/BuscaCadastroProduto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <soap:operation soapAction="http://GestorService.com.br/BuscaTabPcoFilial" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <soap:operation soapAction="http://GestorService.com.br/BuscaVenda" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <soap:operation soapAction="http://GestorService.com.br/GravaVenda" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <soap:operation soapAction="http://GestorService.com.br/CadastroProdutoApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <soap:operation soapAction="http://GestorService.com.br/VendaApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="GestorServiceSoap12" type="tns:GestorServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <soap12:operation soapAction="http://GestorService.com.br/BuscaCadastroFornecedor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <soap12:operation soapAction="http://GestorService.com.br/BuscaCadastroGrupo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <soap12:operation soapAction="http://GestorService.com.br/BuscaCadastroSGrupo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <soap12:operation soapAction="http://GestorService.com.br/BuscaCadastroProduto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <soap12:operation soapAction="http://GestorService.com.br/BuscaTabPcoFilial" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <soap12:operation soapAction="http://GestorService.com.br/BuscaVenda" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <soap12:operation soapAction="http://GestorService.com.br/GravaVenda" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <soap12:operation soapAction="http://GestorService.com.br/CadastroProdutoApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <soap12:operation soapAction="http://GestorService.com.br/VendaApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="GestorServiceHttpGet" type="tns:GestorServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <http:operation location="/BuscaCadastroFornecedor" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <http:operation location="/BuscaCadastroGrupo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <http:operation location="/BuscaCadastroSGrupo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <http:operation location="/BuscaCadastroProduto" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <http:operation location="/BuscaTabPcoFilial" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <http:operation location="/BuscaVenda" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <http:operation location="/GravaVenda" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <http:operation location="/CadastroProdutoApp" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <http:operation location="/VendaApp" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="GestorServiceHttpPost" type="tns:GestorServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <http:operation location="/BuscaCadastroFornecedor" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <http:operation location="/BuscaCadastroGrupo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <http:operation location="/BuscaCadastroSGrupo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <http:operation location="/BuscaCadastroProduto" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <http:operation location="/BuscaTabPcoFilial" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <http:operation location="/BuscaVenda" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <http:operation location="/GravaVenda" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <http:operation location="/CadastroProdutoApp" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <http:operation location="/VendaApp" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GestorService">
+    <wsdl:port name="GestorServiceSoap" binding="tns:GestorServiceSoap">
+      <soap:address location="http://186.227.187.2/GestorService/GestorService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="GestorServiceSoap12" binding="tns:GestorServiceSoap12">
+      <soap12:address location="http://186.227.187.2/GestorService/GestorService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="GestorServiceHttpGet" binding="tns:GestorServiceHttpGet">
+      <http:address location="http://186.227.187.2/GestorService/GestorService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="GestorServiceHttpPost" binding="tns:GestorServiceHttpPost">
+      <http:address location="http://186.227.187.2/GestorService/GestorService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="BuscaCadastroFornecedor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cnpj" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroFornecedorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaCadastroFornecedorResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroGrupo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroGrupoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaCadastroGrupoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroSGrupo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroSGrupoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaCadastroSGrupoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroProduto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoBarra" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pDias" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="loja" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCadastroProdutoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaCadastroProdutoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCompactoProduto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoBarra" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pDias" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="loja" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaCompactoProdutoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaCompactoProdutoResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaDataSetProduto">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoBarra" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pDias" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="loja" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaDataSetProdutoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaDataSetProdutoResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaTabPcoFilial">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="loja" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="produto" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaTabPcoFilialResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaTabPcoFilialResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaVenda">
+        <s:complexType />
+      </s:element>
+      <s:element name="BuscaVendaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaVendaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GravaVenda">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XMLDados" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GravaVendaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GravaVendaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GravaDadosLista">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="json" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="otimo" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GravaDadosListaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GravaDadosListaResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CadastroProdutoApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="codigo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigoBarra" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="loja" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CadastroProdutoAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CadastroProdutoAppResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VendaApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="json" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VendaAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VendaAppResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="BuscaCadastroFornecedorSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroFornecedor" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroFornecedorSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroFornecedorResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroGrupoSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroGrupo" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroGrupoSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroGrupoResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroSGrupoSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroSGrupo" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroSGrupoSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroSGrupoResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroProdutoSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroProduto" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCadastroProdutoSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaCadastroProdutoResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCompactoProdutoSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaCompactoProduto" />
+  </wsdl:message>
+  <wsdl:message name="BuscaCompactoProdutoSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaCompactoProdutoResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaDataSetProdutoSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaDataSetProduto" />
+  </wsdl:message>
+  <wsdl:message name="BuscaDataSetProdutoSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaDataSetProdutoResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaTabPcoFilialSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaTabPcoFilial" />
+  </wsdl:message>
+  <wsdl:message name="BuscaTabPcoFilialSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaTabPcoFilialResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaVendaSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaVenda" />
+  </wsdl:message>
+  <wsdl:message name="BuscaVendaSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaVendaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GravaVendaSoapIn">
+    <wsdl:part name="parameters" element="tns:GravaVenda" />
+  </wsdl:message>
+  <wsdl:message name="GravaVendaSoapOut">
+    <wsdl:part name="parameters" element="tns:GravaVendaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GravaDadosListaSoapIn">
+    <wsdl:part name="parameters" element="tns:GravaDadosLista" />
+  </wsdl:message>
+  <wsdl:message name="GravaDadosListaSoapOut">
+    <wsdl:part name="parameters" element="tns:GravaDadosListaResponse" />
+  </wsdl:message>
+  <wsdl:message name="CadastroProdutoAppSoapIn">
+    <wsdl:part name="parameters" element="tns:CadastroProdutoApp" />
+  </wsdl:message>
+  <wsdl:message name="CadastroProdutoAppSoapOut">
+    <wsdl:part name="parameters" element="tns:CadastroProdutoAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="VendaAppSoapIn">
+    <wsdl:part name="parameters" element="tns:VendaApp" />
+  </wsdl:message>
+  <wsdl:message name="VendaAppSoapOut">
+    <wsdl:part name="parameters" element="tns:VendaAppResponse" />
+  </wsdl:message>
+  <wsdl:portType name="GestorServiceSoap">
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <wsdl:input message="tns:BuscaCadastroFornecedorSoapIn" />
+      <wsdl:output message="tns:BuscaCadastroFornecedorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <wsdl:input message="tns:BuscaCadastroGrupoSoapIn" />
+      <wsdl:output message="tns:BuscaCadastroGrupoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <wsdl:input message="tns:BuscaCadastroSGrupoSoapIn" />
+      <wsdl:output message="tns:BuscaCadastroSGrupoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <wsdl:input message="tns:BuscaCadastroProdutoSoapIn" />
+      <wsdl:output message="tns:BuscaCadastroProdutoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCompactoProduto">
+      <wsdl:input message="tns:BuscaCompactoProdutoSoapIn" />
+      <wsdl:output message="tns:BuscaCompactoProdutoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaDataSetProduto">
+      <wsdl:input message="tns:BuscaDataSetProdutoSoapIn" />
+      <wsdl:output message="tns:BuscaDataSetProdutoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <wsdl:input message="tns:BuscaTabPcoFilialSoapIn" />
+      <wsdl:output message="tns:BuscaTabPcoFilialSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <wsdl:input message="tns:BuscaVendaSoapIn" />
+      <wsdl:output message="tns:BuscaVendaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <wsdl:input message="tns:GravaVendaSoapIn" />
+      <wsdl:output message="tns:GravaVendaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GravaDadosLista">
+      <wsdl:input message="tns:GravaDadosListaSoapIn" />
+      <wsdl:output message="tns:GravaDadosListaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <wsdl:input message="tns:CadastroProdutoAppSoapIn" />
+      <wsdl:output message="tns:CadastroProdutoAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <wsdl:input message="tns:VendaAppSoapIn" />
+      <wsdl:output message="tns:VendaAppSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GestorServiceSoap" type="tns:GestorServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <soap:operation soapAction="http://tempuri.org/BuscaCadastroFornecedor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <soap:operation soapAction="http://tempuri.org/BuscaCadastroGrupo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <soap:operation soapAction="http://tempuri.org/BuscaCadastroSGrupo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <soap:operation soapAction="http://tempuri.org/BuscaCadastroProduto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCompactoProduto">
+      <soap:operation soapAction="http://tempuri.org/BuscaCompactoProduto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaDataSetProduto">
+      <soap:operation soapAction="http://tempuri.org/BuscaDataSetProduto" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <soap:operation soapAction="http://tempuri.org/BuscaTabPcoFilial" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <soap:operation soapAction="http://tempuri.org/BuscaVenda" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <soap:operation soapAction="http://tempuri.org/GravaVenda" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GravaDadosLista">
+      <soap:operation soapAction="http://tempuri.org/GravaDadosLista" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <soap:operation soapAction="http://tempuri.org/CadastroProdutoApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <soap:operation soapAction="http://tempuri.org/VendaApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="GestorServiceSoap12" type="tns:GestorServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BuscaCadastroFornecedor">
+      <soap12:operation soapAction="http://tempuri.org/BuscaCadastroFornecedor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroGrupo">
+      <soap12:operation soapAction="http://tempuri.org/BuscaCadastroGrupo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroSGrupo">
+      <soap12:operation soapAction="http://tempuri.org/BuscaCadastroSGrupo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCadastroProduto">
+      <soap12:operation soapAction="http://tempuri.org/BuscaCadastroProduto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaCompactoProduto">
+      <soap12:operation soapAction="http://tempuri.org/BuscaCompactoProduto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaDataSetProduto">
+      <soap12:operation soapAction="http://tempuri.org/BuscaDataSetProduto" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaTabPcoFilial">
+      <soap12:operation soapAction="http://tempuri.org/BuscaTabPcoFilial" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaVenda">
+      <soap12:operation soapAction="http://tempuri.org/BuscaVenda" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GravaVenda">
+      <soap12:operation soapAction="http://tempuri.org/GravaVenda" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GravaDadosLista">
+      <soap12:operation soapAction="http://tempuri.org/GravaDadosLista" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CadastroProdutoApp">
+      <soap12:operation soapAction="http://tempuri.org/CadastroProdutoApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VendaApp">
+      <soap12:operation soapAction="http://tempuri.org/VendaApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GestorService">
+    <wsdl:port name="GestorServiceSoap" binding="tns:GestorServiceSoap">
+      <soap:address location="http://179.48.36.129/GestorService/GestorService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="GestorServiceSoap12" binding="tns:GestorServiceSoap12">
+      <soap12:address location="http://179.48.36.129/GestorService/GestorService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -21,13 +21,18 @@ export class ProductsController {
 
   @UseGuards(JwtAdminStrategy)
   @Get()
-  find(@AuthUser() user: User, @Query('page') page: string = "0") {
+  find(
+    @AuthUser() user: User,
+    @Query('page') page: string = "0",
+    @Query('internalId') internalId: string = ""
+  ) {
     return this.queryBus.execute(
       new FindProductsByCompanyQuery(
         user.companyId,
-        parseInt(page)
+        parseInt(page),
+        internalId
       )
-    );
+    );;
   }
 
   @UseGuards(JwtAdminStrategy)

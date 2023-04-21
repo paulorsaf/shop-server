@@ -12,12 +12,21 @@ export class ProductRepository {
   ) {}
 
   async findByCompany(param: FindByCompany) {
-    return admin.firestore()
+    let query = admin.firestore()
       .collection('products')
       .where('companyId', '==', param.companyId)
+
+    if (param.internalId) {
+      query = query
+        .where("productInternalId", '==', param.internalId);
+    }
+
+    query = query
       .orderBy('name', 'asc')
       .offset(param.page * 30)
-      .limit(30)
+      .limit(30);
+    
+    return query
       .get()
       .then(snapshot =>
         snapshot.docs.map(d => <Product> {
@@ -71,5 +80,6 @@ export class ProductRepository {
 
 type FindByCompany = {
   companyId: string,
+  internalId: string,
   page: number
 }
