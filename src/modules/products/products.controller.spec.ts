@@ -13,6 +13,7 @@ import { FindProductByIdQuery } from './queries/find-by-id/find-product-by-id.qu
 import { UpdateProductCommand } from './commands/update-product/update-product.command';
 import { UpdateProductDTO } from './commands/update-product/dtos/update-product.dto';
 import { DeleteProductCommand } from './commands/delete-product/delete-product.command';
+import { ChangeProductVisibilityCommand } from './commands/change-product-visibility/change-product-visibility.command';
 
 describe('ProductsController', () => {
 
@@ -21,6 +22,7 @@ describe('ProductsController', () => {
   let queryBus: QueryBusMock;
 
   const internalId = "anyInternalId";
+  const productId = 'anyProductId';
   const user = <User> {id: 'anyUserId', companyId: 'anyCompanyId'};
 
   beforeEach(async () => {
@@ -91,15 +93,15 @@ describe('ProductsController', () => {
   describe('given update product', () => {
 
     const product = new UpdateProductDTO(
-      'anyProductId', "anyName", "anyCategoryId", 10, 5, 'anyDescription', 1
+      productId, "anyName", "anyCategoryId", 10, 5, 'anyDescription', 1
     );
 
     it('then execute update product command', () => {
-      controller.update(user, 'anyProductId', product);
+      controller.update(user, productId, product);
   
       expect(commandBus.executed).toEqual(
         new UpdateProductCommand(
-          {...product, id: 'anyProductId'}, user.companyId, user.id
+          {...product, id: productId}, user.companyId, user.id
         )
       );
     });
@@ -109,11 +111,25 @@ describe('ProductsController', () => {
   describe('given delete product', () => {
 
     it('then execute update product command', () => {
-      controller.delete(user, 'anyProductId');
+      controller.delete(user, productId);
   
       expect(commandBus.executed).toEqual(
         new DeleteProductCommand(
-          'anyProductId', user.id, user.companyId
+          productId, user.id, user.companyId
+        )
+      );
+    });
+
+  })
+
+  describe('given change product visibility', () => {
+
+    it('then execute change product visibility command', () => {
+      controller.changeVisibility(user, productId);
+  
+      expect(commandBus.executed).toEqual(
+        new ChangeProductVisibilityCommand(
+          user.companyId, user.id, productId
         )
       );
     });

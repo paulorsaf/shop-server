@@ -33,6 +33,7 @@ import { PurchaseProductQuantityEditedEvent } from "../modules/purchases/events/
 import { CompanyCityDeliveryPriceUpdatedEvent } from "../modules/companies/events/company-city-delivery-price-updated.event";
 import { PurchaseProductCancelledEvent } from "../modules/purchases/events/purchase-product-cancelled.event";
 import { CompanyServiceTaxUpdatedEvent } from "../modules/companies/events/company-service-tax-updated.event";
+import { ProductVisibilityChangedEvent } from "../modules/products/commands/change-product-visibility/events/change-product-visibility.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -50,6 +51,7 @@ import { CompanyServiceTaxUpdatedEvent } from "../modules/companies/events/compa
     CompanyServiceTaxUpdatedEvent,
 
     CupomCreatedEvent,
+
     ProductCreatedEvent,
     ProductDeletedEvent,
     ProductImageAddedEvent,
@@ -58,6 +60,8 @@ import { CompanyServiceTaxUpdatedEvent } from "../modules/companies/events/compa
     ProductFolderDeletedEvent,
     ProductStockUpdatedEvent,
     ProductUpdatedEvent,
+    ProductVisibilityChangedEvent,
+
     PurchaseStatusUpdatedEvent,
     PurchaseProductQuantityEditedEvent,
     StockOptionAddedEvent,

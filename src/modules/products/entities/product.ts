@@ -9,6 +9,7 @@ export class Product {
         public readonly createdBy: string,
         public readonly createdAt: string,
         public readonly updatedAt?: string,
-        public readonly updatedBy?: string
+        public readonly updatedBy?: string,
+        public readonly isVisible?: boolean
     ){}
 }

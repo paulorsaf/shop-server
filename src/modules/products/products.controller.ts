@@ -3,6 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthUser } from '../../authentication/decorators/user.decorator';
 import { JwtAdminStrategy } from '../../authentication/guards/jwt.admin.strategy';
 import { User } from '../../authentication/model/user';
+import { ChangeProductVisibilityCommand } from './commands/change-product-visibility/change-product-visibility.command';
 import { CreateProductCommand } from './commands/create-product/create-product.command';
 import { CreateProductDTO } from './commands/create-product/dtos/create-product.dto';
 import { DeleteProductCommand } from './commands/delete-product/delete-product.command';
@@ -32,7 +33,7 @@ export class ProductsController {
         parseInt(page),
         internalId
       )
-    );;
+    );
   }
 
   @UseGuards(JwtAdminStrategy)
@@ -69,6 +70,21 @@ export class ProductsController {
     return this.commandBus.execute(
       new DeleteProductCommand(
         productId, user.id, user.companyId
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Patch(':productId/visibilities')
+  changeVisibility(
+    @AuthUser() user: User,
+    @Param('productId') productId: string
+  ) {
+    return this.commandBus.execute(
+      new ChangeProductVisibilityCommand(
+        user.companyId,
+        user.id,
+        productId
       )
     );
   }

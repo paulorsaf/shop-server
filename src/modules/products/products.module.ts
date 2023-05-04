@@ -11,6 +11,7 @@ import { DeleteProductCommandHandler } from './commands/delete-product/delete-pr
 import { RemoveStockByProductCommandHandler } from '../stocks/commands/remove-stock-by-product/remove-stock-by-product-command.handler';
 import { ProductSagas } from './sagas/products.saga';
 import { StockRepository } from '../stocks/repositories/stock.repository';
+import { ChangeProductVisibilityCommandHandler } from './commands/change-product-visibility/change-product-visibility.command.handler';
 
 @Module({
   controllers: [
@@ -24,6 +25,7 @@ import { StockRepository } from '../stocks/repositories/stock.repository';
     ProductRepository,
     StockRepository,
 
+    ChangeProductVisibilityCommandHandler,
     CreateProductCommandHandler,
     UpdateProductCommandHandler,
     DeleteProductCommandHandler,
