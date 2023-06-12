@@ -182,11 +182,11 @@ describe('CompaniesController', () => {
   describe('given update delivery price', () => {
 
     it('then execute update delivery price command', () => {
-      controller.updateDeliveryPrice(user, {price: 10});
+      controller.updateDeliveryPrice(user, {hasDeliveryByMail: true, price: 10});
   
       expect(commandBus.executed).toEqual(
         new UpdateCompanyDeliveryPriceCommand(
-          "anyCompanyId", 10, "anyUserId"
+          "anyCompanyId", 10, true, "anyUserId"
         )
       );
     });

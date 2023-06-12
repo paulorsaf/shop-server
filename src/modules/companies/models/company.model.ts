@@ -7,6 +7,7 @@ export class Company {
     readonly canUpdateStock: boolean;
     readonly cityDeliveryPrice: number;
     readonly email: string;
+    readonly hasDeliveryByMail: boolean;
     readonly hasToSendPurchaseToOwnSystem: boolean;
     readonly id: string;
     readonly logo: Image;
@@ -24,6 +25,7 @@ export class Company {
         this.canUpdateStock = params.canUpdateStock;
         this.cityDeliveryPrice = params.cityDeliveryPrice;
         this.email = params.email;
+        this.hasDeliveryByMail = params.hasDeliveryByMail;
         this.hasToSendPurchaseToOwnSystem = params.hasToSendPurchaseToOwnSystem;
         this.id = params.id;
         this.logo = params.logo;
@@ -44,6 +46,7 @@ type CompanyParams = {
     canUpdateStock?: boolean;
     cityDeliveryPrice?: number;
     email?: string;
+    hasDeliveryByMail?: boolean;
     hasToSendPurchaseToOwnSystem?: boolean;
     id?: string;
     logo?: Image;

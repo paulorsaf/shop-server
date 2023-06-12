@@ -143,12 +143,13 @@ export class CompaniesController {
   @Patch(':id/deliveryprices')
   updateDeliveryPrice(
     @AuthUser() user: User,
-    @Body() body: {price: number}
+    @Body() body: {hasDeliveryByMail: boolean, price: number}
   ) {
     return this.commandBus.execute(
       new UpdateCompanyDeliveryPriceCommand(
         user.companyId,
         body.price,
+        body.hasDeliveryByMail,
         user.id
       )
     );

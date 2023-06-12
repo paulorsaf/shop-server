@@ -15,7 +15,9 @@ export class UpdateCompanyDeliveryPriceCommandHandler implements ICommandHandler
     async execute(command: UpdateCompanyDeliveryPriceCommand) {
         const company = await this.findCompany(command);
 
-        await this.companyRepository.updateCityDeliveryPrice(company.id, command.price);
+        await this.companyRepository.updateCityDeliveryPrice(
+            company.id, command.hasDeliveryByMail, command.price
+        );
 
         this.publishCompanyCityDeliveryPriceUpdatedEvent(command);
     }

@@ -26,6 +26,7 @@ export class CompanyRepository {
                     canUpdateStock: db.canUpdateStock,
                     cityDeliveryPrice: db.cityDeliveryPrice,
                     email: db.email,
+                    hasDeliveryByMail: db.hasDeliveryByMail,
                     hasToSendPurchaseToOwnSystem: db.hasToSendPurchaseToOwnSystem,
                     id: snapshot.id,
                     logo: db.logo,
@@ -61,11 +62,14 @@ export class CompanyRepository {
             .update({address})
     }
 
-    updateCityDeliveryPrice(companyId: string, price: number) {
+    updateCityDeliveryPrice(companyId: string, hasDeliveryByMail: boolean, price: number) {
         return admin.firestore()
             .collection('companies')
             .doc(companyId)
-            .update({cityDeliveryPrice: price})
+            .update({
+                cityDeliveryPrice: price,
+                hasDeliveryByMail
+            })
     }
 
     updateLogo(companyId: string, logo: Image) {

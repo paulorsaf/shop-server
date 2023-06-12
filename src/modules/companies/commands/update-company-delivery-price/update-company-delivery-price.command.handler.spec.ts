@@ -5,7 +5,6 @@ import { UpdateCompanyDeliveryPriceCommand } from './update-company-delivery-pri
 import { UpdateCompanyDeliveryPriceCommandHandler } from './update-company-delivery-price.command.handler';
 import { CompanyRepository } from '../../repositories/company.repository';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { CompanyAboutUsUpdatedEvent } from '../../events/company-about-us-updated.event';
 import { CompanyCityDeliveryPriceUpdatedEvent } from '../../events/company-city-delivery-price-updated.event';
 
 describe('UpdateCompanyDeliveryPriceCommandHandler', () => {
@@ -14,7 +13,7 @@ describe('UpdateCompanyDeliveryPriceCommandHandler', () => {
   let eventBus: EventBusMock;
 
   const command = new UpdateCompanyDeliveryPriceCommand(
-    'anyCompanyId', 10, "anyUserId"
+    'anyCompanyId', 10, true, "anyUserId"
   );
   let companyRepository: CompanyRepositoryMock;
 
