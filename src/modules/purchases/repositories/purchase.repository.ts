@@ -219,6 +219,7 @@ export class PurchaseRepository {
                 origin: company.address.zipCode
             },
             discount,
+            hasDeliveryByMail: company.hasDeliveryByMail,
             innerCityDeliveryPrice: company.cityDeliveryPrice,
             originCityName: company.address.city,
             paymentFee: purchase.payment?.type === 'CREDIT_CARD' ? {
