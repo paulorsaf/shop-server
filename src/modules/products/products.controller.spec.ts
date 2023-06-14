@@ -22,6 +22,7 @@ describe('ProductsController', () => {
   let queryBus: QueryBusMock;
 
   const internalId = "anyInternalId";
+  const categoryId = "anyCategoryId";
   const productId = 'anyProductId';
   const user = <User> {id: 'anyUserId', companyId: 'anyCompanyId'};
 
@@ -51,10 +52,10 @@ describe('ProductsController', () => {
   describe('given find products', () => {
 
     it('then execute find product command', () => {
-      controller.find(user, "1", internalId);
+      controller.find(user, "1", internalId, categoryId);
   
       expect(queryBus.executed).toEqual(
-        new FindProductsByCompanyQuery(user.companyId, 1, internalId)
+        new FindProductsByCompanyQuery(user.companyId, 1, internalId, categoryId)
       );
     });
 

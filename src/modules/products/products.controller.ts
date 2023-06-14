@@ -25,13 +25,15 @@ export class ProductsController {
   find(
     @AuthUser() user: User,
     @Query('page') page: string = "0",
-    @Query('internalId') internalId: string = ""
+    @Query('internalId') internalId: string = "",
+    @Query('categoryId') categoryId: string = ""
   ) {
     return this.queryBus.execute(
       new FindProductsByCompanyQuery(
         user.companyId,
         parseInt(page),
-        internalId
+        internalId,
+        categoryId
       )
     );
   }

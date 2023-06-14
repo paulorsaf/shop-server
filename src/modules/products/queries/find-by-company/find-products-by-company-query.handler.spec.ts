@@ -11,9 +11,12 @@ describe('FindProductsByCompanyQueryHandler', () => {
   let handler: FindProductsByCompanyQueryHandler;
   let productRepository: RepositoryMock;
 
+  const companyId = "anyCompanyId";
   const internalId = "anyInternalId";
+  const categoryId = "anyCategoryId";
+  const page = 1;
 
-  const command = new FindProductsByCompanyQuery('anyCompanyId', 1, internalId);
+  const command = new FindProductsByCompanyQuery(companyId, page, internalId, categoryId);
 
   beforeEach(async () => {
     productRepository = new RepositoryMock();

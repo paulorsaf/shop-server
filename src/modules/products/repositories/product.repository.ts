@@ -15,8 +15,12 @@ export class ProductRepository {
   async findByCompany(param: FindByCompany) {
     let query = admin.firestore()
       .collection('products')
-      .where('companyId', '==', param.companyId)
+      .where('companyId', '==', param.companyId);
 
+    if (param.categoryId) {
+      query = query
+        .where("categoryId", '==', param.categoryId);
+    }
     if (param.internalId) {
       query = query
         .where("productInternalId", '==', param.internalId);
@@ -115,9 +119,10 @@ export class ProductRepository {
 }
 
 type FindByCompany = {
-  companyId: string,
-  internalId: string,
-  page: number
+  categoryId: string;
+  companyId: string;
+  internalId: string;
+  page: number;
 }
 
 type SetVisibility = {
