@@ -11,13 +11,16 @@ describe('FindCategoryByIdQueryHandler', () => {
   let handler: FindCategoryByIdQueryHandler;
   let categoryRepository: CategoryRepositoryMock;
 
-  const command = new FindCategoryByIdQuery('anyCompanyId', 'anyCategoryId');
+  const categoryId = 'anyCategoryId';
+  const companyId = 'anyCompanyId';
+  const command = new FindCategoryByIdQuery(companyId, categoryId);
+
   let category: Category;
 
   beforeEach(async () => {
-    category = new Category(
-      'anyId', 'anyName', 'anyCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'
-    );
+    category = {
+      companyId, id: categoryId
+    } as Category
     categoryRepository = new CategoryRepositoryMock();
 
     const module: TestingModule = await Test.createTestingModule({
@@ -62,9 +65,9 @@ describe('FindCategoryByIdQueryHandler', () => {
   });
 
   it('given found category by id, when category doesnt belong to company, then return null', async () => {
-    const category = new Category(
-      'anyId', 'anyName', 'anyOtherCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'
-    );
+    const category = {
+      id: categoryId, companyId: "anyOtherCompanyId"
+    }
     categoryRepository.response = category;
 
     const response = await handler.execute(command);

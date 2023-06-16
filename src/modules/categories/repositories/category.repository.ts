@@ -23,9 +23,13 @@ export class CategoryRepository {
       .orderBy('name', 'asc')
       .get()
       .then(snapshot =>
-        snapshot.docs.map(d => <Category> {
-          ...d.data(),
-          id: d.id
+        snapshot.docs.map(d => {
+          const category = d.data() as Category;
+          return {
+            ...category,
+            id: d.id,
+            isVisible: category.isVisible === undefined ? true : category.isVisible
+          }
         })
       );
   }
@@ -35,9 +39,18 @@ export class CategoryRepository {
       .collection('categories')
       .doc(id)
       .get()
-      .then(snapshot =>
-        <Category> snapshot.data()
-      );
+      .then(snapshot => {
+        const category = snapshot.data() as Category;
+        return new Category(
+          snapshot.id,
+          category.name,
+          category.companyId,
+          category.createdBy,
+          category.createdAt,
+          category.updatedAt,
+          category.isVisible === undefined ? true : category.isVisible
+        )
+      });
   }
 
   async save(category: {companyId: string, createdBy: string, name: string}) {
@@ -45,7 +58,8 @@ export class CategoryRepository {
       companyId: category.companyId,
       createdBy: category.createdBy,
       name: category.name,
-      createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss').replace(" ", "T")
+      createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss').replace(" ", "T"),
+      isVibile: true
     }
     
     return admin.firestore()
@@ -53,7 +67,13 @@ export class CategoryRepository {
       .add(save)
       .then(response =>
         new Category(
-          response.id, save.name, save.companyId, save.createdBy, save.createdAt, null
+          response.id,
+          save.name,
+          save.companyId,
+          save.createdBy,
+          save.createdAt,
+          undefined,
+          true
         )
       );
   }
@@ -70,4 +90,20 @@ export class CategoryRepository {
       });
   }
 
+  async updateVisibility(params: UpdateVisibility) {
+    const updatedAt = format(new Date(), 'yyyy-MM-dd HH:mm:ss').replace(" ", "T");
+    return admin.firestore()
+      .collection('categories')
+      .doc(params.categoryId)
+      .update({
+        isVisible: params.isVisible,
+        updatedAt
+      })
+  }
+
+}
+
+type UpdateVisibility = {
+  categoryId: string;
+  isVisible: boolean;
 }

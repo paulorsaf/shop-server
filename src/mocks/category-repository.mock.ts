@@ -28,4 +28,8 @@ export class CategoryRepositoryMock {
         this.updatedWith = model;
     }
 
+    updateVisibility(model: any) {
+        this.updatedWith = model;
+    }
+
 }

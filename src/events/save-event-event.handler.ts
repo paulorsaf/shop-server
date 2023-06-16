@@ -34,6 +34,7 @@ import { CompanyCityDeliveryPriceUpdatedEvent } from "../modules/companies/event
 import { PurchaseProductCancelledEvent } from "../modules/purchases/events/purchase-product-cancelled.event";
 import { CompanyServiceTaxUpdatedEvent } from "../modules/companies/events/company-service-tax-updated.event";
 import { ProductVisibilityChangedEvent } from "../modules/products/commands/change-product-visibility/events/change-product-visibility.event";
+import { CategoryVisibilityUpdatedEvent } from "../modules/categories/commands/update-category-visibility/events/category-visibility-updated.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
@@ -42,6 +43,7 @@ import { ProductVisibilityChangedEvent } from "../modules/products/commands/chan
     CategoryCreatedEvent,
     CategoryUpdatedEvent,
     CategoryDeletedEvent,
+    CategoryVisibilityUpdatedEvent,
 
     CompanyUpdatedEvent,
     CompanyAboutUsUpdatedEvent,

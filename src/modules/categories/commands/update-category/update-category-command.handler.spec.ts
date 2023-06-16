@@ -15,8 +15,13 @@ describe('UpdateCategoryCommandHandler', () => {
   let categoryRepository: CategoryRepositoryMock;
   let eventBus: EventBusMock;
 
+  const categoryId = "anyCategoryId";
+  const companyId = "anyCompanyId";
+  const name = "anyName";
+  const userId = "anyUserId";
+
   const command = new UpdateCategoryCommand(
-    "anyId", "anyName", "anyUserId", "anyCompanyId"
+    categoryId, name, userId, companyId
   );
 
   beforeEach(async () => {
@@ -49,9 +54,9 @@ describe('UpdateCategoryCommandHandler', () => {
 
   describe('given category belongs to company', () => {
 
-    const category = new Category(
-      'anyId', 'anyName', 'anyCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'
-    )
+    const category = {
+      companyId, id: categoryId, name
+    }
 
     it('given category belongs to company, then update category', async () => {
       categoryRepository.response = category;
@@ -59,7 +64,7 @@ describe('UpdateCategoryCommandHandler', () => {
       await handler.execute(command);
   
       expect(categoryRepository.updatedWith).toEqual({
-        id: "anyId", name: "anyName"
+        id: categoryId, name
       })
     });
   
@@ -70,9 +75,9 @@ describe('UpdateCategoryCommandHandler', () => {
   
       expect(eventBus.published).toEqual(
         new CategoryUpdatedEvent(
-          {id: "anyId", name: "anyName"},
-          "anyCompanyId",
-          "anyUserId"
+          {id: categoryId, name},
+          companyId,
+          userId
         )
       )
     });
@@ -80,9 +85,9 @@ describe('UpdateCategoryCommandHandler', () => {
   })
 
   it('given category doesnt belong to company, then return error', async () => {
-    const category = new Category(
-      'anyId', 'anyName', 'anyOtherCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'
-    )
+    const category = {
+      companyId: "anyOtherCompanyId"
+    }
     categoryRepository.response = category;
 
     await expect(handler.execute(command)).rejects.toThrowError(UnauthorizedException);

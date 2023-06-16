@@ -8,6 +8,7 @@ import { DeleteCategoryCommand } from './commands/delete-category/delete-categor
 import { UpdateCategoryCommand } from './commands/update-category/update-category.command';
 import { FindByCompanyQuery } from './queries/find-by-company/find-category-by-company.query';
 import { FindCategoryByIdQuery } from './queries/find-by-id/find-category-by-id.query';
+import { UpdateCategoryVisibilityCommand } from './commands/update-category-visibility/update-category-visibility.command';
 
 @Controller('categories')
 export class CategoriesController {
@@ -59,6 +60,19 @@ export class CategoriesController {
     return this.commandBus.execute(
       new DeleteCategoryCommand(
         categoryId, user.id, user.companyId
+      )
+    );
+  }
+
+  @UseGuards(JwtAdminStrategy)
+  @Patch(':categoryId/visibilities')
+  updateVisibility(
+    @AuthUser() user: User,
+    @Param('categoryId') categoryId: string
+  ) {
+    return this.commandBus.execute(
+      new UpdateCategoryVisibilityCommand(
+        user.id, user.companyId, categoryId
       )
     );
   }

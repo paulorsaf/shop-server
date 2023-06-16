@@ -12,6 +12,7 @@ import { FindByCompanyQuery } from './queries/find-by-company/find-category-by-c
 import { FindCategoryByIdQuery } from './queries/find-by-id/find-category-by-id.query';
 import { UpdateCategoryCommand } from './commands/update-category/update-category.command';
 import { DeleteCategoryCommand } from './commands/delete-category/delete-category.command';
+import { UpdateCategoryVisibilityCommand } from './commands/update-category-visibility/update-category-visibility.command';
 
 describe('CategoriesController', () => {
 
@@ -105,6 +106,20 @@ describe('CategoriesController', () => {
       expect(commandBus.executed).toEqual(
         new DeleteCategoryCommand(
           'categoryId', user.id, user.companyId
+        )
+      );
+    });
+
+  })
+
+  describe('given update visibility', () => {
+
+    it('then execute update category visibility command', () => {
+      controller.updateVisibility(user, 'categoryId');
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateCategoryVisibilityCommand(
+          user.id, user.companyId, 'categoryId'
         )
       );
     });

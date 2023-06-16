@@ -35,8 +35,8 @@ describe('FindByCompanyQueryHandler', () => {
 
   it('given execute handler, then find categories by company', async () => {
     const categories = [
-      new Category('anyId', 'anyName', 'anyCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'),
-      new Category('anyId2', 'anyName', 'anyCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime')
+      {id: "anyCategoryId1"},
+      {id: "anyCategoryId2"}
     ];
     categoryRepository.response = categories;
 

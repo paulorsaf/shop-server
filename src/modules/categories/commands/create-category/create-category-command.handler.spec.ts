@@ -1,7 +1,6 @@
 import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBusMock } from '../../../../mocks/event-bus.mock';
-import { Category } from '../../entities/category';
 import { CategoryRepositoryMock } from '../../../../mocks/category-repository.mock';
 import { CategoryRepository } from '../../repositories/category.repository';
 import { CategoryCreatedEvent } from './events/category-created.event';
@@ -14,12 +13,17 @@ describe('CreateCategoryHandler', () => {
   let categoryRepository: CategoryRepositoryMock;
   let eventBus: EventBusMock;
 
+  const categoryId = "anyCategoryId";
+  const companyId = "anyCompanyId";
+  const name = "anyName";
+  const userId = "anyUserId";
+
   const command = new CreateCategoryCommand(
-    'anyName', 'anyCompanyId', 'anyUserId'
+    name, companyId, userId
   );
-  const category = new Category(
-    'anyId', 'anyName', 'anyCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'
-  );
+  const category = {
+    id: categoryId, name, companyId, createdBy: userId
+  };
 
   beforeEach(async () => {
     eventBus = new EventBusMock();
@@ -49,7 +53,7 @@ describe('CreateCategoryHandler', () => {
     await handler.execute(command);
 
     expect(categoryRepository.savedWith).toEqual({
-      companyId: "anyCompanyId", name: "anyName", createdBy: "anyUserId"
+      companyId, name, createdBy: userId
     })
   });
 
@@ -58,9 +62,9 @@ describe('CreateCategoryHandler', () => {
 
     expect(eventBus.published).toEqual(
       new CategoryCreatedEvent(
-        {id: "anyId", name: "anyName"},
-        "anyCompanyId",
-        "anyUserId"
+        {id: categoryId, name},
+        companyId,
+        userId
       )
     )
   });

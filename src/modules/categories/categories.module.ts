@@ -8,7 +8,7 @@ import { FindByCompanyQueryHandler } from './queries/find-by-company/find-catego
 import { FindCategoryByIdQueryHandler } from './queries/find-by-id/find-category-by-id-query.handler';
 import { UpdateCategoryCommandHandler } from './commands/update-category/update-category-command.handler';
 import { DeleteCategoryCommandHandler } from './commands/delete-category/delete-category-command.handler';
-import { EventRepository } from '../../repositories/event.repository';
+import { UpdateCategoryVisibilityCommandHandler } from './commands/update-category-visibility/update-category-visibility.command.handler';
 
 @Module({
   controllers: [
@@ -24,6 +24,7 @@ import { EventRepository } from '../../repositories/event.repository';
     CreateCategoryCommandHandler,
     UpdateCategoryCommandHandler,
     DeleteCategoryCommandHandler,
+    UpdateCategoryVisibilityCommandHandler,
 
     FindByCompanyQueryHandler,
     FindCategoryByIdQueryHandler

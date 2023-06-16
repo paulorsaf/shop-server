@@ -6,7 +6,8 @@ export class Category {
         public readonly companyId: string,
         public readonly createdBy: string,
         public readonly createdAt: string,
-        public readonly updatedAt: string
+        public readonly updatedAt: string,
+        public readonly isVisible: boolean
     ) {}
 
 }

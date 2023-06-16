@@ -1,7 +1,6 @@
 import { CqrsModule, EventBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventBusMock } from '../../../../mocks/event-bus.mock';
-import { Category } from '../../entities/category';
 import { CategoryRepositoryMock } from '../../../../mocks/category-repository.mock';
 import { CategoryRepository } from '../../repositories/category.repository';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
@@ -15,8 +14,12 @@ describe('DeleteCategoryCommandHandler', () => {
   let categoryRepository: CategoryRepositoryMock;
   let eventBus: EventBusMock;
 
+  const categoryId = "anyId";
+  const companyId = "anyCompanyId";
+  const name = "anyCategoryName";
+
   const command = new DeleteCategoryCommand(
-    "anyId", "anyUserId", "anyCompanyId"
+    categoryId, "anyUserId", companyId
   );
 
   beforeEach(async () => {
@@ -49,16 +52,16 @@ describe('DeleteCategoryCommandHandler', () => {
 
   describe('given category belongs to company', () => {
 
-    const category = new Category(
-      'anyId', 'anyName', 'anyCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'
-    )
+    const category = {
+      id: categoryId, companyId, name
+    }
 
     it('then delete category', async () => {
       categoryRepository.response = category;
   
       await handler.execute(command);
   
-      expect(categoryRepository.deletedWith).toEqual("anyId");
+      expect(categoryRepository.deletedWith).toEqual(categoryId);
     });
   
     it('when category deleted, then call category deleted event', async () => {
@@ -68,8 +71,8 @@ describe('DeleteCategoryCommandHandler', () => {
   
       expect(eventBus.published).toEqual(
         new CategoryDeletedEvent(
-          {id: "anyId", name: "anyName"},
-          "anyCompanyId",
+          {id: categoryId, name},
+          companyId,
           "anyUserId"
         )
       )
@@ -78,10 +81,7 @@ describe('DeleteCategoryCommandHandler', () => {
   })
 
   it('given category doesnt belong to company, then return error', async () => {
-    const category = new Category(
-      'anyId', 'anyName', 'anyOtherCompanyId', 'anyUserId', 'anyDatetime', 'anyDatetime'
-    )
-    categoryRepository.response = category;
+    categoryRepository.response = { id: "anyOtherCategoryId" };
 
     await expect(handler.execute(command)).rejects.toThrowError(UnauthorizedException);
   });
