@@ -14,6 +14,7 @@ import { UpdateProductCommand } from './commands/update-product/update-product.c
 import { UpdateProductDTO } from './commands/update-product/dtos/update-product.dto';
 import { DeleteProductCommand } from './commands/delete-product/delete-product.command';
 import { ChangeProductVisibilityCommand } from './commands/change-product-visibility/change-product-visibility.command';
+import { UpdateProductsFromFileUploadCommand } from './commands/update-products-from-file-upload/update-products-from-file-upload.command';
 
 describe('ProductsController', () => {
 
@@ -25,6 +26,7 @@ describe('ProductsController', () => {
   const categoryId = "anyCategoryId";
   const productId = 'anyProductId';
   const user = <User> {id: 'anyUserId', companyId: 'anyCompanyId'};
+  const filePath = "anyFilePath";
 
   beforeEach(async () => {
     commandBus = new CommandBusMock();
@@ -131,6 +133,20 @@ describe('ProductsController', () => {
       expect(commandBus.executed).toEqual(
         new ChangeProductVisibilityCommand(
           user.companyId, user.id, productId
+        )
+      );
+    });
+
+  })
+
+  describe('given upload products', () => {
+
+    it('then execute change product visibility command', () => {
+      controller.upload(user, filePath);
+  
+      expect(commandBus.executed).toEqual(
+        new UpdateProductsFromFileUploadCommand(
+          user.id, user.companyId, filePath
         )
       );
     });

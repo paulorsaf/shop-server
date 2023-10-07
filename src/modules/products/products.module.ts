@@ -12,6 +12,8 @@ import { RemoveStockByProductCommandHandler } from '../stocks/commands/remove-st
 import { ProductSagas } from './sagas/products.saga';
 import { StockRepository } from '../stocks/repositories/stock.repository';
 import { ChangeProductVisibilityCommandHandler } from './commands/change-product-visibility/change-product-visibility.command.handler';
+import { UpdateProductsFromFileUploadCommandHandler } from './commands/update-products-from-file-upload/update-products-from-file-upload.command.handler';
+import { FileRepository } from './repositories/file.repository';
 
 @Module({
   controllers: [
@@ -22,6 +24,7 @@ import { ChangeProductVisibilityCommandHandler } from './commands/change-product
     AuthenticationModule
   ],
   providers: [
+    FileRepository,
     ProductRepository,
     StockRepository,
 
@@ -29,6 +32,7 @@ import { ChangeProductVisibilityCommandHandler } from './commands/change-product
     CreateProductCommandHandler,
     UpdateProductCommandHandler,
     DeleteProductCommandHandler,
+    UpdateProductsFromFileUploadCommandHandler,
     
     FindProductsByCompanyQueryHandler,
     FindProductByIdQueryHandler,

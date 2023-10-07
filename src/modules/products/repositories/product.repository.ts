@@ -5,6 +5,9 @@ import { ProductDb } from '../../../db/product.db';
 import { CreateProductDTO } from '../commands/create-product/dtos/create-product.dto';
 import { UpdateProductDTO } from '../commands/update-product/dtos/update-product.dto';
 import { Product } from '../entities/product';
+import { ProductsFromFile } from '../types/products-from-file.type';
+import { WorkBook, read as readXlsx } from 'xlsx';
+import * as fs from 'fs/promises';
 
 @Injectable()
 export class ProductRepository {
@@ -12,7 +15,7 @@ export class ProductRepository {
   constructor(
   ) {}
 
-  async findByCompany(param: FindByCompany) {
+  findByCompany(param: FindByCompany) {
     let query = admin.firestore()
       .collection('products')
       .where('companyId', '==', param.companyId);
@@ -41,14 +44,14 @@ export class ProductRepository {
       );
   }
 
-  async delete(productId: string) {
+  delete(productId: string) {
     return admin.firestore()
       .collection('products')
       .doc(productId)
       .delete();
   }
 
-  async findById(productId: string) {
+  findById(productId: string) {
     return admin.firestore()
       .collection('products')
       .doc(productId)
@@ -59,7 +62,7 @@ export class ProductRepository {
       }));
   }
 
-  async findByCompanyIdAndId(companyId: string, productId: string): Promise<Product> {
+  findByCompanyIdAndId(companyId: string, productId: string): Promise<Product> {
     return admin.firestore()
       .collection('products')
       .doc(productId)
@@ -81,7 +84,32 @@ export class ProductRepository {
       });
   }
 
-  async save(product: CreateProductDTO & {companyId: string, createdBy: string}): Promise<{id: string}> {
+  findByCompanyIdAndProductInternalId(companyId: string, productInternalId: string)
+    : Promise<Product> {
+    return admin.firestore()
+      .collection('products')
+      .where("companyId", '==', companyId)
+      .where("productInternalId", '==', productInternalId)
+      .get()
+      .then(snapshot => {
+        if (!snapshot.empty) {
+          const doc = snapshot.docs[0];
+          const product = snapshot.docs[0].data() as ProductDb;
+          if (product.companyId !== companyId) {
+            return undefined;
+          }
+          
+          return {
+            ...product,
+            id: doc.id,
+            isVisible: product.isVisible === false ? false : true
+          } as Product;
+        }
+        return undefined;
+      });
+  }
+
+  save(product: CreateProductDTO & {companyId: string, createdBy: string}): Promise<{id: string}> {
     return admin.firestore()
       .collection('products')
       .add({...product, createdAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss').replace(" ", "T")})
@@ -90,7 +118,7 @@ export class ProductRepository {
       })
   }
 
-  async update(product: UpdateProductDTO & {companyId: string, updatedBy: string}): Promise<void> {
+  update(product: UpdateProductDTO & {companyId: string, updatedBy: string}): Promise<void> {
     const update = {
       ...product,
       updatedAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss').replace(" ", "T")
@@ -103,7 +131,24 @@ export class ProductRepository {
       .then(() => Promise.resolve())
   }
 
-  async setVisibility(params: SetVisibility): Promise<void> {
+  updateFromUpload(params: UpdateFromUpload): Promise<void> {
+    return Promise.all(
+      params.products.map(async product => {
+        const existingProduct = await this.findByCompanyIdAndProductInternalId(
+          params.companyId, product.productInternalId
+        );
+        if (existingProduct) {
+          return Promise.all([
+            this.updateProductFromUpload(existingProduct, params.userId, product.stock),
+            this.updateProductStockFromUpload(existingProduct, product.stock)
+          ])
+        }
+      })
+    )
+    .then(() => undefined);
+  }
+
+  setVisibility(params: SetVisibility): Promise<void> {
     const update = {
       isVisible: params.isVisible,
       updatedAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss').replace(" ", "T")
@@ -114,6 +159,41 @@ export class ProductRepository {
       .doc(params.productId)
       .update(update)
       .then(() => Promise.resolve())
+  }
+
+  private updateProductFromUpload(product: Product, userId: string, stock: number) {
+    admin
+      .firestore()
+      .collection('products')
+      .doc(product.id)
+      .update({
+        price: product.price,
+        priceWithDiscount: product.priceWithDiscount || 0,
+        totalStock: stock,
+        updatedAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss').replace(" ", "T"),
+        updatedBy: userId
+      })
+  }
+
+  private updateProductStockFromUpload(product: Product, stock: number) {
+    return admin
+      .firestore()
+      .collection('stocks')
+      .where('productId', '==', product.id)
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          return;
+        }
+        const doc = snapshot.docs[0];
+        return admin
+          .firestore()
+          .collection('stocks')
+          .doc(doc.id)
+          .update({
+            quantity: stock
+          })
+      })
   }
 
 }
@@ -128,4 +208,10 @@ type FindByCompany = {
 type SetVisibility = {
   productId: string;
   isVisible: boolean;
+}
+
+type UpdateFromUpload = {
+  companyId: string;
+  userId: string;
+  products: ProductsFromFile[];
 }
