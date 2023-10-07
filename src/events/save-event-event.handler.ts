@@ -35,7 +35,7 @@ import { PurchaseProductCancelledEvent } from "../modules/purchases/events/purch
 import { CompanyServiceTaxUpdatedEvent } from "../modules/companies/events/company-service-tax-updated.event";
 import { ProductVisibilityChangedEvent } from "../modules/products/commands/change-product-visibility/events/change-product-visibility.event";
 import { CategoryVisibilityUpdatedEvent } from "../modules/categories/commands/update-category-visibility/events/category-visibility-updated.event";
-import { ProductsFromFileUploadUpdatedEvent } from "src/modules/products/commands/update-products-from-file-upload/events/products-from-file-upload-updated.event";
+import { ProductsFromFileUploadUpdatedEvent } from "../modules/products/commands/update-products-from-file-upload/events/products-from-file-upload-updated.event";
 
 @EventsHandler(
     BannerDetailCreatedEvent,
