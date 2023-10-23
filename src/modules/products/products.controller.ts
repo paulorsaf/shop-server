@@ -94,11 +94,11 @@ export class ProductsController {
     );
   }
 
-  @UseGuards(JwtAdminStrategy, MultipartUploadToFilePathStrategy)
+  @UseGuards(JwtAdminStrategy)
   @Post('uploads')
   upload(
     @AuthUser() user: User,
-    @MultipartUploadToFilePath() filePath: string
+    @Body('path') filePath: string
   ) {
     return this.commandBus.execute(
       new UpdateProductsFromFileUploadCommand(

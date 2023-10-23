@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { WorkBook, read as readXlsx } from 'xlsx';
-import * as fs from 'fs/promises';
+import * as admin from 'firebase-admin';
 
 @Injectable()
 export class FileRepository {
@@ -9,9 +9,13 @@ export class FileRepository {
   ) {}
 
   async loadProductsFromFile(filePath: string): Promise<WorkBook> {
-    const data = await fs.readFile(filePath);
-
-    return readXlsx(data, {type: "buffer"});
+    const storageResponse = await admin.storage()
+      .bucket('gs://shop-354211.appspot.com')
+      .file(filePath)
+      .get();
+    
+    return storageResponse[0].download()
+      .then(file => readXlsx(file[0], {type: "buffer"}));
   }
 
 }
