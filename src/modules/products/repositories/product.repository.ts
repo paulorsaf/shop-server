@@ -6,8 +6,6 @@ import { CreateProductDTO } from '../commands/create-product/dtos/create-product
 import { UpdateProductDTO } from '../commands/update-product/dtos/update-product.dto';
 import { Product } from '../entities/product';
 import { ProductsFromFile } from '../types/products-from-file.type';
-import { WorkBook, read as readXlsx } from 'xlsx';
-import * as fs from 'fs/promises';
 
 @Injectable()
 export class ProductRepository {
@@ -139,7 +137,11 @@ export class ProductRepository {
         );
         if (existingProduct) {
           return Promise.all([
-            this.updateProductFromUpload(existingProduct, params.userId, product.stock),
+            this.updateProductFromUpload({
+              id: existingProduct.id,
+              price: product.price,
+              priceWithDiscount: product.priceWithDiscount
+            }, params.userId, product.stock),
             this.updateProductStockFromUpload(existingProduct, product.stock)
           ])
         }
@@ -161,7 +163,7 @@ export class ProductRepository {
       .then(() => Promise.resolve())
   }
 
-  private updateProductFromUpload(product: Product, userId: string, stock: number) {
+  private updateProductFromUpload(product: UpdateProductFromUpload, userId: string, stock: number) {
     admin
       .firestore()
       .collection('products')
@@ -214,4 +216,10 @@ type UpdateFromUpload = {
   companyId: string;
   userId: string;
   products: ProductsFromFile[];
+}
+
+type UpdateProductFromUpload = {
+  id: string;
+  price: number;
+  priceWithDiscount: number;
 }
