@@ -70,7 +70,7 @@ export class StockRepository {
       .delete();
   }
 
-  async getTotalStockByProduct(productId: string, companyId: string): Promise<number> {
+  getTotalStockByProduct(productId: string, companyId: string): Promise<number> {
     return this.findByProductAndCompany(productId, companyId).then(stock => {
       let total = 0;
       stock.forEach(s => total += s.quantity);
@@ -78,18 +78,13 @@ export class StockRepository {
     })
   }
 
-  async updateStockOption(update: UpdateStockOption) {
-    admin.firestore()
+  updateStockOption(update: UpdateStockOption) {
+    return admin.firestore()
       .collection('stocks')
       .doc(update.stockId)
       .update(JSON.parse(JSON.stringify(update.stock)));
   }
 
-}
-
-type RemoveStockOption = {
-  stockId: string;
-  stockOption: StockOption;
 }
 
 type UpdateStockOption = {
