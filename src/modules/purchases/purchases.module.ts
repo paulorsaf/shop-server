@@ -1,8 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { SoapModule } from 'nestjs-soap';
-import { getEnvProperty } from 'src/utils/env.utils';
 import { AuthenticationModule } from '../../authentication/authentication.module';
 import { CancelPurchaseProductCommandHandler } from './commands/cancel-purchase-product/cancel-purchase-product.command.handler';
 import { EditPurchaseProductQuantityCommandHandler } from './commands/edit-purchase-product/edit-purchase-product-quantity.command.handler';
@@ -26,13 +24,7 @@ import { PurchasesSagas } from './sagas/purchases.saga';
   imports: [
     HttpModule,
     CqrsModule,
-    AuthenticationModule,
-    SoapModule.register(
-      {
-        clientName: 'RICCO_SAO_LUIS_STOCK',
-        uri: getEnvProperty('COMPANY_STOCK_RICCO_SAO_LUIS')
-      }
-    )
+    AuthenticationModule
   ],
   providers: [
     CompanySystemFactory,
