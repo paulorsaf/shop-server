@@ -11,8 +11,6 @@ import { UpdateProductDTO } from './commands/update-product/dtos/update-product.
 import { UpdateProductCommand } from './commands/update-product/update-product.command';
 import { FindProductsByCompanyQuery } from './queries/find-by-company/find-products-by-company.query';
 import { FindProductByIdQuery } from './queries/find-by-id/find-product-by-id.query';
-import { MultipartUploadToFilePathStrategy } from '../../file-upload/strategies/multipart-upload-to-file-path.strategy';
-import { MultipartUploadToFilePath } from '../../file-upload/decorators/multipart-upload-to-file-path.decorator';
 import { UpdateProductsFromFileUploadCommand } from './commands/update-products-from-file-upload/update-products-from-file-upload.command';
 
 @Controller('products')

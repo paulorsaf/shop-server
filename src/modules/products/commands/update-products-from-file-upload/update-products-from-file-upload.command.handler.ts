@@ -31,12 +31,9 @@ export class UpdateProductsFromFileUploadCommandHandler
                 break;
             }
 
-            const price = parseFloat(sheet?.[`B${i}`]?.["w"]?.replace(',', '.'));
+            const name = sheet?.[`B${i}`]?.["w"]?.replace(',', '.');
+            const price = parseFloat(sheet?.[`C${i}`]?.["w"]?.replace(',', '.'));
             if (isNaN(price)) {
-                throw new CellIsNotANumberException(`B${i}`);
-            }
-            const priceWithDiscount = parseFloat(sheet?.[`C${i}`]?.["w"]?.replace(',', '.'));
-            if (isNaN(priceWithDiscount)) {
                 throw new CellIsNotANumberException(`C${i}`);
             }
             const stock = parseFloat(sheet?.[`D${i}`]?.["w"]?.replace(',', '.'));
@@ -44,7 +41,7 @@ export class UpdateProductsFromFileUploadCommandHandler
                 throw new CellIsNotANumberException(`D${i}`);
             }
 
-            products.push({ price, priceWithDiscount, productInternalId, stock });
+            products.push({ name, price, productInternalId, stock });
         }
         
         await this.productRepository.updateFromUpload({

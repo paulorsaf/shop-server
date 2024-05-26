@@ -1,6 +1,6 @@
 export type ProductsFromFile = {
     productInternalId: string;
+    name: string;
     price: number;
-    priceWithDiscount: number;
     stock: number;
   }

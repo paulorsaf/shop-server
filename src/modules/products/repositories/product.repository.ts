@@ -140,7 +140,7 @@ export class ProductRepository {
             this.updateProductFromUpload({
               id: existingProduct.id,
               price: product.price,
-              priceWithDiscount: product.priceWithDiscount
+              name: product.name
             }, params.userId, product.stock),
             this.updateProductStockFromUpload(existingProduct, product.stock)
           ])
@@ -170,7 +170,7 @@ export class ProductRepository {
       .doc(product.id)
       .update({
         price: product.price,
-        priceWithDiscount: product.priceWithDiscount || 0,
+        name: product.name || "",
         totalStock: stock,
         updatedAt: format(new Date(), 'yyyy-MM-dd HH:mm:ss').replace(" ", "T"),
         updatedBy: userId
@@ -221,5 +221,5 @@ type UpdateFromUpload = {
 type UpdateProductFromUpload = {
   id: string;
   price: number;
-  priceWithDiscount: number;
+  name: string;
 }
